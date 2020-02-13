@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
@@ -341,23 +341,23 @@
 								<li>
 									<a href="#">
 										<i class="ace-icon fa fa-cog"></i>
-										Settings
+										设置
 									</a>
 								</li>
 
 								<li>
-									<a href="profile.html">
+									<a href="/profile.html">
 										<i class="ace-icon fa fa-user"></i>
-										Profile
+										个人资料
 									</a>
 								</li>
 
 								<li class="divider"></li>
 
 								<li>
-									<a href="#">
+									<a href="http://www.sso.xjtu.com:8090/logOut">
 										<i class="ace-icon fa fa-power-off"></i>
-										Logout
+										注销
 									</a>
 								</li>
 							</ul>
@@ -951,7 +951,7 @@
 					</div><!-- /.page-content -->
 				</div>
 			</div><!-- /.main-content -->
-
+			<!--<div  th:include="footer::copy"></div>-->
 			<div class="footer">
 				<div class="footer-inner">
 					<div class="footer-content">
@@ -977,9 +977,9 @@
 				</div>
 			</div>
 
-			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-			</a>
+			<!--<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">-->
+				<!--<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>-->
+			<!--</a>-->
 		</div><!-- /.main-container -->
 
 		<!-- basic scripts -->
