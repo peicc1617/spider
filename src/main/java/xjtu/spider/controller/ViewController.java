@@ -75,4 +75,17 @@ public class ViewController {
         LOGGER.info("进入serviceRecommend.html页面");
         return "serviceRecommend";
     }
+    /***
+     * @函数功能：查看服务运行调度页面
+     * @param session:
+     * @param model:
+     * @return：java.lang.String
+     */
+    @RequestMapping("/serviceSchedule.html")
+    public String viewServiceSchedule(HttpSession session,Model model){
+        JSONObject user=(JSONObject)session.getAttribute("userInfo");
+        model.addAttribute("userName",user.get("userName"));
+        LOGGER.info("进入serviceRecommend.html页面");
+        return "serviceSchedule";
+    }
 }
