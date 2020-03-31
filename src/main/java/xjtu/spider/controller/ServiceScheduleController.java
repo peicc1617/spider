@@ -1,7 +1,11 @@
 package xjtu.spider.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import xjtu.spider.entity.MRORequest;
+import xjtu.spider.entity.MROSupplier;
+import xjtu.spider.service.ScheduleService;
 
 /**
  * @基本功能:MRO运行调度
@@ -11,8 +15,32 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 public class ServiceScheduleController {
-    @RequestMapping("/schedule")
-    public String serviceSchedule(){
-        return "";
+    @Autowired
+    ScheduleService scheduleService;
+    /***
+     * @函数功能：添加MRO服务需求
+     * @param mroRequest:
+     * @return：void
+     */
+    @RequestMapping("/schedule/addRequest")
+    public void  addRequest(MRORequest mroRequest){
+        scheduleService.addRequest(mroRequest);
+    }
+    @RequestMapping("/schedule/getRequest")
+    public MRORequest getRequest(Long taskId){
+        return scheduleService.getRequest(taskId);
+    }
+    /***
+     * @函数功能：添加MRO服务提供商
+     * @param mroSupplier:
+     * @return：void
+     */
+    @RequestMapping("/schedule/addSupplier")
+    public void  addSupplier(MROSupplier mroSupplier){
+        scheduleService.addSupplier(mroSupplier);
+    }
+    @RequestMapping("/schedule/getSupplier")
+    public MROSupplier getSupplier(Long taskId){
+        return scheduleService.getSupplier(taskId);
     }
 }

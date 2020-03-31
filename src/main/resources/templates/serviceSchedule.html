@@ -52,6 +52,7 @@
 	<!--业务js-->
 	<script src="js/serviceCluster.js"></script>
 	<script src="js/serviceRecommend.js"></script>
+	<script src="js/serviceSchedule.js"></script>
 </head>
 
 <body class="no-skin">
@@ -142,14 +143,13 @@
 				</div><!-- /.page-header -->
 
 				<div class="row">
-					<div class="col-xs-12">
+					<div class="col-xs-12" >
 						<!-- PAGE CONTENT BEGINS -->
 						<!--工具栏开始-->
 						<ul class="nav nav-tabs" role="tablist" style="margin-bottom: 10px;">
-							<li role="presentation" class="active"><a href="#part0" >&nbsp;MRO服务提供商</a></li>
-							<li role="presentation" ><a href="#part1" ><i class=green ace-icon fa fa-desktop bigger-120></i>&nbsp;MRO服务需求</a></li>
-							<li role="presentation"><a href="#part2" ><i class=purple ace-icon fa fa-pencil-square-o bigger-120></i>&nbsp;算法参数</a></li>
-							<li role="presentation"><a href="#part3" ><i class=icon-plus-sign></i>&nbsp;运行调度结果</a></li>
+							<li role="presentation" id="tab0"><a href="#part0" >&nbsp;MRO服务供需信息</a></li>
+							<li role="presentation" id="tab1"><a href="#part1" ><i class=green ace-icon fa fa-desktop bigger-120></i>&nbsp;参数配置</a></li>
+							<li role="presentation" id="tab2"><a href="#part2" ><i class=purple ace-icon fa fa-pencil-square-o bigger-120></i>&nbsp;运行调度结果</a></li>
 						</ul>
 						<!--工具栏结束-->
 						<div id="right-menu" class="modal aside" data-body-scroll="false" data-offset="true" data-placement="right" data-fixed="true" data-backdrop="false" tabindex="-1">
@@ -180,24 +180,105 @@
 						<!--<a href="#my-modal" role="button" class="bigger-125 bg-primary white" data-toggle="modal">-->
 						<!--bootstrap表格-->
 						<div class="tab-pane active" id="part0">
-							<div class="tableContainer" style="margin-top: 20px">
-								<table id="table" data-toggle="table" >
+							<h3 class="header blue lighter smaller">
+								<i class="ace-icon fa fa-list-alt smaller-90"></i>
+								MRO服务需求
+							</h3>
+							<div class="tableContainer" style="margin-top: 10px">
+								<div  class="btn-group btn-group-sm" style="margin-bottom: 10px">
+									<button type="button" class="btn btn-info" onclick="addRequest()">
+										<span class="glyphicon glyphicon-plus"></span>添加MRO需求
+									</button>
+									<button type="button" class="btn btn-danger"  onclick="deleteRequest()">
+										<span class="glyphicon glyphicon-trash"></span>删除MRO需求
+									</button>
+									<button type="button" class="btn btn-info" id="saveProject" onclick="saveRequests()">
+										<span class="glyphicon glyphicon-save"></span>保存
+									</button>
+									<button type="button" class="btn btn-info" id="loadData" onclick="refresh()">
+										<span class="glyphicon glyphicon-plus"></span>加载数据
+									</button>
+								</div>
+								<table id="requestTable" data-toggle="table"  data-align="center">
+									<thead>
+									<tr >
+										<th colspan="4" data-field="basicInfo" >
+											MRO服务任务ID<input type="text" style="margin: auto" id="taskID" placeholder="001" />
+											工业产品<input type="text" style="margin: auto" id="machine" placeholder="数控车床"/>
+											MRO服务需求简介<input type="text" style="margin-right: 250px" id="desc" placeholder="对数控车床的轴承进行维护"/>
+										</th>
+
+									</tr>
+									<tr>
+										<th data-checkbox="true"></th>
+										<th data-field="requestID">MRO服务需求ID</th>
+										<th data-field="requestContent" >需求内容</th>
+										<th data-field="requestIdentify" >标识</th>
+									</tr>
+									</thead>
+								</table>
+							</div>
+							<h3 class="header blue lighter smaller">
+								<i class="ace-icon fa fa-bars smaller-90"></i>
+								MRO服务提供商
+							</h3>
+							<div class="tableContainer" style="margin-top: 10px">
+								<div  class="btn-group btn-group-sm" style="margin-bottom: 10px">
+									<button type="button" class="btn btn-info" onclick="addSupplier()">
+										<span class="glyphicon glyphicon-plus"></span>添加MRO服务提供商
+									</button>
+									<button type="button" class="btn btn-danger"  onclick="deleteSupplier()">
+										<span class="glyphicon glyphicon-trash"></span>删除MRO服务提供商
+									</button>
+									<button type="button" class="btn btn-info" onclick="saveSuppliers()">
+										<span class="glyphicon glyphicon-save"></span>保存
+									</button>
+								</div>
+								<table id="supplierTable" data-toggle="table" data-click-to-select="true" >
 									<thead>
 									<tr>
+										<th data-checkbox="true"></th>
+										<th data-field="supplierID">MRO服务提供商ID</th>
 										<th data-field="companyName" >企业名称</th>
-										<th data-field="area" >企业地址</th>
-										<th data-field="description" >经营范围</th>
-										<th data-field="score" >推荐度</th>
+										<th data-field="serviceCapability" >服务能力</th>
 									</tr>
 									</thead>
 								</table>
 							</div>
 						</div>
 						<div class="tab-pane" id="part1">
-							MRO服务需求
+							<div class="widget-box">
+								<div class="widget-body">
+									<div class="widget-main">
+										<form class="form-search" >
+											<div class="row">
+												<div class="col-xs-12 col-sm-8">
+													<div class="input-group">
+																	<span class="input-group-addon">
+																		<i class="ace-icon fa fa-check"></i>
+																	</span>
+
+														<input type="text" class="form-control search-query" id="para_taskId" placeholder="输入MRO服务任务ID" />
+														<span class="input-group-btn">
+																	<button type="button" class="btn btn-purple btn-sm" onclick="scheduleSheet()">
+																	<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+																	任务分配
+																	</button>
+														</span>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<!-- 排程表 -->
+							<table class="table table-responsive" id="paratable"
+								   style="table-layout: fixed; font-size: 20px; text-align: center; border: 1px solid #D6DDEF">
+							</table>
+
 						</div>
 						<div class="tab-pane" id="part2">
-							参数配置
 						</div>
 						<div class="tab-pane" id="part3">
 							调度结果
@@ -276,7 +357,55 @@
 		<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 	</a>
 </div><!-- /.main-container -->
-
+<!--模态框-->
+<!--添加MRO服务需求-->
+<div id="addRequestItem" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">添加MRO服务需求</h5>
+			</div>
+			<div class="modal-body">
+				<form id="addItemPop">
+					<table>
+						<tr>
+							<td>需求内容：</td> <td><input type="text" id="requestContent" size="20" style="margin-right: 10px" value="需求"/></td>
+							<td>标识：</td> <td><input type="text" id="requestIdentify" size="20" style="margin-right: 10px" value="-"/></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" onclick="addRequestItem()">确定</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--添加MRO服务提供商-->
+<div id="addSupplierItem" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">添加MRO服务提供商</h5>
+			</div>
+			<div class="modal-body">
+				<form id="">
+					<table>
+						<tr>
+							<td>MRO服务提供商名称：</td> <td><input type="text" id="companyName" size="20" style="margin-right: 10px" value="西高开"/></td>
+							<td>服务能力：</td> <td><input type="text" id="serviceCapability" size="20" style="margin-right: 10px" value="轴承维护"/></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" onclick="addSupplierItem()">确定</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
 <!-- basic scripts -->
 
 <!--[if !IE]> -->
@@ -319,11 +448,23 @@
 	})
 </script>
 <!--通过点击LI，显示对应的DIV并隐藏其他DIV-->
+
 <script type="text/javascript">
+	var i=0;
+	for(i=1;i<4;i++){
+		$("#part"+i).hide();
+	}
 	$(document).ready(function(){
 		$(".nav-tabs li a").click(function(){
 			var order = $(".nav-tabs li a").index(this);//获取点击之后返回当前a标签index的值
 			$("#part" + order).show().siblings("div").hide();//显示class中con加上返回值所对应的DIV
+			for (var i=0;i<3;i++){
+				if (i==order){
+					$("#tab" + order).addClass("active")
+				} else{
+					$("#tab" + i).removeClass("active");
+				}
+			}
 		});
 	})
 </script>
