@@ -15,7 +15,7 @@ import xjtu.spider.entity.MROSupplier;
 @Repository
 @Mapper
 public interface MROSupplierMapper {
-    @Select("INSERT INTO supplier_info (task_id,supplier_content) VALUES (#{taskId},#{supplierContent})")
+    @Select("REPLACE INTO supplier_info (task_id,supplier_content) VALUES (#{taskId},#{supplierContent})")
     public void add(MROSupplier mroSupplier);
     /***
      * @函数功能：根据任务ID获取MRO服务提供商

@@ -49,6 +49,11 @@
 	<script src="./bootstrap-table/bootstrap-table.min.js"></script>
 	<script src="./echart/echarts.min.js"></script>
 	<script src="./echart/ecStat.js"></script>
+	<!--hicharts-->
+	<script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
+	<script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com.cn/highcharts/modules/xrange.js"></script>
+	<script src="https://code.highcharts.com.cn/highcharts/modules/oldie.js"></script>
 	<!--业务js-->
 	<script src="js/serviceCluster.js"></script>
 	<script src="js/serviceRecommend.js"></script>
@@ -147,9 +152,9 @@
 						<!-- PAGE CONTENT BEGINS -->
 						<!--工具栏开始-->
 						<ul class="nav nav-tabs" role="tablist" style="margin-bottom: 10px;">
-							<li role="presentation" id="tab0"><a href="#part0" >&nbsp;MRO服务供需信息</a></li>
+							<li role="presentation" class="active" id="tab0"><a href="#part0" >&nbsp;MRO服务供需信息</a></li>
 							<li role="presentation" id="tab1"><a href="#part1" ><i class=green ace-icon fa fa-desktop bigger-120></i>&nbsp;参数配置</a></li>
-							<li role="presentation" id="tab2"><a href="#part2" ><i class=purple ace-icon fa fa-pencil-square-o bigger-120></i>&nbsp;运行调度结果</a></li>
+							<li role="presentation" id="tab2"><a href="#part2"  onclick="drawGantt()"><i class=purple ace-icon fa fa-pencil-square-o bigger-120></i>&nbsp;运行调度结果</a></li>
 						</ul>
 						<!--工具栏结束-->
 						<div id="right-menu" class="modal aside" data-body-scroll="false" data-offset="true" data-placement="right" data-fixed="true" data-backdrop="false" tabindex="-1">
@@ -247,38 +252,76 @@
 							</div>
 						</div>
 						<div class="tab-pane" id="part1">
-							<div class="widget-box">
-								<div class="widget-body">
-									<div class="widget-main">
-										<form class="form-search" >
-											<div class="row">
-												<div class="col-xs-12 col-sm-8">
-													<div class="input-group">
-																	<span class="input-group-addon">
-																		<i class="ace-icon fa fa-check"></i>
-																	</span>
-
-														<input type="text" class="form-control search-query" id="para_taskId" placeholder="输入MRO服务任务ID" />
-														<span class="input-group-btn">
-																	<button type="button" class="btn btn-purple btn-sm" onclick="scheduleSheet()">
-																	<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
-																	任务分配
-																	</button>
-														</span>
-													</div>
-												</div>
-											</div>
-										</form>
-									</div>
-								</div>
-							</div>
+                            <h3 class="header blue lighter smaller">
+                                <i class="ace-icon fa fa-bars smaller-90"></i>
+                                服务任务分配
+                            </h3>
+                            <div>
+                                <button type="button" class="btn btn-sm  btn-info" onclick="scheduleSheet()">
+                                    生成排程表
+                                </button>
+                                <button type="button" class="btn btn-sm   btn-info" onclick="saveSheet()">
+                                    提交排程表
+                                </button>
+                                <button type="button" class="btn btn-sm   btn-info" onclick="loadSheet()">
+                                    加载排程表
+                                </button>
+                            </div>
 							<!-- 排程表 -->
-							<table class="table table-responsive" id="paratable"
-								   style="table-layout: fixed; font-size: 20px; text-align: center; border: 1px solid #D6DDEF">
-							</table>
+                            <div style="margin: 10px;">
+                                <table class="table table-responsive" id="paratable"
+                                       style="table-layout: fixed; font-size: 20px; text-align: center; border: 1px solid #D6DDEF">
+                                </table>
+                            </div>
+                            <h3 class="header blue lighter smaller">
+                                <i class="ace-icon fa fa-bars smaller-90"></i>
+                                算法参数设置
+                            </h3>
+							<div class="input-group">
+					        <span class="input-group-addon" style="font-size: 12px" >种群规模</span>
+							<input type="text" class="form-control" id="scale" value=60 placeholder="请输入种群规模(建议大于60)" style="font-size: 12px">
+							<span class="input-group-addon" style="font-size: 12px">交叉概率 </span>
+							<input type="text" class="form-control" id="cp" value=0.9 placeholder="请输入交叉概率(建议大于0.9)" style="font-size: 12px">
+							</div>
+							<br>
+							<div class="input-group">
+							<span class="input-group-addon" style="font-size: 12px">变异概率</span>
+							<input type="text" class="form-control" id="vp" value=0.01 placeholder="请输入变异概率（建议小于0.1）" style="font-size: 12px">
+							<span class="input-group-addon" style="font-size: 12px">迭代次数</span>
+							<input type="text" class="form-control" id="it" value=100 placeholder="请输入迭代次数（建议大于100）" style="font-size: 12px">
+							</div>
+							<br>
+							<div class="input-group"></div>
+
+							<div class="input-group">
+								&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+								&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+								&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+								&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+								&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+								&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+								&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+								&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+								&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+								&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+								&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+								&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+								<!--<button class="btn btn-large  btn-info" type="button" onclick="addAlgor();">提交算法信息</button>
+								&nbsp &nbsp &nbsp-->
+								<button id="runga" class="btn btn-large  btn-info" type="button" onclick="run();">运行调度</button>
+							</div>
 
 						</div>
 						<div class="tab-pane" id="part2">
+							<h3 class="header blue lighter smaller">
+								<i class="ace-icon fa fa-bars smaller-90"></i>
+								甘特图
+							</h3>
+							<div id="container" style="min-width: 300px;max-width: 800px;height: 300px;margin: 1em auto;"></div>
+							<h3 class="header blue lighter smaller">
+								<i class="ace-icon fa fa-bars smaller-90"></i>
+								服务调度方案
+							</h3>
 						</div>
 						<div class="tab-pane" id="part3">
 							调度结果
