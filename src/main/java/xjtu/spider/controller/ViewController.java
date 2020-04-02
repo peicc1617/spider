@@ -88,4 +88,17 @@ public class ViewController {
         LOGGER.info("进入serviceRecommend.html页面");
         return "serviceSchedule";
     }
+    /***
+     * @函数功能：查看服务评价
+     * @param session:
+     * @param model:
+     * @return：java.lang.String
+     */
+    @RequestMapping("/serviceEvaluate.html")
+    public String viewServiceEvaluate(HttpSession session,Model model){
+        JSONObject user=(JSONObject)session.getAttribute("userInfo");
+        model.addAttribute("userName",user.get("userName"));
+        LOGGER.info("进入serviceEvaluate.html页面");
+        return "serviceEvaluate";
+    }
 }

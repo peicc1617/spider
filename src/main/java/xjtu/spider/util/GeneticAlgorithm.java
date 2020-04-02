@@ -1,5 +1,7 @@
 package xjtu.spider.util;
 
+import xjtu.spider.entity.ScheduleResult;
+
 import java.util.*;
 
 public class GeneticAlgorithm {
@@ -207,22 +209,31 @@ public class GeneticAlgorithm {
     public Gene mutationGene(Gene gene) {
         return mutationGene(gene, 2);
     }
-    public static void  go(List<List<Integer[]>> job,int n,int m,int populationNumber,double crossProbability,double mutationProbability){
+    public static List<ScheduleResult>  go(List<List<Integer[]>> job,int n,int m,int populationNumber,double crossProbability,double mutationProbability){
         GeneticAlgorithm ga = new GeneticAlgorithm(n, m);
         Result result = ga.run(job);
         int processNumber = ga.processNumber;
 
         int[][] machineMatrix = ga.machineMatrix;
         System.out.println(result.fulfillTime);
-
+        //保存结果
+        List<ScheduleResult> resultList=new ArrayList<>();
         for (int i = 0; i < n; i++) {
             for (int j = 0 ; j < processNumber; j++) {
                 if (machineMatrix[i][j] != -1) {
+                    ScheduleResult scheduleResult=new ScheduleResult();
+                    scheduleResult.setRequest("MRO服务任务"+(i+1));
+                    scheduleResult.setSubRequest("子任务"+(j+1));
+                    scheduleResult.setSupplier("MRO服务提供商"+(machineMatrix[i][j]+1));
+                    scheduleResult.setStartTime(result.startTime[i][j]);
+                    scheduleResult.setEndTime(result.endTime[i][j]);
                     System.out.println(String.format("job: %d, process: %d, machine: %d, startTime: %d, endTime: %d",
                             i, j, machineMatrix[i][j], result.startTime[i][j], result.endTime[i][j]));
+                    resultList.add(scheduleResult);
                 }
             }
         }
+        return resultList;
     }
 
 }

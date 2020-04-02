@@ -8,10 +8,7 @@ import org.springframework.stereotype.Service;
 import xjtu.spider.dao.MRORequestMapper;
 import xjtu.spider.dao.MROSupplierMapper;
 import xjtu.spider.dao.ScheduleSheetMapper;
-import xjtu.spider.entity.GAPara;
-import xjtu.spider.entity.MRORequest;
-import xjtu.spider.entity.MROSupplier;
-import xjtu.spider.entity.ScheduleSheet;
+import xjtu.spider.entity.*;
 import xjtu.spider.util.GeneticAlgorithm;
 
 import java.util.ArrayList;
@@ -70,7 +67,7 @@ public class ScheduleService {
     public ScheduleSheet getSheet(Long taskId){
         return scheduleSheetMapper.getDataByTaskId(taskId);
     }
-    public String run(GAPara gaPara){
+    public List<ScheduleResult> go(GAPara gaPara){
         JSONArray time=JSON.parseArray(gaPara.getTime());
         List<List<Integer[]>> job=new ArrayList<>();
         for (int i = 0; i <time.size() ; i++) {//MRO服务需求
@@ -88,7 +85,7 @@ public class ScheduleService {
         int populationNumber=gaPara.getPopulationNumber();
         double crossProbability=gaPara.getCrossProbability();
         double mutationProbabilit=gaPara.getMutationProbabilit();
-        GeneticAlgorithm.go(job,n,m,populationNumber,crossProbability,mutationProbabilit);
-        return "";
+        List<ScheduleResult> list=GeneticAlgorithm.go(job,n,m,populationNumber,crossProbability,mutationProbabilit);
+        return list;
     }
 }

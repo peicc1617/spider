@@ -2,6 +2,8 @@
 var taskId;
 var requests=[];//MRO服务请求
 var suppliers=[];//MRO服务提供商
+var maxTime=0;//最大完工时间
+var serviceCost=0;//服务成本
 //加载表格
 function refresh() {
     taskId=$("#taskID").val();
@@ -254,6 +256,8 @@ function loadSheet() {
 }
 //运行调度
 function run() {
+    serviceCost=0;
+    maxTime=0;
     var sheetData=[];
     var size = $("#paratable input").size();
     for (var i=0;i<size;i++) {
@@ -278,6 +282,7 @@ function run() {
                     cost2.cost = temp[1];
                     time1.push(time2);
                     cost1.push(cost2);
+                    serviceCost=serviceCost+parseInt(temp[1]);
                 }
             }
         }
@@ -287,7 +292,7 @@ function run() {
     var requestNum=requests.length-1;//MRO服务需求数
     var supplierNum=suppliers.length;
     $.ajax({
-        url:"/schedule/run",
+        url:"/schedule/go",
         type:"POST",
         async:false,
         data:{
@@ -300,11 +305,56 @@ function run() {
             mutationProbabilit:$("#vp").val(),
 },
         success:function (result) {
-            alert("添加成功")
+            alert("调度完成，请点击“运行调度结果”查看调度结果");
+            drawGantt(result);
         }
     });
 }
-function drawGantt() {
+
+
+function drawGantt(scheduleResult) {
+    var resultData=scheduleResult;
+    var categories=[];//Y轴，保存MRO服务提供商，需去重
+    var pointData=[];//每个子任务
+    var set=new Set();
+    var color=[];
+    for (var i = 0; i <resultData.length ; i++) {
+        set.add(resultData[i].supplier);
+    }
+    for (var i = 0; i <set.size ; i++) {
+        color.push(generateColor());
+    }
+    function generateColor(){
+        return '#'+Math.floor(Math.random()*0xffffff).toString(16);
+    }
+    $("#resultTable").bootstrapTable('removeAll');
+    for (var i = 0; i <resultData.length ; i++) {
+        var rowData={
+            request:resultData[i].request,
+           subRequest:resultData[i].subRequest,
+           supplier:resultData[i].supplier,
+           startTime:resultData[i].startTime,
+            endTime:resultData[i].endTime,
+        }
+        $("#resultTable").bootstrapTable('append',rowData);
+        if(maxTime<resultData[i].endTime){
+            maxTime=resultData[i].endTime;
+        }
+        //甘特图数据
+        var point={
+            name:resultData[i].request,
+            x:resultData[i].startTime,
+            x2:resultData[i].endTime,
+            y:parseInt(resultData[i].supplier.substr(resultData[i].supplier.indexOf("商")+1))-1,
+            color:color[parseInt(resultData[i].request.substr(resultData[i].request.indexOf("求")))-1],
+
+        }
+        pointData.push(point);
+    }
+    for (var i = 0; i <set.size ; i++) {
+        categories.push("MRO服务提供商"+(i+1));
+    }
+
     Highcharts.chart('container', {
         chart: {
             type: 'xrange'
@@ -313,55 +363,25 @@ function drawGantt() {
             text: 'MRO运行调度甘特图'
         },
         xAxis: {
-            type: 'datetime',
-            dateTimeLabelFormats: {
-                week: '%Y/%m/%d'
-            }
+            type: '',
         },
         yAxis: {
             title: {
                 text: ''
             },
-            categories: ['制作产品原型', '开发', '测试'],
+            categories: categories,
             reversed: true
         },
-        tooltip: {
-            dateTimeLabelFormats: {
-                day: '%Y/%m/%d'
-            }
-        },
+
         series: [{
-            name: '项目1',
-            // pointPadding: 0,
-            // groupPadding: 0,
+            name: 'MRO服务任务'+taskId,
             borderColor: 'gray',
             pointWidth: 20,
-            data: [{
-                x: Date.UTC(2014, 10, 21),
-                x2: Date.UTC(2014, 11, 2),
-                y: 0,
-                partialFill: 0.25
-            }, {
-                x: Date.UTC(2014, 11, 2),
-                x2: Date.UTC(2014, 11, 5),
-                y: 1
-            }, {
-                x: Date.UTC(2014, 11, 8),
-                x2: Date.UTC(2014, 11, 9),
-                y: 2
-            }, {
-                x: Date.UTC(2014, 11, 9),
-                x2: Date.UTC(2014, 11, 19),
-                y: 1
-            }, {
-                x: Date.UTC(2014, 11, 10),
-                x2: Date.UTC(2014, 11, 23),
-                y: 2
-            }],
-            dataLabels: {
-                enabled: true
-            }
+            data:pointData,
         }]
     });
+    //输出时间、成本
+    $("#serviceCost").html(serviceCost);
+    $("#maxTime").html(maxTime);
 
 }

@@ -3,11 +3,10 @@ package xjtu.spider.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xjtu.spider.entity.GAPara;
-import xjtu.spider.entity.MRORequest;
-import xjtu.spider.entity.MROSupplier;
-import xjtu.spider.entity.ScheduleSheet;
+import xjtu.spider.entity.*;
 import xjtu.spider.service.ScheduleService;
+
+import java.util.List;
 
 /**
  * @基本功能:MRO运行调度
@@ -63,8 +62,8 @@ public class ServiceScheduleController {
     public ScheduleSheet getSheet(Long taskId){
         return scheduleService.getSheet(taskId);
     }
-    @RequestMapping("/schedule/run")
-    public void run(GAPara gaPara){
-        scheduleService.run(gaPara);
+    @RequestMapping("/schedule/go")
+    public List<ScheduleResult> go(GAPara gaPara){
+        return scheduleService.go(gaPara);
     }
 }
