@@ -43,8 +43,13 @@
 		<![endif]-->
 		<!--jquery-->
 		<script src="assets/js/jquery-2.1.4.min.js"></script>
+        <link rel="stylesheet" href="assets/css/jquery-ui.min.css" />
+        <script src="assets/js/jquery-ui.min.js"></script>
+        <!--bootstrap-table.js-->
+        <link rel="stylesheet" href="./bootstrap-table/bootstrap-table.min.css">
+        <script src="./bootstrap-table/bootstrap-table.min.js"></script>
 		<!--业务-->
-		<script src="js/serviceRegister.js"></script>
+		<script src="js/serviceEvaluate.js"></script>
 	</head>
 
 	<body class="no-skin">
@@ -149,69 +154,88 @@
 								<script src="js/serviceCluster.js"></script>
 								<!--<a href="#my-modal" role="button" class="bigger-125 bg-primary white" data-toggle="modal">-->
 								<!--注册表单-->
-								<div>
-									<form class="form-horizontal" role="form" action="/api/registerEnterprise" method="post">
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-companyName"> 企业名称 </label>
+                                <div id="tabs">
+                                    <ul>
+                                        <li>
+                                            <a href="#tabs-1">指标选取</a>
+                                        </li>
 
-											<div class="col-sm-9">
-												<input type="text" id="form-field-companyName" name="companyName" placeholder="西安高压开关电器有限公司" class="col-xs-10 col-sm-5" />
-											</div>
-										</div>
+                                        <li>
+                                            <a href="#tabs-2">服务评估</a>
+                                        </li>
 
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-label"> 企业标签 </label>
+                                        <li>
+                                            <a href="#tabs-3">评估结果</a>
+                                        </li>
+                                    </ul>
 
-											<div class="col-sm-9">
-												<input type="text" id="form-field-label" name="lable" placeholder="小微企业" class="col-xs-10 col-sm-5" />
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-searchKey"> 企业类别 </label>
+                                    <div id="tabs-1">
+                                        <div class="tableContainer" style="margin-top: 10px">
+                                            <div  class="btn-group btn-group-sm" style="margin-bottom: 10px">
+												<button type="button" class="btn btn-info" onclick="loadIndex()">
+													<span class="glyphicon glyphicon-plus"></span>加载当前指标
+												</button>
+                                                <button type="button" class="btn btn-info" onclick="addIndex()">
+                                                    <span class="glyphicon glyphicon-plus"></span>创建指标
+                                                </button>
+                                                <button type="button" class="btn btn-danger"  onclick="deleteIndex()">
+                                                    <span class="glyphicon glyphicon-trash"></span>删除指标
+                                                </button>
+                                                <button type="button" class="btn btn-info" onclick="createEvaluate()" style="margin-left: 30px">
+                                                    <span class="glyphicon glyphicon-save"></span>创建评价体系
+                                                </button>
+                                            </div>
+                                            <table id="indexTable" data-toggle="table" >
+                                                <thead>
+                                                <tr>
+                                                    <th data-checkbox="true"></th>
+                                                    <th data-field="indexId">ID</th>
+													<th data-field="indexIdForIdentify" data-visible="false">指标唯一标识</th>
+                                                    <th data-field="indexName" >指标名称</th>
+                                                    <th data-field="minValue" >最小值</th>
+                                                    <th data-field="maxValue" >最大值</th>
+                                                    <th data-field="indexDesc" >说明</th>
+                                                </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
 
-											<div class="col-sm-9">
-												<input type="text" id="form-field-searchKey" name="searchKey" placeholder="高压开关" class="col-xs-10 col-sm-5" />
-											</div>
+                                    <div id="tabs-2">
+										<div  class="btn-group btn-group-sm" style="margin-bottom: 10px">
+											<button type="button" class="btn btn-info"  onclick="loadIndexs()">
+												<span class="glyphicon glyphicon-plus"></span>加载指标
+											</button>
+											<button type="button" class="btn btn-info"  onclick="saveIndexsValue()">
+												<span class="glyphicon glyphicon-save"></span>保存
+											</button>
 										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-description"> 经营范围 </label>
+										<table id="indexValueTable" data-toggle="table"  data-align="center">
+											<thead>
+											<tr >
+												<th colspan="7" data-field="basicInfo" >
+													MRO服务任务ID<input type="text" style="margin: auto" id="taskID1" placeholder="001" />
+													评价体系名称<input type="text" style="margin: auto" id="evaluateName1" placeholder="MRO服务评价"/>
+													说明<input type="text" style="margin-right: 250px" id="evaluateDesc1" placeholder="对MRO服务进行评价"/>
+												</th>
+											</tr>
+											<tr>
+												<th data-checkbox="true"></th>
+												<th data-field="indexId">ID</th>
+												<th data-field="indexName">指标名称</th>
+												<th data-field="indexValue" >取值</th>
+												<th data-field="minValue" >最小值</th>
+												<th data-field="maxValue" >最大值</th>
+												<th data-field="indexWeight" >权重</th>
+											</tr>
+											</thead>
+										</table>
+                                    </div>
 
-											<div class="col-sm-9">
-												<textarea class="col-xs-10 col-sm-5" id="form-field-description" name="description" placeholder="高压开关生产、维护"></textarea>
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-state">企业状态</label>
-											<div class="col-sm-9">
-												<select class="col-xs-10 col-sm-5" id="form-field-state" name="state">
-													<option value="在业">在业</option>
-													<option value="存续">存续</option>
-													<option value="注销">注销</option>
-												</select>
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-area"> 企业地址 </label>
-
-											<div class="col-sm-9">
-												<input type="text" id="form-field-area" name="area" placeholder="西安" class="col-xs-10 col-sm-5" />
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-phoneNumber"> 联系电话 </label>
-
-											<div class="col-sm-9">
-												<input type="tel" id="form-field-phoneNumber" name="phoneNumber" placeholder="136****7893" class="col-xs-10 col-sm-5" />
-											</div>
-										</div>
-										<div class="col-md-offset-4 col-md-8">
-											<input class="btn btn-info" type="submit" value="提交" />
-											<input class="btn btn-danger" type="reset" value="重置"/>
-										</div>
-
-										<!--<div class="hr hr-24"></div>-->
-									</form>
-								</div>
+                                    <div id="tabs-3">
+                                        <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Praesent eu risus hendrerit ligula tempus pretium.</p>
+                                    </div>
+                                </div>
 
 								<!--</a>-->
 
@@ -225,18 +249,6 @@
 
 											<div class="modal-body">
 												Some content
-												<br />
-												<br />
-												<br />
-												<br />
-												<br />
-												1
-												<br />
-												<br />
-												<br />
-												<br />
-												<br />
-												2
 											</div>
 
 											<div class="modal-footer">
@@ -282,22 +294,65 @@
 			<!--<div  th:include="footer::copy"></div>-->
 			<!--引入页脚元素-->
 			<div th:replace="/common/footer::footer"></div>
-
-			<!--<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">-->
-				<!--<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>-->
-			<!--</a>-->
 		</div><!-- /.main-container -->
-
-		<!-- basic scripts -->
-
-		<!--[if !IE]> -->
-		<script src="assets/js/jquery-2.1.4.min.js"></script>
-
-		<!-- <![endif]-->
-
-		<!--[if IE]>
-<script src="assets/js/jquery-1.11.3.min.js"></script>
-<![endif]-->
+		<!--模态框-->
+		<!--添加指标-->
+		<div id="addIndexItem" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">添加评价指标</h5>
+					</div>
+					<div class="modal-body">
+						<form id="addItemPop">
+							<table>
+								<tr>
+									<td>指标名称：</td> <td><input type="text" id="indexName" size="20" style="margin-right: 10px" /></td>
+									<td>说明：</td> <td><input type="text" id="indexDesc" size="20" style="margin-right: 10px" /></td>
+								</tr>
+								<tr>
+									<td>最小值：</td> <td><input type="text" id="minValue" size="20" style="margin-right: 10px"  value="0"/></td>
+									<td>最大值：</td> <td><input type="text" id="maxValue" size="20" style="margin-right: 10px" value="999999999" /></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" onclick="addIndexItem()">确定</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--创建评价体系-->
+		<div id="createEvaluate" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">创建评价体系</h5>
+					</div>
+					<div class="modal-body">
+						<form >
+							<table>
+								<tr>
+									<td>MRO服务任务id：</td> <td><input type="text" id="taskId" size="30" style="margin-right: 10px" /></td>
+								</tr>
+								<tr>
+									<td>评价体系名称：</td> <td><input type="text" id="evaluateName" size="30" style="margin-right: 10px" /></td>
+								</tr>
+								<tr>
+									<td>说明：</td> <td><input type="text" id="evaluateDesc" size="30" style="margin-right: 10px" /></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" onclick="createEvaluateByTaskId()">确定</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		<script type="text/javascript">
 			if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
@@ -323,11 +378,13 @@
 					$('.modal.aside').remove();
 					$(window).off('.aside')
 				});
-				
-				
-				//make content sliders resizable using jQuery UI (you should include jquery ui files)
-				//$('#right-menu > .modal-dialog').resizable({handles: "w", grid: [ 20, 0 ], minWidth: 200, maxWidth: 600});
 			})
 		</script>
+        <!--自定义jsscript-->
+        <script>
+            //jquery tabs
+            $( "#tabs" ).tabs();
+        </script>
+
 	</body>
 </html>
