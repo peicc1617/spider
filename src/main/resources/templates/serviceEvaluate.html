@@ -149,9 +149,13 @@
 									</button>
 									此模块可用于MRO服务评价
 								</div>
-								<script src="./echart/echarts.min.js"></script>
-								<script src="./echart/ecStat.js"></script>
-								<script src="js/serviceCluster.js"></script>
+								<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+								<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+								<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+								<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+								<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+								<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+								<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
 								<!--<a href="#my-modal" role="button" class="bigger-125 bg-primary white" data-toggle="modal">-->
 								<!--注册表单-->
                                 <div id="tabs">
@@ -162,10 +166,6 @@
 
                                         <li>
                                             <a href="#tabs-2">服务评估</a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#tabs-3">评估结果</a>
                                         </li>
                                     </ul>
 
@@ -195,6 +195,7 @@
                                                     <th data-field="minValue" >最小值</th>
                                                     <th data-field="maxValue" >最大值</th>
                                                     <th data-field="indexDesc" >说明</th>
+													<th data-field="indexType" >指标类型</th>
                                                 </tr>
                                                 </thead>
                                             </table>
@@ -206,14 +207,17 @@
 											<button type="button" class="btn btn-info"  onclick="loadIndexs()">
 												<span class="glyphicon glyphicon-plus"></span>加载指标
 											</button>
-											<button type="button" class="btn btn-info"  onclick="saveIndexsValue()">
+											<button type="button" class="btn btn-info"  onclick="saveIndexsValue()" style="margin-right: 30px">
 												<span class="glyphicon glyphicon-save"></span>保存
+											</button>
+											<button type="button" class="btn btn-info"  onclick="calculate()">
+												<span class="glyphicon glyphicon-plus"></span>计算
 											</button>
 										</div>
 										<table id="indexValueTable" data-toggle="table"  data-align="center">
 											<thead>
 											<tr >
-												<th colspan="7" data-field="basicInfo" >
+												<th colspan="8" data-field="basicInfo" >
 													MRO服务任务ID<input type="text" style="margin: auto" id="taskID1" placeholder="001" />
 													评价体系名称<input type="text" style="margin: auto" id="evaluateName1" placeholder="MRO服务评价"/>
 													说明<input type="text" style="margin-right: 250px" id="evaluateDesc1" placeholder="对MRO服务进行评价"/>
@@ -227,13 +231,14 @@
 												<th data-field="minValue" >最小值</th>
 												<th data-field="maxValue" >最大值</th>
 												<th data-field="indexWeight" >权重</th>
+												<th data-field="indexType"  >指标类型</th>
 											</tr>
 											</thead>
 										</table>
-                                    </div>
-
-                                    <div id="tabs-3">
-                                        <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Praesent eu risus hendrerit ligula tempus pretium.</p>
+										<div id="radarContainer" style="height: 300px;margin-top: 20px"></div>
+										<div id="scoreDiv" class="center">
+											<h3 class="header blue lighter smaller">MRO服务评价得分为<span id="score"></span></h3>
+										</div>
                                     </div>
                                 </div>
 
@@ -314,6 +319,10 @@
 									<td>最小值：</td> <td><input type="text" id="minValue" size="20" style="margin-right: 10px"  value="0"/></td>
 									<td>最大值：</td> <td><input type="text" id="maxValue" size="20" style="margin-right: 10px" value="999999999" /></td>
 								</tr>
+								<tr>
+									<td>正向指标：</td> <td><input type="radio" id="positiveIndex" size="20" style="margin-right: 10px" checked="checked"  value="正向指标" name="radio"/></td>
+									<td>负向指标：</td> <td><input type="radio" id="negative" size="20" style="margin-right: 10px" value="负向指标" name="radio"/></td>
+								</tr>
 							</table>
 						</form>
 					</div>
@@ -363,6 +372,7 @@
 		<!-- ace scripts -->
 		<script src="assets/js/ace-elements.min.js"></script>
 		<script src="assets/js/ace.min.js"></script>
+		<script src="assets/js/jquery.raty.min.js"></script>
 
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
@@ -385,6 +395,24 @@
             //jquery tabs
             $( "#tabs" ).tabs();
         </script>
+	<!--评价结果-->
+		<script>
+			$('.rating').raty({
+				'cancel' : true,
+				'half': true,
+				'starType' : 'i'
+				/**,
 
+				 'click': function() {
+		setRatingColors.call(this);
+		},
+				 'mouseover': function() {
+		setRatingColors.call(this);
+		},
+				 'mouseout': function() {
+		setRatingColors.call(this);
+		}*/
+			})
+		</script>
 	</body>
 </html>

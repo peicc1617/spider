@@ -16,7 +16,7 @@ public interface EvaluateIndexMapper {
      * @param evaluateIndex:
      * @return：void
      */
-    @Select("INSERT INTO evaluate_index (index_id_for_identify,index_name,index_desc,min_value,max_value) VALUES (#{indexIdForIdentify},#{indexName},#{indexDesc},#{minValue},#{maxValue})")
+    @Select("INSERT INTO evaluate_index (index_id_for_identify,index_name,index_desc,min_value,max_value,index_type) VALUES (#{indexIdForIdentify},#{indexName},#{indexDesc},#{minValue},#{maxValue},#{indexType})")
     public void addIndex(EvaluateIndex evaluateIndex);
     /***
      * @函数功能：获取所有指标

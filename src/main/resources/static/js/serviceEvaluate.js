@@ -33,6 +33,7 @@ function addIndexItem() {
             indexDesc:$("#indexDesc").val(),
             minValue:$("#minValue").val(),
             maxValue:$("#maxValue").val(),
+            indexType:$("input:radio:checked").val()
         },
         success:function (result) {
             //添加后重新加载表格
@@ -81,7 +82,8 @@ function loadIndex() {
                     indexName:result[i].indexName,
                     indexDesc:result[i].indexDesc,
                     minValue: result[i].minValue,
-                    maxValue: result[i].maxValue
+                    maxValue: result[i].maxValue,
+                    indexType:result[i].indexType
                 }
                 $('#indexTable').bootstrapTable("append",rowData);
             }
@@ -191,6 +193,7 @@ function initIndexValueTable(para) {
             minValue: para[i].minValue,
             maxValue: para[i].maxValue,
             indexWeight:"<input type=\"text\" style=\"margin: auto\"  placeholder=\"\" id=indexWeight"+(i+1)+" />",
+            indexType:para[i].indexType,
         }
         $('#indexValueTable').bootstrapTable("append",rowData);
     }
@@ -218,4 +221,78 @@ function saveIndexsValue() {
             alert("保存成功")
         }
     });
+}
+//计算服务得分
+function calculate() {
+    var tableData=$('#indexValueTable').bootstrapTable("getData");
+    var indicator=[];//雷达图指标
+    var data=[];//雷达图数据
+    if (tableData.length==0){
+        alert("未获取到相关数据")
+    }else{
+        var sum=0;
+        for (var i = 0; i <tableData.length ; i++) {
+            var minValue=parseFloat(tableData[i].minValue);
+            var maxValue=parseFloat(tableData[i].maxValue);
+            var value=parseFloat($("#indexValue"+(i+1)).val());
+            var weight=parseFloat($("#indexWeight"+(i+1)).val());
+            var indexType=tableData[i].indexType;
+            var dis=maxValue-minValue;
+            var perScore=0;
+            if (indexType=="正向指标") {
+                perScore=(value-minValue)*weight/dis;
+            } else{
+                perScore=(maxValue-value)*weight/dis;
+            }
+            sum=sum+perScore;
+            //雷达图指标数据
+            var rowIndicator={
+                name:tableData[i].indexName,
+                max:maxValue
+            }
+            indicator.push(rowIndicator);
+            //雷达图数据
+            data.push(value);
+
+        }
+        var score=(sum*5).toFixed(1);
+        $("#score").html(score);
+        //画雷达图
+        drawRadar(indicator,data);
+    }
+}
+function drawRadar(indicator,data){
+    var dom = document.getElementById("radarContainer");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    option = {
+        title: {
+            text: 'MRO评价指标雷达图'
+        },
+        tooltip: {},
+        radar: {
+            name: {
+                textStyle: {
+                    color: '#fff',
+                    backgroundColor: '#999',
+                    borderRadius: 3,
+                    padding: [3, 5]
+                }
+            },
+            indicator: indicator,
+        },
+        series: [{
+            type: 'radar',
+            data: [
+                {
+                    value: data,
+                    name: 'MRO各评价指标得分'
+                }
+            ]
+        }]
+    };;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
 }

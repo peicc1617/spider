@@ -15,4 +15,5 @@ public class EvaluateIndex {
     private String indexDesc;
     private double minValue;
     private double maxValue;
+    private String indexType;//指标类型：正向指标、负向指标
 }
