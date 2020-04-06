@@ -155,8 +155,8 @@ function loadIndexs() {
                 indexs=result.evaluateIndexs;
                 $("#evaluateName1").val(result.evaluateName);
                 $("#evaluateDesc1").val(result.evaluateDesc);
-                values=JSON.parse(result.values);
-                weights=JSON.parse(result.weights);
+                values=JSON.parse(result.value);
+                weights=JSON.parse(result.weight);
             }
         });
         //根据指标索引加载指标表格
@@ -227,6 +227,8 @@ function calculate() {
     var tableData=$('#indexValueTable').bootstrapTable("getData");
     var indicator=[];//雷达图指标
     var data=[];//雷达图数据
+    var maxData=[];//最大值
+    var minData=[];//最小值
     if (tableData.length==0){
         alert("未获取到相关数据")
     }else{
@@ -240,10 +242,19 @@ function calculate() {
             var dis=maxValue-minValue;
             var perScore=0;
             if (indexType=="正向指标") {
-                perScore=(value-minValue)*weight/dis;
+                if (value>=maxValue) {
+                    perScore=1*weight
+                } else{
+                    perScore=(value-minValue)*weight/dis;
+                }
             } else{
-                perScore=(maxValue-value)*weight/dis;
+                if (value<minValue) {
+                    perScore=1*weight
+                } else {
+                    perScore=(maxValue-value)*weight/dis;
+                }
             }
+            console.log(perScore*5);
             sum=sum+perScore;
             //雷达图指标数据
             var rowIndicator={
@@ -253,15 +264,17 @@ function calculate() {
             indicator.push(rowIndicator);
             //雷达图数据
             data.push(value);
+            maxData.push(maxValue);
+            minData.push(minValue);
 
         }
         var score=(sum*5).toFixed(1);
         $("#score").html(score);
         //画雷达图
-        drawRadar(indicator,data);
+        drawRadar(indicator,data,maxData,minData);
     }
 }
-function drawRadar(indicator,data){
+function drawRadar(indicator,data,maxData,minData){
     var dom = document.getElementById("radarContainer");
     var myChart = echarts.init(dom);
     var app = {};
@@ -269,6 +282,10 @@ function drawRadar(indicator,data){
     option = {
         title: {
             text: 'MRO评价指标雷达图'
+        },
+        legend: {
+            data: ['实际值', '最大值','最小值'],
+            right:10
         },
         tooltip: {},
         radar: {
@@ -287,8 +304,16 @@ function drawRadar(indicator,data){
             data: [
                 {
                     value: data,
-                    name: 'MRO各评价指标得分'
-                }
+                    name: '实际值'
+                },
+                {
+                    value: maxData,
+                    name: '最大值'
+                },
+                {
+                    value: minData,
+                    name: '最小值'
+                },
             ]
         }]
     };;

@@ -15,6 +15,6 @@ public class IndexsOfTask {
     private String evaluateName;
     private String evaluateDesc;
     private String evaluateIndexs;
-    private String values;//指标取值
-    private String weights;//权重
+    private String value;//指标取值
+    private String weight;//权重
 }

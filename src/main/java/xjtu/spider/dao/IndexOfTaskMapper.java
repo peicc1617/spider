@@ -23,6 +23,6 @@ public interface IndexOfTaskMapper {
     public void addIndexsByTaskId(IndexsOfTask indexsOfTask);
     @Select("SELECT * FROM indexs_of_task WHERE task_id=#{taskId}")
     public IndexsOfTask getIndexsByTaskId(long taskId);
-    @Select("UPDATE indexs_of_task SET values=#{indexValues},weights=#{indexWeights} WHERE task_id=#{taskId} ")
+    @Select("UPDATE indexs_of_task SET value=#{indexValues},weight=#{indexWeights} WHERE task_id=#{taskId} ")
     public void saveValueAndWeight(Long taskId,String indexValues,String indexWeights);
 }
