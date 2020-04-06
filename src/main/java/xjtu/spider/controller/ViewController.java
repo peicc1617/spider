@@ -101,4 +101,17 @@ public class ViewController {
         LOGGER.info("进入serviceEvaluate.html页面");
         return "serviceEvaluate";
     }
+    /***
+     * @函数功能：运行监控
+     * @param session:
+     * @param model:
+     * @return：java.lang.String
+     */
+    @RequestMapping("/serviceMonitor.html")
+    public String viewServiceMonitor(HttpSession session,Model model){
+        JSONObject user=(JSONObject)session.getAttribute("userInfo");
+        model.addAttribute("userName",user.get("userName"));
+        LOGGER.info("进入serviceMonitor.html页面");
+        return "serviceMonitor";
+    }
 }
