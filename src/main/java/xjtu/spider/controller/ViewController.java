@@ -114,4 +114,18 @@ public class ViewController {
         LOGGER.info("进入serviceMonitor.html页面");
         return "serviceMonitor";
     }
+    /***
+     * @函数功能：OEE历史数据分析
+     * @param session:
+     * @param model:
+     * @return：java.lang.String
+     */
+    @RequestMapping("/oee.html")
+    public String viewOEE(HttpSession session,Model model){
+        JSONObject user=(JSONObject)session.getAttribute("userInfo");
+        model.addAttribute("userName",user.get("userName"));
+        LOGGER.info("进入oee.html页面");
+        return "oee";
+    }
+
 }

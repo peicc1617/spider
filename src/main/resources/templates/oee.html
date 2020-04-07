@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title>OEE分析</title>
+
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+		<!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+		<!-- page specific plugin styles -->
+
+		<!-- text fonts -->
+		<link rel="stylesheet" href="assets/css/fonts.googleapis.com.css" />
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+		<!--[if lte IE 9]>
+			<link rel="stylesheet" href="assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+		<![endif]-->
+		<link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+		<link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+
+		<!--[if lte IE 9]>
+		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+		<script src="assets/js/ace-extra.min.js"></script>
+
+		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+		<!--[if lte IE 8]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+		<!--jquery-->
+		<script src="assets/js/jquery-2.1.4.min.js"></script>
+        <link rel="stylesheet" href="assets/css/jquery-ui.min.css" />
+        <script src="assets/js/jquery-ui.min.js"></script>
+		<!--其他-->
+		<script src="assets/js/ace-elements.min.js"></script>
+		<script src="assets/js/ace.min.js"></script>
+		<script src="assets/js/jquery.raty.min.js"></script>
+        <!--bootstrap-table.js-->
+        <link rel="stylesheet" href="./bootstrap-table/bootstrap-table.min.css">
+        <script src="./bootstrap-table/bootstrap-table.min.js"></script>
+		<!--业务-->
+		<script src="js/oee.js"></script>
+	</head>
+
+	<body class="no-skin">
+		<!--插入页面头部元素-->
+		<div th:replace="/common/header::header"></div>
+		<div class="main-container ace-save-state" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.loadState('main-container')}catch(e){}
+			</script>
+
+			<!--插入侧边栏-->
+			<div th:replace="/common/sidebar::sidebar"></div>
+			<div class="main-content">
+				<div class="main-content-inner">
+					<!--插入面包屑-->
+					<div th:replace="/common/breadcrumbs::breadcrumbs"></div>
+					<div class="page-content">
+						<!--设置-->
+						<div class="ace-settings-container" id="ace-settings-container">
+							<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+								<i class="ace-icon fa fa-cog bigger-130"></i>
+							</div>
+
+							<div class="ace-settings-box clearfix" id="ace-settings-box">
+								<div class="pull-left width-50">
+									<div class="ace-settings-item">
+										<div class="pull-left">
+											<select id="skin-colorpicker" class="hide">
+												<option data-skin="no-skin" value="#438EB9">#438EB9</option>
+												<option data-skin="skin-1" value="#222A2D">#222A2D</option>
+												<option data-skin="skin-2" value="#C6487E">#C6487E</option>
+												<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+											</select>
+										</div>
+										<span>&nbsp; Choose Skin</span>
+									</div>
+
+									<div class="ace-settings-item">
+										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off" />
+										<label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+									</div>
+
+									<div class="ace-settings-item">
+										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off" />
+										<label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+									</div>
+
+									<div class="ace-settings-item">
+										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off" />
+										<label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+									</div>
+
+									<div class="ace-settings-item">
+										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" autocomplete="off" />
+										<label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+									</div>
+
+									<div class="ace-settings-item">
+										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off" />
+										<label class="lbl" for="ace-settings-add-container">
+											Inside
+											<b>.container</b>
+										</label>
+									</div>
+								</div><!-- /.pull-left -->
+
+								<div class="pull-left width-50">
+									<div class="ace-settings-item">
+										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" autocomplete="off" />
+										<label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
+									</div>
+
+									<div class="ace-settings-item">
+										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" autocomplete="off" />
+										<label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
+									</div>
+
+									<div class="ace-settings-item">
+										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" autocomplete="off" />
+										<label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
+									</div>
+								</div><!-- /.pull-left -->
+							</div><!-- /.ace-settings-box -->
+						</div><!-- /.ace-settings-container -->
+
+						<div class="page-header">
+							<h1>OEE历史数据分析
+							</h1>
+						</div><!-- /.page-header -->
+
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+								<div class="alert alert-info">
+									<button class="close" data-dismiss="alert">
+										<i class="ace-icon fa fa-times"></i>
+									</button>
+									此模块用于OEE历史数据分析
+								</div>
+								<!--<a href="#my-modal" role="button" class="bigger-125 bg-primary white" data-toggle="modal">-->
+								<!--注册表单-->
+                                <div id="tabs">
+                                    <ul>
+                                        <li>
+                                            <a href="#tabs-1">OEE数据录入</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#tabs-2">OEE计算</a>
+                                        </li>
+                                    </ul>
+
+                                    <div id="tabs-1">
+										<div id="mainBtnGroup" class="btn-group btn-group-sm" style="margin-bottom: 10px">
+											<button type="button" class="btn btn-info" onclick="addrow()">
+												<span class="glyphicon glyphicon-plus"></span>添加设备
+											</button>
+											<button type="button" class="btn btn-danger" style="margin-right: 40px" onclick="deleterow()">
+												<span class="glyphicon glyphicon-trash"></span>删除设备
+											</button>
+											<button type="button" class="btn btn-info" id="saveProject" onclick="saveProject()">
+												<span class="glyphicon glyphicon-save"></span>保存
+											</button>
+											<button type="button" class="btn btn-info" id="loadData" onclick="loadData()">
+												<span class="glyphicon glyphicon-save"></span>加载数据
+											</button>
+										</div>
+										<!--<div class="widget-box">
+											<div class="widget-header">
+												<h4 class="widget-title">工业产品信息</h4>
+											</div>
+										</div>-->
+										<table id="oeeDataTable" data-toggle="table" >
+											<thead>
+											<tr align="center" valign="middle">
+												<th colspan="19" data-align="center" class="active" ><h4>工业产品信息记录表</h4></th>
+											</tr>
+											<tr>
+												<th colspan="19" data-align="center" class="active" >
+													服务任务ID <input type="text" class="input-small" id="taskId" placeholder="" />
+													描述 <input type="text" class="input-small" id="description" placeholder=""  size="50"/>
+												</th>
+											</tr>
+											<tr>
+												<th data-field="state" data-checkbox="true" rowspan="2" data-align="center" data-valign="middle"></th>
+												<th data-field="procedureIdForDelete" data-visible="false" rowspan="2">procedureIdForDelete</th>
+												<th data-field="calendar_date"   rowspan="2" data-align="center" data-valign="middle" >日期</th>
+												<th data-field="machine_name"   rowspan="2" data-align="center" data-valign="middle" >设备名称</th>
+												<th data-field="calendar_time" rowspan="2" data-align="center" data-valign="middle">日历时间</th>
+												<th colspan="3" data-align="center" data-valign="middle">计划停机损失</th>
+												<th colspan="4" data-align="center">停机损失</th>
+												<th colspan="4" data-align="center">性能损失</th>
+												<th colspan="2" data-align="center">质量损失</th>
+												<th data-field="action" data-formatter="actionFormatter" data-events="actionEvents"  rowspan="2" data-align="center" data-valign="middle">编辑</th>
+											</tr>
+											<tr>
+												<th data-field="rest_time" data-align="center">休息时间</th>
+												<th data-field="downtime_maintenance" data-align="center">停机保养</th>
+												<th data-field="downtime_noEquipment" data-align="center">非设备因素停机</th>
+												<th data-field="downtime_loss" data-align="center">故障停机</th>
+												<th data-field="start_shutdown" data-align="center">开停机</th>
+												<th data-field="product_change" data-align="center">更换品种</th>
+												<th data-field="tool_change" data-align="center">更换工具</th>
+												<th data-field="idling" data-align="center">空转</th>
+												<th data-field="small_downtime" data-align="center">间歇停机</th>
+												<th data-field="theoretical_speed" data-align="center">理论加工速度</th>
+												<th data-field="actual_speed" data-align="center">实际加工速度</th>
+												<th data-field="defect_quantity" data-align="center">不合格品数量</th>
+												<th data-field="total_quantity" data-align="center">产品数量</th>
+											</tr>
+											</thead>
+										</table>
+                                    </div>
+
+                                    <div id="tabs-2">
+										<div id="mainBtnGroup1" class="btn-group btn-group-sm">
+											<!--<button type="button" class="btn btn-info" onclick="showLoss()">-->
+											<!--<span class="glyphicon glyphicon-plus"></span>设备损失分析-->
+											<!--</button>-->
+											<button type="button" class="btn btn-info" onclick="calculateOEE()">
+												<span class="glyphicon glyphicon-plus"></span>OEE计算
+											</button>
+											<button type="button" class="btn btn-info" onclick="predict()">
+												<span class="glyphicon glyphicon-plus"></span>OEE预测
+											</button>
+										</div>
+										<div>
+											<table id="oeeIndexs" data-toggle="table" data-search="true"
+												    data-toolbar="#toolbar" data-pagination="true"
+												   data-side-pagination="client">
+												<thead>
+												<tr>
+													<th data-field="state" data-checkbox="true"  data-align="center" ></th>
+													<th data-field="calendar_date"    data-align="center">日期</th>
+													<th data-field="machine_name"    data-align="center">设备名称</th>
+													<th data-field="equipmentUtilizationRate"   data-align="center">设备利用率</th>
+													<th data-field="timeUtilizationRate"   data-align="center">时间开动率</th>
+													<th data-field="performanceUtilizationRate"  data-align="center">性能开动率</th>
+													<th data-field="qualityRate"  data-align="center">合格品率</th>
+													<th data-field="OEE"  data-align="center">OEE</th>
+													<th data-field="TEEP"  data-align="center">TEEP</th>
+												</tr>
+												</thead>
+											</table>
+											<br>
+										</div>
+										<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+										<div id="OEECharts" style="height: 430px; width: 100%;"></div>
+                                    </div>
+                                </div>
+								<br />
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div>
+			</div><!-- /.main-content -->
+			<!--<div  th:include="footer::copy"></div>-->
+			<!--引入页脚元素-->
+			<div th:replace="/common/footer::footer"></div>
+		</div><!-- /.main-container -->
+		<!--模态对话框界面-->
+		<!--添加设备模态对话框-->
+		<div id="addItem" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">添加设备相关数据</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form id="addItemPop">
+							<table>
+								<tr>
+									<td>日期：</td> <td><input type="text" id="calendar_date" size="20" style="margin-right: 10px" value="2019/01/27"/></td>
+									<td>设备名称：</td> <td><input type="text" id="machine_name" size="20" style="margin-right: 10px" value="机床1"/></td>
+								</tr>
+								<tr>
+									<td >日历时间：</td> <td><input type="text" id="calendar_time" size="20" value="0"/></td>
+									<td >休息时间：</td> <td><input type="text" id="rest_time" size="20" value="0"/></td>
+								</tr>
+								<tr>
+									<td >停机保养：</td> <td><input type="text" id="downtime_maintenance" size="20" value="0"/></td>
+									<td >非设备因素停机：</td> <td><input type="text" id="downtime_noEquipment" size="20" value="0"/></td>
+								</tr>
+								<tr>
+									<td >故障停机：</td> <td><input type="text" id="downtime_loss" size="20" value="0"/></td>
+									<td>开停机：</td> <td><input type="text" id="start_shutdown" size="20" style="margin-right: 10px" value="0"/></td>
+								</tr>
+								<tr>
+									<td >更换品种：</td> <td><input type="text" id="product_change" size="20" value="0"/></td>
+									<td>更换工具：</td> <td><input type="text" id="tool_change" size="20" style="margin-right: 10px" value="0"/></td>
+								</tr>
+								<tr>
+									<td>空转：</td> <td><input type="text" id="idling" size="20" style="margin-right: 10px" value="0"/></td>
+									<td >间歇停机：</td> <td><input type="text" id="small_downtime" size="20" value="0"/></td>
+								</tr>
+								<tr>
+									<td>理论加工速度：</td> <td><input type="text" id="theoretical_speed" size="20" style="margin-right: 10px" value="0"/></td>
+									<td >实际加工速度：</td> <td><input type="text" id="actual_speed" size="20" value="0"/></td>
+								</tr>
+								<tr>
+									<td >废次品损失：</td> <td><input type="text" id="defect_quantity" size="20" value="0"/></td>
+									<td >总产品数量：</td> <td><input type="text" id="total_quantity" size="20" value="0"/></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" onclick="addItem()">确定</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--编辑对话框-->
+		<div id="editItem" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">编辑设备相关数据</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form id="editItemPop">
+							<table>
+								<tr>
+									<td>日期：</td> <td><input type="text" id="calendar_date1" size="20" style="margin-right: 10px" value="2019/01/27"/></td>
+									<td>设备名称：</td> <td><input type="text" id="machine_name1" size="20" style="margin-right: 10px" value="机床1"/></td>
+								</tr>
+								<tr>
+									<td >日历时间：</td> <td><input type="text" id="calendar_time1" size="20" value="0"/></td>
+									<td >休息时间：</td> <td><input type="text" id="rest_time1" size="20" value="0"/></td>
+								</tr>
+								<tr>
+									<td >停机保养：</td> <td><input type="text" id="downtime_maintenance1" size="20" value="0"/></td>
+									<td >非设备因素停机：</td> <td><input type="text" id="downtime_noEquipment1" size="20" value="0"/></td>
+								</tr>
+								<tr>
+									<td >故障停机：</td> <td><input type="text" id="downtime_loss1" size="20" value="0"/></td>
+									<td>开停机：</td> <td><input type="text" id="start_shutdown1" size="20" style="margin-right: 10px" value="0"/></td>
+								</tr>
+								<tr>
+									<td >更换品种：</td> <td><input type="text" id="product_change1" size="20" value="0"/></td>
+									<td>更换工具：</td> <td><input type="text" id="tool_change1" size="20" style="margin-right: 10px" value="0"/></td>
+								</tr>
+								<tr>
+									<td>空转：</td> <td><input type="text" id="idling1" size="20" style="margin-right: 10px" value="0"/></td>
+									<td >间歇停机：</td> <td><input type="text" id="small_downtime1" size="20" value="0"/></td>
+								</tr>
+								<tr>
+									<td>理论加工速度：</td> <td><input type="text" id="theoretical_speed1" size="20" style="margin-right: 10px" value="0"/></td>
+									<td >实际加工速度：</td> <td><input type="text" id="actual_speed1" size="20" value="0"/></td>
+								</tr>
+								<tr>
+									<td >废次品损失：</td> <td><input type="text" id="defect_quantity1" size="20" value="0"/></td>
+									<td >总产品数量：</td> <td><input type="text" id="total_quantity1" size="20" value="0"/></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" onclick="editItem()">确定</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="assets/js/bootstrap.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+
+		<!-- ace scripts -->
+
+
+		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+			jQuery(function($) {
+				$('.modal.aside').ace_aside();
+				
+				$('#aside-inside-modal').addClass('aside').ace_aside({container: '#my-modal > .modal-dialog'});
+				
+				//$('#top-menu').modal('show')
+				
+				$(document).one('ajaxloadstart.page', function(e) {
+					//in ajax mode, remove before leaving page
+					$('.modal.aside').remove();
+					$(window).off('.aside')
+				});
+			})
+		</script>
+        <!--自定义jsscript-->
+        <script>
+            //jquery tabs
+            $( "#tabs" ).tabs();
+        </script>
+	<!--评价结果-->
+		<script>
+			$('.rating').raty({
+				'cancel' : true,
+				'half': true,
+				'starType' : 'i'
+			})
+		</script>
+	</body>
+</html>
