@@ -52,6 +52,8 @@
         <!--bootstrap-table.js-->
         <link rel="stylesheet" href="./bootstrap-table/bootstrap-table.min.css">
         <script src="./bootstrap-table/bootstrap-table.min.js"></script>
+		<!--echarts-->
+		<script src="./echart/echarts.min.js"></script>
 		<!--业务-->
 		<script src="js/oee.js"></script>
 	</head>
@@ -164,6 +166,9 @@
                                         <li>
                                             <a href="#tabs-2">OEE计算</a>
                                         </li>
+										<li>
+											<a href="#tabs-3" >损失分析</a>
+										</li>
                                     </ul>
 
                                     <div id="tabs-1">
@@ -230,28 +235,23 @@
 
                                     <div id="tabs-2">
 										<div id="mainBtnGroup1" class="btn-group btn-group-sm">
-											<!--<button type="button" class="btn btn-info" onclick="showLoss()">-->
-											<!--<span class="glyphicon glyphicon-plus"></span>设备损失分析-->
-											<!--</button>-->
 											<button type="button" class="btn btn-info" onclick="calculateOEE()">
 												<span class="glyphicon glyphicon-plus"></span>OEE计算
 											</button>
-											<button type="button" class="btn btn-info" onclick="predict()">
-												<span class="glyphicon glyphicon-plus"></span>OEE预测
+											<button type="button" class="btn btn-info" onclick="saveResult()">
+												<span class="glyphicon glyphicon-plus"></span>保存结果
 											</button>
 										</div>
 										<div>
-											<table id="oeeIndexs" data-toggle="table" data-search="true"
-												    data-toolbar="#toolbar" data-pagination="true"
-												   data-side-pagination="client">
+											<table id="oeeIndexs" data-toggle="table" data-search="true">
 												<thead>
 												<tr>
 													<th data-field="state" data-checkbox="true"  data-align="center" ></th>
 													<th data-field="calendar_date"    data-align="center">日期</th>
 													<th data-field="machine_name"    data-align="center">设备名称</th>
-													<th data-field="equipmentUtilizationRate"   data-align="center">设备利用率</th>
-													<th data-field="timeUtilizationRate"   data-align="center">时间开动率</th>
-													<th data-field="performanceUtilizationRate"  data-align="center">性能开动率</th>
+													<th data-field="utilizeRate"   data-align="center">设备利用率</th>
+													<th data-field="timeRate"   data-align="center">时间开动率</th>
+													<th data-field="performanceRate"  data-align="center">性能开动率</th>
 													<th data-field="qualityRate"  data-align="center">合格品率</th>
 													<th data-field="OEE"  data-align="center">OEE</th>
 													<th data-field="TEEP"  data-align="center">TEEP</th>
@@ -260,9 +260,28 @@
 											</table>
 											<br>
 										</div>
+										<div  class="btn-group btn-group-sm">
+											<button type="button" class="btn btn-info" onclick="predictOEE()">
+												<span class="glyphicon glyphicon-plus"></span>OEE预测
+											</button>
+										</div>
+										<div class="input-group" style="margin-top: 10px;margin-bottom: 10px">
+											<span class="input-group-addon" style="font-size: 12px" >aerf</span>
+											<input type="text" class="form-control" id="aerf" value=0.3 placeholder="0-1之间的任意数" style="font-size: 12px">
+											<span class="input-group-addon" style="font-size: 12px">beta </span>
+											<input type="text" class="form-control" id="beta" value=0.3 placeholder="0-1之间的任意数" style="font-size: 12px">
+										</div>
 										<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-										<div id="OEECharts" style="height: 430px; width: 100%;"></div>
+										<div id="OEECharts" style="height: 350px;" ></div>
                                     </div>
+									<div id="tabs-3">
+										<div id="mainBtnGroup2" class="btn-group btn-group-sm">
+											<button type="button" class="btn btn-info" onclick="drawLossCharts()">
+												<span class="glyphicon glyphicon-plus"></span>损失分析
+											</button>
+										</div>
+										<div id="lossCharts" style="height: 300px;" ></div>
+									</div>
                                 </div>
 								<br />
 								<!-- PAGE CONTENT ENDS -->

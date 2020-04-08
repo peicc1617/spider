@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xjtu.spider.dao.OEEDataMapper;
 import xjtu.spider.entity.OEEData;
+import xjtu.spider.util.DES;
 
 /**
  * @基本功能:
@@ -33,5 +34,43 @@ public class OEEController {
         OEEData oeeData=oeeDataMapper.getOEEDataByTaskId(taskId);
         LOGGER.info("加载OEE数据:"+oeeData);
         return oeeData;
+    }
+    /***
+     * @函数功能：OEE预测
+     * @param data:
+     * @return：double[]
+     */
+    @RequestMapping("/oee/predictOEE")
+    public double[] predictOEE(String data,double aerf,double beta){
+        String[] str=data.replace("[","").replace("]","").replaceAll("\"","").split(",");
+        double[] oeeData=new double[str.length];
+        for (int i = 0; i <str.length ; i++) {
+            oeeData[i]=Double.parseDouble(str[i]);
+        }
+        double[] predictData=DES.predictOEE(oeeData,aerf,beta);
+        LOGGER.info("预测结果为："+predictData);
+        return predictData;
+    }
+    /***
+     * @函数功能：
+     * @param taskId:
+     * @param indexs:
+     * @return：void
+     */
+    @RequestMapping("/oee/saveIndexsByTaskId")
+    public void saveIndexsByTaskId(int taskId,String indexs){
+        LOGGER.info("保存OEE指标计算结果"+indexs);
+        oeeDataMapper.saveIndexsByTaskId(taskId,indexs);
+    }
+    /***
+     * @函数功能：获取监控指标
+     * @param taskId:
+     * @return：java.lang.String
+     */
+    @RequestMapping("/oee/getIndexsByTaskId")
+    public String getIndexsByTaskId(int taskId){
+        String str=oeeDataMapper.getIndexsByTaskId(taskId);
+        LOGGER.info("保存OEE指标计算结果"+str);
+        return str;
     }
 }

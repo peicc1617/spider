@@ -48,6 +48,8 @@
         <!--bootstrap-table.js-->
         <link rel="stylesheet" href="./bootstrap-table/bootstrap-table.min.css">
         <script src="./bootstrap-table/bootstrap-table.min.js"></script>
+		<!--echarts-->
+		<script src="./echart/echarts.min.js"></script>
 		<!--业务-->
 		<script src="js/serviceMonitor.js"></script>
 	</head>
@@ -159,7 +161,7 @@
 																		<i class="ace-icon fa fa-check"></i>
 																	</span>
 
-														<input type="text" class="form-control search-query" placeholder="请输入MRO服务ID" />
+														<input type="text" class="form-control search-query" placeholder="请输入MRO服务ID" id="taskId"/>
 														<span class="input-group-btn">
 																		<button type="button" class="btn btn-purple btn-sm" onclick="loadMonitor()">
 																			<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
@@ -173,9 +175,11 @@
 									</div>
 								</div>
 								<h3 class="header blue lighter smaller">CPS节点监控</h3>
-								<a type="button" class="btn btn-info" href="" >
-									<span class="glyphicon glyphicon-plus"></span>查看工业产品详细信息
-								</a>
+								<div>
+									<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+									<div id="timeCharts" style="height: 300px;" ></div>
+									<div id="rateCharts" style="height: 300px;" ></div>
+								</div>
 								<h3 class="header blue lighter smaller">服务监控</h3>
 								<!--进度信息-->
 								<div class="widget-body">

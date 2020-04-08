@@ -26,6 +26,21 @@ public interface OEEDataMapper {
      * @param taskId:
      * @return：xjtu.spider.entity.OEEData
      */
-    @Select("SELECT * FROM oee_data WHERE task_id=#{taskId}")
+    @Select("SELECT description,data FROM oee_data WHERE task_id=#{taskId}")
     public OEEData getOEEDataByTaskId(int taskId);
+    /***
+     * @函数功能：保存OEE计算结果
+     * @param taskId:
+     * @param indexs:
+     * @return：void
+     */
+    @Select("UPDATE oee_data SET indexs=#{indexs} WHERE task_id=#{taskId}")
+    public void saveIndexsByTaskId(int taskId,String indexs);
+    /***
+     * @函数功能：根据服务任务id获取OEE指标，用于监控
+     * @param taskId:
+     * @return：java.lang.String
+     */
+    @Select("SELECT indexs FROM oee_data WHERE task_id=#{taskId}")
+    public String getIndexsByTaskId(int taskId);
 }

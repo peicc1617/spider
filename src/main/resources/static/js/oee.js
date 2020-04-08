@@ -25,96 +25,6 @@ function calculateOEE_back() {
 //tableEdit.js
 //dataProcess.js
 //result.js
-//显示图表
-function showOEE(datalist)
-{
-    ///////////////////////////////////////////////////
-    //显示设备综合效率表格数据
-    $('#oeeDataTable1').bootstrapTable('removeAll');
-    for(var i=0;i<datalist.length;i++) {
-        var rowdata = {
-            machineName: datalist[i].machineName,
-            TimeRate: datalist[i].TimeRate,
-            performanceRate: datalist[i].performanceRate,
-            qualityRate: datalist[i].qualityRate,
-            OEE: datalist[i].OEEValue * 100 + "%",
-
-        }
-        $('#oeeDataTable1').bootstrapTable('append', rowdata);
-    }
-    ///////////////////////////////////////////////////
-    var xData=[];//x轴数据
-    var yData=[];//y轴数据
-
-    for(var i=0;i<datalist.length;i++)
-    {
-        xData.push(datalist[i].machineName);
-        yData.push(datalist[i].OEEValue*100);
-    }
-    var dom = document.getElementById("OEECharts");
-    var myChart = echarts.init(dom);
-    var app = {};
-    option = null;
-    app.title = '坐标轴刻度与标签对齐';
-
-    option = {
-        color: ['#3398DB'],
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-            }
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        xAxis: [
-            {
-                type: 'category',
-                name:'设备名称',
-                // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                data:xData,
-                axisTick: {
-                    alignWithLabel: true
-                }
-            }
-        ],
-        yAxis: [
-            {
-                type: 'value',
-                name:'设备综合效率',
-                min:0,
-                max:100,
-                axisLabel: {
-                    formatter: '{value} %'
-                }
-            }
-        ],
-        series: [
-            {
-                name: '设备综合效率',
-                type: 'bar',
-                barWidth: '60%',
-                // data: [10, 52, 200, 334, 390, 330, 220]
-                data:yData
-            },
-            {
-                name: '设备综合效率',
-                type: 'line',
-                barWidth: '60%',
-                // data: [10, 52, 200, 334, 390, 330, 220]
-                data:yData
-            }
-        ]
-    };
-    ;
-    if (option && typeof option === "object") {
-        myChart.setOption(option, true);
-    }
-}
 //显示损失
 function showLoss(datalist)
 {
@@ -469,22 +379,19 @@ function deleterow()
     })
     $('#oeeDataTable').bootstrapTable('remove', {field: 'procedureIdForDelete', values: ids});
 }
+//检查是否指定服务任务id
+function checkTaskId() {
+    var taskId=$("#taskId").val();
+    if(taskId==""){
+        alert("请确定服务任务ID");
+        return;
+    }
+}
 //OEE指标
+var indexsSet=[];
 function calculateOEE()
 {
-    /*var machineName=[];//设备名称
-    var date=[];//日期
-    var calendarTime=[];//日历时间
-    var plannedDownTime=0;//计划停机时间
-    var loadTime=0;//负荷时间
-    var downTime=0;//停机损失
-    var operationTime=0;//实际开动时间
-    var performanceLossTime=0;//性能损失时间
-    var netOperationTime=0;//净开动时间
-    var qualityRate=0;//合格品率
-    var TimeRate=0;//时间开动率
-    var performanceRate=0;//性能开动率
-    var OEE=0;//设备综合效率*/
+    checkTaskId();
     var indexs=[];//存储指标
     var dataFromTable=$('#oeeDataTable').bootstrapTable('getData');//获取表格数据
     for (var i = 0; i <dataFromTable.length ; i++) {
@@ -499,11 +406,278 @@ function calculateOEE()
         dataForTab.performanceLossTime=dataForTab.operationTime-parseFloat(dataFromTable[i].total_quantity)/parseFloat(dataFromTable[i].theoretical_speed);//性能损失时间=实际开动时间-产品总数/理论加工速度
         dataForTab.netOperationTime=dataForTab.operationTime-dataForTab.performanceLossTime;//净开动时间=实际开动时间-性能损失时间
         dataForTab.qualityRate=(1-parseFloat(dataFromTable[i].defect_quantity)/parseFloat(dataFromTable[i].total_quantity)).toFixed(2);//合格品率
-        dataForTab.TimeRate=(dataForTab.loadTime/dataForTab.calendarTime).toFixed(2);//时间开动率=负荷时间/日历时间
+        dataForTab.utilizeRate=(dataForTab.loadTime/dataForTab.calendarTime).toFixed(2);//设备利用率=负荷时间/日历时间
+        dataForTab.TimeRate=(dataForTab.operationTime/dataForTab.loadTime).toFixed(2);//时间开动率=负荷时间/日历时间
         dataForTab.performanceRate=(dataForTab.netOperationTime/dataForTab.operationTime).toFixed(2);//性能开动率=净操作时间/负荷时间
         dataForTab.OEE=(dataForTab.qualityRate*dataForTab.TimeRate*dataForTab.performanceRate).toFixed(2);//OEE=时间开动率*性能开动率*合格品率
+        dataForTab.TEEP=(dataForTab.utilizeRate*dataForTab.OEE).toFixed(2);
         indexs.push(dataForTab);
     }
+    indexsSet=indexs;
     //显示OEE图表
-    showOEE(datalist);
+    showOEE(indexs);
+}
+//显示图表
+function showOEE(indexs)
+{
+    //显示设备综合效率表格数据
+    $('#oeeIndexs').bootstrapTable('removeAll');
+    for(var i=0;i<indexs.length;i++) {
+        var rowdata = {
+            calendar_date:indexs[i].date,
+            machine_name:indexs[i].machineName,
+            utilizeRate:(indexs[i].utilizeRate* 100).toFixed(0) + "%",
+            timeRate: (indexs[i].TimeRate* 100).toFixed(0) + "%",
+            performanceRate: (indexs[i].performanceRate* 100).toFixed(0) + "%",
+            qualityRate: (indexs[i].qualityRate* 100).toFixed(0) + "%",
+            OEE: (indexs[i].OEE * 100 ).toFixed(0)+ "%",
+            TEEP:(indexs[i].TEEP * 100).toFixed(0) + "%",
+        }
+        $('#oeeIndexs').bootstrapTable('append', rowdata);
+    }
+}
+//OEE预测
+function predictOEE1(oeeData) {
+    var predictOEE=[];
+    $.ajax({
+        url:"/oee/predictOEE",
+        type:"GET",
+        async:false,
+        data:{
+            data:JSON.stringify(oeeData),
+            aerf:$("#aerf").val(),
+            beta:$("#beta").val()
+        },
+        success:function(result)
+        {
+            predictOEE=result;
+
+        }
+    })
+    return predictOEE;
+}
+function predictOEE() {
+    //绘制图表
+    var xData=[];//x轴数据
+    var yData=[];//y轴数据
+    var xAxisName;//x轴名称
+    if (indexsSet[0].machineName==indexsSet[1].machineName) { //说明设备相同，则为同一设备不同时间的OEE
+        xAxisName="时间";
+        for(var i=0;i<indexsSet.length;i++)
+        {
+            xData.push(indexsSet[i].date);
+            yData.push((indexsSet[i].OEE*100).toFixed(0));
+        }
+        xData.push("下一时刻预测值")
+    } else {//不同设备同一时间
+        xAxisName="工业产品类型";
+        for(var i=0;i<indexsSet.length;i++) {
+            xData.push(indexsSet[i].machineName);
+            yData.push((indexsSet[i].OEE * 100).toFixed(0));
+        }
+    }
+    //获取OEE预测值
+    var predictOEEValue=predictOEE1(yData);
+    yData.push(predictOEEValue[predictOEEValue.length-1].toFixed(0));//添加预测值
+    var dom = document.getElementById("OEECharts");
+    var myChart = echarts.init(dom);
+    var app = {};
+    var option = null;
+    app.title = '坐标轴刻度与标签对齐';
+    option = {
+        title: {
+            text: 'OEE'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        /*legend: {
+            data: ['实际值', '预测值']
+        },*/
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data:xData,
+            name:xAxisName
+        },
+        yAxis: {
+            type: 'value',
+            min:0,
+            max:100,
+            axisLabel: {
+                formatter: '{value} %'
+            }
+        },
+        series: [
+            {
+                name: '实际值',
+                type: 'line',
+                barWidth: '60%',
+                data:yData
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+}
+function saveResult() {
+    checkTaskId();
+    $.ajax({
+        url:"/oee/saveIndexsByTaskId",
+        type:"PUT",
+        async:false,
+        data:{
+            taskId:$("#taskId").val(),
+            indexs:JSON.stringify(indexsSet)
+        },
+        success:function(result)
+        {
+            alert("保存成功")
+        }
+    })
+}
+//绘制时间分类
+function drawLossCharts() {
+    var indexs=$('#oeeDataTable').bootstrapTable('getData');
+    var xAxisName;//x轴名称
+    var xData=[];//x轴数据
+    var yData1=[];//休息时间
+    var yData2=[];//停机保养时间
+    var yData3=[];//非设备因素停机时间
+    var yData4=[];//故障停机时间
+    var yData5=[];//开关机时间
+    var yData6=[];//更换产品
+    var yData7=[];//更换工具
+    var yData8=[];//空转
+    var yData9=[];//间歇停机
+    if (indexs[0].machine_name==indexs[1].machine_name) { //说明设备相同，则为同一设备不同时间的OEE
+        xAxisName="时间";
+        for(var i=0;i<indexs.length;i++)
+        {
+            xData.push(indexs[i].calendar_date);
+            yData1.push(parseFloat(indexs[i].rest_time));//日历时间
+            yData2.push(parseFloat(indexs[i].downtime_maintenance));
+            yData3.push(parseFloat(indexs[i].downtime_noEquipment));
+            yData4.push(parseFloat(indexs[i].downtime_loss));
+            yData5.push(parseFloat(indexs[i].start_shutdown));
+            yData6.push(parseFloat(indexs[i].product_change));
+            yData7.push(parseFloat(indexs[i].tool_change));
+            yData8.push(parseFloat(indexs[i].idling));
+            yData9.push(parseFloat(indexs[i].small_downtime));
+        }
+    } else {//不同设备同一时间
+        xAxisName="工业产品类型";
+        for(var i=0;i<indexs.length;i++) {
+            xData.push(indexs[i].machine_name);
+            yData1.push(parseFloat(indexs[i].rest_time));//日历时间
+            yData2.push(parseFloat(indexs[i].downtime_maintenance));
+            yData3.push(parseFloat(indexs[i].downtime_noEquipment));
+            yData4.push(parseFloat(indexs[i].downtime_loss));
+            yData5.push(parseFloat(indexs[i].start_shutdown));
+            yData6.push(parseFloat(indexs[i].product_change));
+            yData7.push(parseFloat(indexs[i].tool_change));
+            yData8.push(parseFloat(indexs[i].idling));
+            yData9.push(parseFloat(indexs[i].small_downtime));
+        }
+    }
+    //画图
+    var dom = document.getElementById("lossCharts");
+    var myChart = echarts.init(dom);
+    var app = {};
+    var option = null;
+    app.title = '坐标轴刻度与标签对齐';
+    option = {
+        title: {
+            text: '损失分析'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: [ '停机保养时间', '非设备因素停机时间', '故障停机时间', '开停机时间', '更换产品时间', '更换工具时间', '空转时间', '间歇停机时间']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data:xData,
+            name:xAxisName
+        },
+        yAxis: {
+            type: 'value',
+        },
+        series: [
+
+            {
+                name: '停机保养时间',
+                type: 'bar',
+                data:yData2
+            },
+            {
+                name: '非设备因素停机时间',
+                type: 'bar',
+                data:yData3
+            },
+            {
+                name: '故障停机时间',
+                type: 'bar',
+                data:yData4
+            },
+            {
+                name: '开停机时间',
+                type: 'bar',
+                data:yData5
+            }
+            ,
+            {
+                name: '更换产品时间',
+                type: 'bar',
+                data:yData6
+            },
+            {
+                name: '更换工具时间',
+                type: 'bar',
+                data:yData7
+            },
+            {
+                name: '空转时间',
+                type: 'bar',
+                data:yData8
+            },
+            {
+                name: '间歇停机时间',
+                type: 'bar',
+                data:yData9
+            }
+        ]
+    };
+    ;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+
+
 }

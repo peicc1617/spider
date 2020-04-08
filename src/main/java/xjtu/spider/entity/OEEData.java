@@ -14,4 +14,5 @@ public class OEEData {
     private int taskId;
     private String description;
     private String data;
+    private String indexs;
 }
