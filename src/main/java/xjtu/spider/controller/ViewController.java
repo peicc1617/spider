@@ -127,5 +127,31 @@ public class ViewController {
         LOGGER.info("进入oee.html页面");
         return "oee";
     }
+    /***
+     * @函数功能：进入爬虫页面
+     * @param session:
+     * @param model:
+     * @return：java.lang.String
+     */
+    @RequestMapping("/spider.html")
+    public String viewSpider(HttpSession session,Model model){
+        JSONObject user=(JSONObject)session.getAttribute("userInfo");
+        model.addAttribute("userName",user.get("userName"));
+        LOGGER.info("进入spider.html页面");
+        return "spider";
+    }
+    /***
+     * @函数功能：开启中文分词
+     * @param session:
+     * @param model:
+     * @return：java.lang.String
+     */
+    @RequestMapping("/segment.html")
+    public String viewSegment(HttpSession session,Model model){
+        JSONObject user=(JSONObject)session.getAttribute("userInfo");
+        model.addAttribute("userName",user.get("userName"));
+        LOGGER.info("进入segment.html页面");
+        return "segment";
+    }
 
 }

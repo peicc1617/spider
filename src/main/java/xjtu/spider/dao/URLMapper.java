@@ -41,7 +41,7 @@ public interface URLMapper {
     @Select("SELECT searchKey from ${tableName} WHERE url=#{url} Limit 1")
     String getSearchKey(@Param("tableName") String tableName,@Param("url") String url);
     /***
-     * @函数功能：判断待爬取链接是否已经存在
+     * @函数功能：判断待爬取链searchKey接是否已经存在
      * @param tableName:
      * @param url:
      * @return：boolean

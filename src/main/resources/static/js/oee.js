@@ -606,6 +606,9 @@ function drawLossCharts() {
         tooltip: {
             trigger: 'axis'
         },
+        grid: {
+            left: 100
+        },
         legend: {
             data: [ '停机保养时间', '非设备因素停机时间', '故障停机时间', '开停机时间', '更换产品时间', '更换工具时间', '空转时间', '间歇停机时间']
         },

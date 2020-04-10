@@ -14,6 +14,6 @@ import xjtu.spider.entity.EnterpriseResult;
 @Mapper
 @Repository
 public interface EnterpriseResultMapper {
-    @Select("INSERT INTO enterpriseResult (id,companyName,description,result) VALUES (#{id},#{companyName},#{description},#{result})")
+    @Select("INSERT INTO enterpriseResult (companyId,companyName,description,result) VALUES (#{companyId},#{companyName},#{description},#{result})")
     public void add(EnterpriseResult enterpriseResult);
 }

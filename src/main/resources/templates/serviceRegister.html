@@ -43,6 +43,8 @@
 		<![endif]-->
 		<!--jquery-->
 		<script src="assets/js/jquery-2.1.4.min.js"></script>
+		<link rel="stylesheet" href="assets/css/jquery-ui.min.css" />
+		<script src="assets/js/jquery-ui.min.js"></script>
 		<!--业务-->
 		<script src="js/serviceRegister.js"></script>
 	</head>
@@ -144,99 +146,121 @@
 									</button>
 									此模块可用于注册MRO服务
 								</div>
-								<div id="right-menu" class="modal aside" data-body-scroll="false" data-offset="true" data-placement="right" data-fixed="true" data-backdrop="false" tabindex="-1">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header no-padding">
-												<div class="table-header">
-													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-														<span class="white">&times;</span>
-													</button>
-													Based on Modal boxes
+								<div id="tabs">
+									<ul>
+										<li>
+											<a href="#tabs-1" class="active">企业注册</a>
+										</li>
+
+										<li>
+											<a href="#tabs-2">互联网爬取</a>
+										</li>
+									</ul>
+									<div id="tabs-1">
+										<!--注册表单-->
+										<div>
+											<form class="form-horizontal" role="form" action="/api/registerEnterprise" method="post">
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-companyName"> 企业名称 </label>
+
+													<div class="col-sm-9">
+														<input type="text" id="form-field-companyName" name="companyName" placeholder="西安高压开关电器有限公司" class="col-xs-10 col-sm-5" />
+													</div>
+												</div>
+
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-label"> 企业标签 </label>
+
+													<div class="col-sm-9">
+														<input type="text" id="form-field-label" name="lable" placeholder="小微企业" class="col-xs-10 col-sm-5" />
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-searchKey"> 企业类别 </label>
+
+													<div class="col-sm-9">
+														<input type="text" id="form-field-searchKey" name="searchKey" placeholder="高压开关" class="col-xs-10 col-sm-5" />
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-description"> 经营范围 </label>
+
+													<div class="col-sm-9">
+														<textarea class="col-xs-10 col-sm-5" id="form-field-description" name="description" placeholder="高压开关生产、维护"></textarea>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-state">企业状态</label>
+													<div class="col-sm-9">
+														<select class="col-xs-10 col-sm-5" id="form-field-state" name="state">
+															<option value="在业">在业</option>
+															<option value="存续">存续</option>
+															<option value="注销">注销</option>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-area"> 企业地址 </label>
+
+													<div class="col-sm-9">
+														<input type="text" id="form-field-area" name="area" placeholder="西安" class="col-xs-10 col-sm-5" />
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-phoneNumber"> 联系电话 </label>
+
+													<div class="col-sm-9">
+														<input type="tel" id="form-field-phoneNumber" name="phoneNumber" placeholder="136****7893" class="col-xs-10 col-sm-5" />
+													</div>
+												</div>
+												<div class="col-md-offset-4 col-md-8">
+													<input class="btn btn-info" type="submit" value="提交" />
+													<input class="btn btn-danger" type="reset" value="重置"/>
+												</div>
+
+												<!--<div class="hr hr-24"></div>-->
+											</form>
+										</div>
+
+									</div>
+									<div id="tabs-2">
+										<div class="widget-box">
+											<div class="widget-header widget-header-small">
+												<h5 class="widget-title lighter">网络注册</h5>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main">
+													<form class="form-search" action="/spider/add" method="post">
+														<div class="row">
+															<div class="col-xs-12 col-sm-8">
+																<div class="input-group">
+																	<span class="input-group-addon">
+																		<i class="ace-icon fa fa-check"></i>
+																	</span>
+
+																	<input type="text" class="form-control search-query" id="searchKey" name="searchKey" placeholder="请输入想要注册的MRO服务提供商类型" />
+																	<span class="input-group-btn">
+																	<button type="submit" class="btn btn-purple btn-sm" >
+																	<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+																	注册服务
+																	</button>
+
+																	</span>
+																</div>
+															</div>
+														</div>
+													</form>
 												</div>
 											</div>
-
-											<div class="modal-body">
-												<h3 class="lighter">Custom Elements and Content</h3>
-
-												<br />
-												With no modal backdrop
-											</div>
-										</div><!-- /.modal-content -->
-
-										<button class="aside-trigger btn btn-info btn-app btn-xs ace-settings-btn" data-target="#right-menu" data-toggle="modal" type="button">
-											<i data-icon1="fa-plus" data-icon2="fa-minus" class="ace-icon fa fa-plus bigger-110 icon-only"></i>
-										</button>
-									</div><!-- /.modal-dialog -->
+										</div>
+									</div>
 								</div>
-								<script src="./echart/echarts.min.js"></script>
+								<!--<script src="./echart/echarts.min.js"></script>
 								<script src="./echart/ecStat.js"></script>
-								<script src="js/serviceCluster.js"></script>
+								<script src="js/serviceCluster.js"></script>-->
 								<!--<a href="#my-modal" role="button" class="bigger-125 bg-primary white" data-toggle="modal">-->
-								<!--注册表单-->
-								<div>
-									<form class="form-horizontal" role="form" action="/api/registerEnterprise" method="post">
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-companyName"> 企业名称 </label>
 
-											<div class="col-sm-9">
-												<input type="text" id="form-field-companyName" name="companyName" placeholder="西安高压开关电器有限公司" class="col-xs-10 col-sm-5" />
-											</div>
-										</div>
-
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-label"> 企业标签 </label>
-
-											<div class="col-sm-9">
-												<input type="text" id="form-field-label" name="lable" placeholder="小微企业" class="col-xs-10 col-sm-5" />
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-searchKey"> 企业类别 </label>
-
-											<div class="col-sm-9">
-												<input type="text" id="form-field-searchKey" name="searchKey" placeholder="高压开关" class="col-xs-10 col-sm-5" />
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-description"> 经营范围 </label>
-
-											<div class="col-sm-9">
-												<textarea class="col-xs-10 col-sm-5" id="form-field-description" name="description" placeholder="高压开关生产、维护"></textarea>
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-state">企业状态</label>
-											<div class="col-sm-9">
-												<select class="col-xs-10 col-sm-5" id="form-field-state" name="state">
-													<option value="在业">在业</option>
-													<option value="存续">存续</option>
-													<option value="注销">注销</option>
-												</select>
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-area"> 企业地址 </label>
-
-											<div class="col-sm-9">
-												<input type="text" id="form-field-area" name="area" placeholder="西安" class="col-xs-10 col-sm-5" />
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" for="form-field-phoneNumber"> 联系电话 </label>
-
-											<div class="col-sm-9">
-												<input type="tel" id="form-field-phoneNumber" name="phoneNumber" placeholder="136****7893" class="col-xs-10 col-sm-5" />
-											</div>
-										</div>
-										<div class="col-md-offset-4 col-md-8">
-											<input class="btn btn-info" type="submit" value="提交" />
-											<input class="btn btn-danger" type="reset" value="重置"/>
-										</div>
-
-										<!--<div class="hr hr-24"></div>-->
-									</form>
-								</div>
 
 								<!--</a>-->
 
@@ -316,12 +340,10 @@
 		<!-- basic scripts -->
 
 		<!--[if !IE]> -->
-		<script src="assets/js/jquery-2.1.4.min.js"></script>
 
 		<!-- <![endif]-->
 
 		<!--[if IE]>
-<script src="assets/js/jquery-1.11.3.min.js"></script>
 <![endif]-->
 		<script type="text/javascript">
 			if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
@@ -333,6 +355,10 @@
 		<!-- ace scripts -->
 		<script src="assets/js/ace-elements.min.js"></script>
 		<script src="assets/js/ace.min.js"></script>
+		<script src="assets/js/jquery.raty.min.js"></script>
+		<!--自定义jsscript-->
+
+		<!--评价结果-->
 
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
@@ -348,11 +374,11 @@
 					$('.modal.aside').remove();
 					$(window).off('.aside')
 				});
-				
-				
-				//make content sliders resizable using jQuery UI (you should include jquery ui files)
-				//$('#right-menu > .modal-dialog').resizable({handles: "w", grid: [ 20, 0 ], minWidth: 200, maxWidth: 600});
 			})
+		</script>
+		<script>
+			//jquery tabs
+			$( "#tabs" ).tabs();
 		</script>
 	</body>
 </html>

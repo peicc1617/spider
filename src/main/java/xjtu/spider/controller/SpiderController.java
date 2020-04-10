@@ -45,12 +45,14 @@ public class SpiderController {
         spiderService.startEnterpriseInfoSpider();
     }
     /***
-     * @函数功能：新增待爬取企业类别(`search_url_start`表中增加数据)
+     * @函数功能：服务注册：新增待爬取企业类别(`search_url_start`表中增加数据)
      * @param :
      * @return：void
      */
     @RequestMapping(method = RequestMethod.POST,value = "/add")
-    public void addNewEnterpriseCategory(@RequestParam(name="searchKey") String searchKey){
+    public String addNewEnterpriseCategory(@RequestParam(name="searchKey") String searchKey){
         spiderService.addNewEnterpriseCategory(searchKey);
+        return "注册成功";
     }
+
 }

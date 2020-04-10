@@ -39,7 +39,7 @@ public class SegmentService {
         LOGGER.info("------------------开始分词------------------");
         //加载停用词
         if (!isLoading) {
-            String path="C:\\Users\\peicc\\OneDrive\\毕业论文\\大论文\\APP\\spider\\src\\main\\resources\\segment\\chineseStopWords.txt";
+            String path="F:\\Java\\spider\\src\\main\\resources\\segment\\chineseStopWords.txt";
             try {
                 LOGGER.info("正在加载停用词");
                 stopWords = Utils.getStopWords(path);
@@ -55,7 +55,7 @@ public class SegmentService {
         enterpriseList.forEach(enterprise -> {
             LOGGER.info("开始处理第"+count.getAndIncrement()+"条数据");
             EnterpriseResult enterpriseResult=new EnterpriseResult();
-            enterpriseResult.setId(enterprise.getId());
+            enterpriseResult.setCompanyId(enterprise.getId());
             enterpriseResult.setCompanyName(enterprise.getCompanyName());
             enterpriseResult.setDescription(enterprise.getDescription());
             //开始分词
@@ -81,7 +81,7 @@ public class SegmentService {
             // 调用分词工具
             LexicalAnalyzer lexicalAnalyzer= FoolNLTK.getLSTMLexicalAnalyzer();
             try {
-                lexicalAnalyzer.addUserDict("C:\\Users\\peicc\\OneDrive\\毕业论文\\大论文\\APP\\spider\\src\\main\\resources\\segment\\dictionary.txt");
+                lexicalAnalyzer.addUserDict("F:\\Java\\spider\\src\\main\\resources\\segment\\dictionary.txt");
             }
             catch (IOException e) {
                 LOGGER.error("自定义分析词典使用异常");

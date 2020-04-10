@@ -13,6 +13,7 @@ import java.util.Date;
 @Data
 public class EnterpriseResult {
     private long id;
+    private long companyId;
     private String companyName;
     private String description;//经营范围
     private String result;
