@@ -16,6 +16,6 @@ import java.util.List;
 @Repository
 @Mapper
 public interface DocumentTopicMapper {
-    @Select("Select * FROM documentTopics")
+    @Select("Select * FROM enterprisetopics")
     List<DocumentTopic> getAll();
 }

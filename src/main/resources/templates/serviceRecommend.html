@@ -172,13 +172,13 @@
 
 																<input type="text" class="form-control search-query" id="searchKey" placeholder="输入您的MRO服务需求" />
 																<span class="input-group-btn">
-																	<button type="button" class="btn btn-purple btn-sm" onclick="recommend()">
-																	<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
-																	精确搜索
-																	</button>
-																	<button type="button" class="btn btn-blue btn-sm" onclick="recommend()" style="margin-left: 10px">
+																	<button type="button" class="btn btn-blue btn-sm" onclick="recommend()">
 																	<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
 																	模糊搜索
+																	</button>
+																	<button type="button" class="btn btn-purple btn-sm" onclick="recommend1()" style="margin-left: 10px">
+																	<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+																	精确匹配
 																	</button>
 
 																	</span>
@@ -191,7 +191,7 @@
 									</div>
 								</div>
 								<!--bootstrap表格-->
-								<div class="tableContainer" style="margin-top: 20px">
+								<div class="tableContainer" style="margin-top: 20px" >
 									<table id="table" data-toggle="table" >
 										<thead>
 										<tr>
@@ -199,6 +199,22 @@
 											<th data-field="area" >企业地址</th>
 											<th data-field="description" >经营范围</th>
 											<th data-field="score" >推荐度</th>
+										</tr>
+										</thead>
+									</table>
+								</div>
+								<div class="tableContainer1" style="margin-top: 20px" >
+									<table id="table1" data-toggle="table" >
+										<thead>
+										<tr>
+											<th data-field="companyName" >企业名称</th>
+											<th data-field="name" >资源名称</th>
+											<th data-field="addInfo" >附加信息</th>
+											<th data-field="num" >数量</th>
+											<th data-field="time" >服务时间</th>
+											<th data-field="serviceCapability" >服务能力匹配度</th>
+											<th data-field="qos" >服务质量匹配度</th>
+											<th data-field="all" >综合匹配度</th>
 										</tr>
 										</thead>
 									</table>
@@ -277,7 +293,110 @@
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 			</a>
 		</div><!-- /.main-container -->
+	</body>
+	<div id="mroRequest" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">MRO服务需求参数</h5>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form" >
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right" > 资源名称 </label>
 
+							<div class="col-sm-9">
+								<input type="text"  id="request_name" placeholder="滚动轴承" value="滚动轴承" class="col-xs-10 col-sm-5" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right" > 资源描述 </label>
+
+							<div class="col-sm-9">
+								<input type="text" class="col-xs-10 col-sm-5"  id="request_description" placeholder="球面滚道、可调心" value="球面滚道、可调心"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right" > 资源数量 </label>
+
+							<div class="col-sm-9">
+								<input type="text"  id="request_num" placeholder="5" value="5" class="col-xs-10 col-sm-5" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right" > 响应时间 </label>
+
+							<div class="col-sm-9">
+								<input type="text"  id="request_time" placeholder="[1,10]" value="[1,10]" class="col-xs-10 col-sm-5" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right" > 附加信息 </label>
+
+							<div class="col-sm-9">
+								<input type="text"  class="col-xs-10 col-sm-5"  id="request_addInfo" placeholder="用于工业清洗机" value="用于工业清洗机"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right" > 资源单价 </label>
+
+							<div class="col-sm-9">
+								<input type="text"  id="request_cost" placeholder="50" value="50" class="col-xs-10 col-sm-5" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right" >响应速度</label>
+							<div class="col-sm-9">
+								<select class="col-xs-10 col-sm-5"  id="request_speed">
+									<option value="0.93">很高</option>
+									<option value="0.8">高</option>
+									<option value="0.65">较高</option>
+									<option value="0.5">中等</option>
+									<option value="0.35">较低</option>
+									<option value="0.2">低</option>
+									<option value="0.07">很低</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right" >服务可靠性</label>
+							<div class="col-sm-9">
+								<select class="col-xs-10 col-sm-5"  id="request_reliability">
+									<option value="0.93">很高</option>
+									<option value="0.8">高</option>
+									<option value="0.65">较高</option>
+									<option value="0.5">中等</option>
+									<option value="0.35">较低</option>
+									<option value="0.2">低</option>
+									<option value="0.07">很低</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right" >服务信誉</label>
+							<div class="col-sm-9">
+								<select class="col-xs-10 col-sm-5"  id="request_reputation">
+									<option value="0.93">很高</option>
+									<option value="0.8">高</option>
+									<option value="0.65">较高</option>
+									<option value="0.5">中等</option>
+									<option value="0.35">较低</option>
+									<option value="0.2">低</option>
+									<option value="0.07">很低</option>
+								</select>
+							</div>
+						</div>
+
+						<!--<div class="hr hr-24"></div>-->
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="getMROOfOWL()">确定</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
 		<!-- basic scripts -->
 
 		<!--[if !IE]> -->
@@ -286,6 +405,9 @@
 		<!-- <![endif]-->
 
 		<!--[if IE]>
+<script >
+	$(".tableContainer1").hidden=true;
+</script>
 <script src="assets/js/jquery-1.11.3.min.js"></script>
 <![endif]-->
 		<script type="text/javascript">

@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 import xjtu.spider.entity.Enterprise;
+import xjtu.spider.entity.EnterpriseStatistics;
 
 import java.util.List;
 
@@ -41,6 +42,10 @@ public interface EnterpriseMapper {
     @Select("UPDAT enterprise set segment=0")
     void reset();
 
-    @Select("SELECT * FROM enterprise WHERE searchKey=#{searchWord} ORDER BY score DESC")
+    @Select("SELECT * FROM enterprise WHERE searchKey=#{searchWord} or description like CONCAT('%',#{searchWord},'%') ORDER BY score DESC")
     List<Enterprise> getEnterpriseBySearchWord(@Param("searchWord") String searchWord);
+    @Select("SELECT searchKey as 'type', COUNT(searchKey) as 'num' from enterprise GROUP BY searchKey ")
+    List<EnterpriseStatistics> getAllOfStatistics();
+    @Select("SELECT area as 'type', COUNT(area) as 'num' from enterprise GROUP BY area ")
+    List<EnterpriseStatistics> getAllOfStatisticsByProvince();
 }

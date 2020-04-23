@@ -1,9 +1,15 @@
+var flag=[0,0,0,0];
 //服务监控
 function loadMonitor() {
-    /*for (var i = 0; i <4 ; i++) {
-        $("#step"+(i+1)).addClass("active")
-    }*/
-    monitorCPS()
+    reSetProgress();
+    flag=[0,0,0,0];
+    checkTaskId();
+    monitorCPS();
+    monitorRequest();
+    monitorSupplier();
+    monitorSchedule();
+    monitorEvaluate();
+    setProgress();
 }
 //检查是否指定服务任务id
 function checkTaskId() {
@@ -13,8 +19,8 @@ function checkTaskId() {
         return;
     }
 }
+//CPS节点监控
 function monitorCPS() {
-    checkTaskId();
     $.ajax({
         url:"/oee/getIndexsByTaskId",
         type:"GET",
@@ -272,5 +278,101 @@ function drawRateCharts(indexs) {
     ;
     if (option && typeof option === "object") {
         myChart.setOption(option, true);
+    }
+}
+//服务进度监控
+//MRO服务需求监控
+function monitorRequest() {
+    $.ajax({
+        url:"/schedule/getRequest",
+        type:"POST",
+        async:false,
+        data:{
+            taskId:$("#taskId").val(),
+        },
+        success:function (result) {
+            if (result!="") {
+                flag[0]=1;
+                //将数据填充到服务需求表格
+                var requests=JSON.parse(result.requestContent);
+                var num= requests.length;
+                var subRequests= num;
+                var wholeRequests = requests[num-1].requestIdentify.split("-")[0];
+                $("#wholeRequests").html(wholeRequests);
+                $("#subRequests").html(subRequests);
+            }
+        },
+        error:function () {
+            alert("暂无当前服务任务ID相关数据，请创建后保存")
+        }
+    });
+}
+//MRO服务提供商监控
+function monitorSupplier() {
+    $.ajax({
+        url:"/schedule/getSupplier",
+        type:"POST",
+        async:false,
+        data:{
+            taskId:$("#taskId").val()
+        },
+        success:function (result) {
+            if (result!="") {
+                flag[1]=1;
+                var suppliers=JSON.parse(result.supplierContent);
+                $("#suppliers").html(suppliers.length);
+            }
+
+        },
+        error:function () {
+            alert("暂无当前服务任务ID相关数据，请创建后保存")
+        }
+    });
+}
+//MRO运行调度监控
+function monitorSchedule() {
+    $.ajax({
+        url:"/schedule/getSheet",
+        type:"GET",
+        async:false,
+        data:{
+            taskId:$("#taskId").val(),
+        },
+        success:function (result) {
+            if (result!="") {
+                var sheetData=JSON.parse(result.data);
+                if (sheetData.length>0) {
+                    flag[2]=1;
+                }
+            }
+        }
+    });
+}
+//MRO服务评价监控
+function monitorEvaluate() {
+    $.ajax({
+        url:"/evaluate/getIndexsByTaskId",
+        type:"POST",
+        async:false,
+        data:{
+            taskId:$("#taskId").val()
+        },
+        success:function (result) {
+            if (result!="") {
+                flag[3]=1;
+            }
+        }
+    });
+}
+function setProgress() {
+    for (var i = 0; i <4 ; i++) {
+        if (flag[i]==1) {
+            $("#step"+(i+1)).addClass("active")
+        }
+    }
+}
+function reSetProgress() {
+    for (var i = 0; i <4 ; i++) {
+        $("#step"+(i+1)).removeClass("active")
     }
 }

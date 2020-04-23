@@ -155,6 +155,9 @@
 										<li>
 											<a href="#tabs-2">互联网爬取</a>
 										</li>
+										<li>
+											<a href="#tabs-3">本体注册</a>
+										</li>
 									</ul>
 									<div id="tabs-1">
 										<!--注册表单-->
@@ -254,6 +257,119 @@
 												</div>
 											</div>
 										</div>
+									</div>
+									<div id="tabs-3">
+										<!--本体注册表单-->
+										<div>
+											<form class="form-horizontal" role="form" action="/api/registerEnterpriseOwl" method="post">
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-companyName"> 企业ID </label>
+
+													<div class="col-sm-9">
+														<input type="text"  name="companyId" placeholder="1" class="col-xs-10 col-sm-5" />
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-companyName"> 企业名称 </label>
+
+													<div class="col-sm-9">
+														<input type="text"  name="companyName" placeholder="轴承有限公司" class="col-xs-10 col-sm-5" />
+													</div>
+												</div>
+
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-label"> 资源名称 </label>
+
+													<div class="col-sm-9">
+														<input type="text"  name="name" placeholder="滚动轴承" class="col-xs-10 col-sm-5" />
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-description"> 资源描述 </label>
+
+													<div class="col-sm-9">
+														<textarea class="col-xs-10 col-sm-5"  name="description" placeholder="球面滚道、可调心滚动轴承"></textarea>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-label"> 资源数量 </label>
+
+													<div class="col-sm-9">
+														<input type="text"  name="num" placeholder="[1,10]" class="col-xs-10 col-sm-5" />
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-label"> 服务时间 </label>
+
+													<div class="col-sm-9">
+														<input type="text"  name="time" placeholder="[1,5]" class="col-xs-10 col-sm-5" />
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-description"> 附加信息 </label>
+
+													<div class="col-sm-9">
+														<textarea class="col-xs-10 col-sm-5"  name="addInfo" placeholder="适用于精密仪表、汽车、摩托车等"></textarea>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-label"> 资源单价 </label>
+
+													<div class="col-sm-9">
+														<input type="text"  name="cost" placeholder="33" class="col-xs-10 col-sm-5" />
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-state">响应速度</label>
+													<div class="col-sm-9">
+														<select class="col-xs-10 col-sm-5"  name="speed">
+															<option value="0.93">很高</option>
+															<option value="0.8">高</option>
+															<option value="0.65">较高</option>
+															<option value="0.5">中等</option>
+															<option value="0.35">较低</option>
+															<option value="0.2">低</option>
+															<option value="0.07">很低</option>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-state">服务可靠性</label>
+													<div class="col-sm-9">
+														<select class="col-xs-10 col-sm-5"  name="reliability">
+															<option value="0.93">很高</option>
+															<option value="0.8">高</option>
+															<option value="0.65">较高</option>
+															<option value="0.5">中等</option>
+															<option value="0.35">较低</option>
+															<option value="0.2">低</option>
+															<option value="0.07">很低</option>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label no-padding-right" for="form-field-state">服务信誉</label>
+													<div class="col-sm-9">
+														<select class="col-xs-10 col-sm-5"  name="reputation">
+															<option value="0.93">很高</option>
+															<option value="0.8">高</option>
+															<option value="0.65">较高</option>
+															<option value="0.5">中等</option>
+															<option value="0.35">较低</option>
+															<option value="0.2">低</option>
+															<option value="0.07">很低</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-offset-4 col-md-8">
+													<input class="btn btn-info" type="submit" value="提交" />
+													<input class="btn btn-danger" type="reset" value="重置"/>
+												</div>
+
+												<!--<div class="hr hr-24"></div>-->
+											</form>
+										</div>
+
 									</div>
 								</div>
 								<!--<script src="./echart/echarts.min.js"></script>

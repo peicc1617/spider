@@ -7,10 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import xjtu.spider.dao.DocumentTopicMapper;
 import xjtu.spider.dao.EnterpriseMapper;
+import xjtu.spider.dao.EnterpriseOwlMapper;
 import xjtu.spider.dao.RegistedEnterpriseMapper;
-import xjtu.spider.entity.DocumentTopic;
-import xjtu.spider.entity.Enterprise;
-import xjtu.spider.entity.RegistedEnterprise;
+import xjtu.spider.entity.*;
 
 import java.util.List;
 
@@ -30,6 +29,8 @@ public class APIController {
     EnterpriseMapper enterpriseMapper;
     @Autowired
     RegistedEnterpriseMapper registedEnterpriseMapper;
+    @Autowired
+    EnterpriseOwlMapper enterpriseOwlMapper;
     /***
      * @函数功能：返回文档主题向量
      * @param :
@@ -61,6 +62,47 @@ public class APIController {
         LOGGER.info("注册新的企业:"+registedEnterprise);
         registedEnterpriseMapper.add(registedEnterprise);
         return "注册成功:"+registedEnterprise.toString();
+    }
+    /***
+     * @函数功能：用户注册MRO服务本体
+     * @param :
+     * @return：boolean
+     */
+    @RequestMapping(method = RequestMethod.POST,value = "/registerEnterpriseOwl")
+    public String registerEnterpriseOwl(@ModelAttribute EnterpriseOwl enterpriseOwl){
+        LOGGER.info("注册新的企业:"+enterpriseOwl);
+        enterpriseOwlMapper.add(enterpriseOwl);
+        return "本体注册成功:"+enterpriseOwl.toString();
+    }
+    /***
+     * @函数功能：获取MRO服务提供商本体信息
+     * @param companyId:
+     * @return：xjtu.spider.entity.EnterpriseOwl
+     */
+    @RequestMapping(method = RequestMethod.GET,value = "/getEnterpriseOwlByCompanyId")
+    public EnterpriseOwl getEnterpriseOwlByCompanyId(@RequestParam(name="companyId") int companyId){
+        return enterpriseOwlMapper.getEnterpriseOwlByCompanyId(companyId);
+    }
+
+    /***
+     * @函数功能：统计MRO服务提供商类型及其数量
+     * @param :
+     * @return：java.util.List<xjtu.spider.entity.EnterpriseStatistics>
+     */
+    @RequestMapping(method = RequestMethod.GET,value = "/getAllOfStatistics")
+    public List<EnterpriseStatistics> getAllOfStatistics(){
+        List<EnterpriseStatistics> enterpriseStatisticsList=enterpriseMapper.getAllOfStatistics();
+        return enterpriseStatisticsList;
+    }
+    /***
+     * @函数功能：统计MRO服务提供商地区及数量
+     * @param :
+     * @return：java.util.List<xjtu.spider.entity.EnterpriseStatistics>
+     */
+    @RequestMapping(method = RequestMethod.GET,value = "/getAllOfStatisticsByProvince")
+    public List<EnterpriseStatistics> getAllOfStatisticsByProvince(){
+        List<EnterpriseStatistics> enterpriseStatisticsList=enterpriseMapper.getAllOfStatisticsByProvince();
+        return enterpriseStatisticsList;
     }
 
 }

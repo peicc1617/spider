@@ -153,5 +153,18 @@ public class ViewController {
         LOGGER.info("进入segment.html页面");
         return "segment";
     }
+    /***
+     * @函数功能：MRO服务提供商预览
+     * @param session:
+     * @param model:
+     * @return：java.lang.String
+     */
+    @RequestMapping("/mroProfile.html")
+    public String viewMROProfile(HttpSession session,Model model){
+        JSONObject user=(JSONObject)session.getAttribute("userInfo");
+        model.addAttribute("userName",user.get("userName"));
+        LOGGER.info("进入mroProfile.html页面");
+        return "mroProfile";
+    }
 
 }

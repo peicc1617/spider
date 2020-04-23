@@ -11,5 +11,7 @@ import lombok.Data;
 @Data
 public class DocumentTopic {
     private long id;
+    private long companyId;
+    private String companyName;
     private String vector;
 }
