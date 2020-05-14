@@ -53,6 +53,8 @@
 	</head>
 
 	<body class="no-skin">
+		<!--插入任务列表-->
+		<div th:replace="/common/taskList::taskList"></div>
 		<!--插入页面头部元素-->
 		<div th:replace="/common/header::header"></div>
 		<div class="main-container ace-save-state" id="main-container">
@@ -138,6 +140,7 @@
 						<div class="page-header">
 							<h1>MRO服务评价
 							</h1>
+							<div id="tableNameForTaskList" style="display:none">indexs_of_task</div>
 						</div><!-- /.page-header -->
 
 						<div class="row">

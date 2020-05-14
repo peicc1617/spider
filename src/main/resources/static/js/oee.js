@@ -305,7 +305,8 @@ function saveProject()
             data:{
                 taskId:taskId,
                 description:$('#description').val(),//描述
-                data:JSON.stringify(tableData)
+                data:JSON.stringify(tableData),
+                userName:$("#userName").html()
             },
             success:function(result)
             {

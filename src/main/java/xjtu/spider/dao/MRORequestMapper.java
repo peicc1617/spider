@@ -14,7 +14,7 @@ import xjtu.spider.entity.MRORequest;
 @Repository
 @Mapper
 public interface MRORequestMapper {
-    @Select("REPLACE INTO request_info (task_id,machine,description,request_content) VALUES (#{taskId},#{machine},#{description},#{requestContent})")
+    @Select("REPLACE INTO request_info (task_id,machine,description,request_content，user_name) VALUES (#{taskId},#{machine},#{description},#{requestContent},#{userName})")
     public void add(MRORequest mroRequest);
     /***
      * @函数功能：根据任务ID获取MRO服务需求

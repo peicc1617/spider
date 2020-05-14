@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 import xjtu.spider.entity.OEEData;
 
+import java.util.List;
+
 /**
  * @基本功能:
  * @program:spider
@@ -19,7 +21,7 @@ public interface OEEDataMapper {
      * @param oeeData:
      * @return：void
      */
-    @Select("REPLACE INTO oee_data (task_id,description,data) VALUES(#{taskId},#{description},#{data})")
+    @Select("REPLACE INTO oee_data (task_id,description,data,user_name) VALUES(#{taskId},#{description},#{data},#{userName})")
     public void saveOEEDataByTaskId(OEEData oeeData);
     /*** 
      * @函数功能：
@@ -43,4 +45,11 @@ public interface OEEDataMapper {
      */
     @Select("SELECT indexs FROM oee_data WHERE task_id=#{taskId}")
     public String getIndexsByTaskId(int taskId);
+    /***
+     * @函数功能：根据用户名获取任务列表
+     * @param :
+     * @return：java.util.List<xjtu.spider.entity.OEEData>
+     */
+    @Select("SELECT * FROM oee_data WHERE user_name=#{userName}")
+    public List<OEEData> getTaskListByUserName(String userName);
 }

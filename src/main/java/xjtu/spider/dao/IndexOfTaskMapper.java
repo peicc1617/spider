@@ -19,7 +19,7 @@ import java.util.List;
 public interface IndexOfTaskMapper {
     @Select("SELECT COUNT(*) FROM indexs_of_task WHERE task_id=#{taskId}")
     public boolean isExistByTaskId(Long taskId);
-    @Select("REPLACE INTO indexs_of_task (task_id,evaluate_name,evaluate_desc,evaluate_indexs) VALUES(#{taskId},#{evaluateName},#{evaluateDesc},#{evaluateIndexs})")
+    @Select("REPLACE INTO indexs_of_task (task_id,evaluate_name,description,evaluate_indexs) VALUES(#{taskId},#{evaluateName},#{description},#{evaluateIndexs},#{userName})")
     public void addIndexsByTaskId(IndexsOfTask indexsOfTask);
     @Select("SELECT * FROM indexs_of_task WHERE task_id=#{taskId}")
     public IndexsOfTask getIndexsByTaskId(long taskId);

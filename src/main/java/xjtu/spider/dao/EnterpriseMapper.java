@@ -42,7 +42,7 @@ public interface EnterpriseMapper {
     @Select("UPDAT enterprise set segment=0")
     void reset();
 
-    @Select("SELECT * FROM enterprise WHERE searchKey=#{searchWord} or description like CONCAT('%',#{searchWord},'%') ORDER BY score DESC")
+    @Select("SELECT companyName,description,area,score FROM enterprise WHERE searchKey=#{searchWord} or description like CONCAT('%',#{searchWord},'%') UNION SELECT companyName,description,area,score FROM enterprise1 WHERE description like CONCAT('%',#{searchWord},'%') ORDER BY score DESC")
     List<Enterprise> getEnterpriseBySearchWord(@Param("searchWord") String searchWord);
     @Select("SELECT searchKey as 'type', COUNT(searchKey) as 'num' from enterprise GROUP BY searchKey ")
     List<EnterpriseStatistics> getAllOfStatistics();

@@ -60,8 +60,14 @@ public class ViewController {
     public  String viewServiceCluster(HttpSession session,Model model){
         JSONObject user=(JSONObject)session.getAttribute("userInfo");
         model.addAttribute("userName",user.get("userName"));
-        LOGGER.info("进入serviceCluster.html页面");
-        return "serviceCluster";
+        if (Integer.parseInt((String)user.get("permission"))==1) {
+            LOGGER.info("进入serviceCluster.html页面");
+            return "serviceCluster";
+        } else {
+            LOGGER.info("权限不足");
+            return "unauthorized";
+        }
+
     }
     /***
      * @函数功能：查看serviceRecommend（服务推荐）页面
@@ -137,8 +143,13 @@ public class ViewController {
     public String viewSpider(HttpSession session,Model model){
         JSONObject user=(JSONObject)session.getAttribute("userInfo");
         model.addAttribute("userName",user.get("userName"));
-        LOGGER.info("进入spider.html页面");
-        return "spider";
+        if (Integer.parseInt((String)user.get("permission"))==1) {
+            LOGGER.info("进入spider.html页面");
+            return "spider";
+        } else {
+            LOGGER.info("权限不足");
+            return "unauthorized";
+        }
     }
     /***
      * @函数功能：开启中文分词
@@ -150,8 +161,14 @@ public class ViewController {
     public String viewSegment(HttpSession session,Model model){
         JSONObject user=(JSONObject)session.getAttribute("userInfo");
         model.addAttribute("userName",user.get("userName"));
-        LOGGER.info("进入segment.html页面");
-        return "segment";
+        if (Integer.parseInt((String)user.get("permission"))==1) {
+            LOGGER.info("进入segment.html页面");
+            return "segment";
+        } else {
+            LOGGER.info("权限不足");
+            return "unauthorized";
+        }
+
     }
     /***
      * @函数功能：MRO服务提供商预览
@@ -166,5 +183,18 @@ public class ViewController {
         LOGGER.info("进入mroProfile.html页面");
         return "mroProfile";
     }
+    /***
+     * @函数功能：权限不足页面
+     * @param session:
+     * @param model:
+     * @return：java.lang.String
+     *//*
+    @RequestMapping("/unauthorized.html")
+    public String viewUnauthorized(HttpSession session,Model model){
+        JSONObject user=(JSONObject)session.getAttribute("userInfo");
+        model.addAttribute("userName",user.get("userName"));
+        LOGGER.info("进入unauthorized.html页面");
+        return "unauthorized";
+    }*/
 
 }

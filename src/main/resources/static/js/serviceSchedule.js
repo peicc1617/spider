@@ -102,7 +102,8 @@ function saveRequests() {
             taskId:taskId,
             machine:machine,
             description:desc,
-            requestContent:JSON.stringify(tableData)
+            requestContent:JSON.stringify(tableData),
+            userName:$("#userName").html()
         },
         success:function (result) {
             alert(result)

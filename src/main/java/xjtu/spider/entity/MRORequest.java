@@ -17,4 +17,5 @@ public class MRORequest {
     private String machine;//工业产品
     private String description;// 服务任务描述
     private String requestContent;//MRO服务需求内容
+    private String userName;//用户名
 }

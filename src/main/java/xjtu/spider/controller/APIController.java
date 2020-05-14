@@ -5,10 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import xjtu.spider.dao.DocumentTopicMapper;
-import xjtu.spider.dao.EnterpriseMapper;
-import xjtu.spider.dao.EnterpriseOwlMapper;
-import xjtu.spider.dao.RegistedEnterpriseMapper;
+import xjtu.spider.dao.*;
 import xjtu.spider.entity.*;
 
 import java.util.List;
@@ -31,6 +28,8 @@ public class APIController {
     RegistedEnterpriseMapper registedEnterpriseMapper;
     @Autowired
     EnterpriseOwlMapper enterpriseOwlMapper;
+    @Autowired
+    TaskListMapper taskListMapper;
     /***
      * @函数功能：返回文档主题向量
      * @param :
@@ -103,6 +102,23 @@ public class APIController {
     public List<EnterpriseStatistics> getAllOfStatisticsByProvince(){
         List<EnterpriseStatistics> enterpriseStatisticsList=enterpriseMapper.getAllOfStatisticsByProvince();
         return enterpriseStatisticsList;
+    }
+    /***
+     * @函数功能：根据用户名获取任务列表
+     * @param tableName:
+     * @param userName:
+     * @return：java.util.List<xjtu.spider.entity.Task>
+     */
+    @RequestMapping("/getTaskListByUserName")
+    public List<Task> getTaskListByUserName(String tableName,String userName){
+        if (tableName==null||tableName.equals("")) {
+            tableName="oee_data";
+        }
+        if (userName==null||userName.equals("")) {
+            userName="裴长城";
+        }
+        List<Task> taskList=taskListMapper.getTaskListByUserName(tableName,userName);
+        return taskList;
     }
 
 }

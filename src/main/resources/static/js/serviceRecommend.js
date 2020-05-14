@@ -1,4 +1,11 @@
+jQuery(function($) {
+    //未查询时隐藏表格
+    $(".tableContainer").hide();
+    $(".tableContainer1").hide();
+});
 function recommend() {
+    $(".tableContainer").show();
+    $(".tableContainer1").hide();
     var searchWord=$("#searchKey").val();
     $.ajax({
         url:"/api/getEnterpriseForRecommend",
@@ -31,6 +38,7 @@ function initTable(result) {
     $("#result").html(result.length);
 }
 function recommend1() {
+    $(".tableContainer1").show();
     $(".tableContainer").hide();
     //显示模态对话框
     $('#mroRequest').modal('show');

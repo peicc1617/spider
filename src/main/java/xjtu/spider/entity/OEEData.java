@@ -15,4 +15,5 @@ public class OEEData {
     private String description;
     private String data;
     private String indexs;
+    private String userName;
 }

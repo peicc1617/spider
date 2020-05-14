@@ -13,8 +13,9 @@ public class IndexsOfTask {
     private int id;
     private int taskId;
     private String evaluateName;
-    private String evaluateDesc;
+    private String description;
     private String evaluateIndexs;
     private String value;//指标取值
     private String weight;//权重
+    private String userName;//用户名
 }

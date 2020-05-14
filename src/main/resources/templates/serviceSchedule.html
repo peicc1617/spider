@@ -61,6 +61,8 @@
 </head>
 
 <body class="no-skin">
+<!--插入任务列表-->
+<div th:replace="/common/taskList::taskList"></div>
 <!--插入页面头部元素-->
 <div th:replace="/common/header::header"></div>
 <div class="main-container ace-save-state" id="main-container">
@@ -145,6 +147,7 @@
 				<div class="page-header">
 					<h1>MRO运行调度
 					</h1>
+					<div id="tableNameForTaskList" style="display:none">request_info</div>
 				</div><!-- /.page-header -->
 
 				<div class="row">
@@ -157,7 +160,7 @@
 							<li role="presentation" id="tab2"><a href="#part2"  ><i class=purple ace-icon fa fa-pencil-square-o bigger-120></i>&nbsp;运行调度结果</a></li>
 						</ul>
 						<!--工具栏结束-->
-						<div id="right-menu" class="modal aside" data-body-scroll="false" data-offset="true" data-placement="right" data-fixed="true" data-backdrop="false" tabindex="-1">
+						<!--<div id="right-menu" class="modal aside" data-body-scroll="false" data-offset="true" data-placement="right" data-fixed="true" data-backdrop="false" tabindex="-1" >
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header no-padding">
@@ -165,23 +168,27 @@
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 												<span class="white">&times;</span>
 											</button>
-											Based on Modal boxes
+											项目列表查看
 										</div>
 									</div>
 
 									<div class="modal-body">
-										<h3 class="lighter">Custom Elements and Content</h3>
-
-										<br />
-										With no modal backdrop
+										<table id="projectTable" data-toggle="table" >
+											<thead>
+											<tr>
+												<th data-field="taskId" >任务ID</th>
+												<th data-field="taskDescription" >任务描述</th>
+											</tr>
+											</thead>
+										</table>
 									</div>
-								</div><!-- /.modal-content -->
+								</div>&lt;!&ndash; /.modal-content &ndash;&gt;
 
 								<button class="aside-trigger btn btn-info btn-app btn-xs ace-settings-btn" data-target="#right-menu" data-toggle="modal" type="button">
 									<i data-icon1="fa-plus" data-icon2="fa-minus" class="ace-icon fa fa-plus bigger-110 icon-only"></i>
 								</button>
-							</div><!-- /.modal-dialog -->
-						</div>
+							</div>&lt;!&ndash; /.modal-dialog &ndash;&gt;
+						</div>-->
 						<!--<a href="#my-modal" role="button" class="bigger-125 bg-primary white" data-toggle="modal">-->
 						<!--bootstrap表格-->
 						<div class="tab-pane active" id="part0">

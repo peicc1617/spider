@@ -26,7 +26,7 @@ public class ServiceMatchService {
     @Autowired
     private EnterpriseOwlMapper enterpriseOwlMapper;
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
-    public List<MatchResult> getMROOfOWL(EnterpriseOwl enterpriseOwl) throws IOException {
+    public List<MatchResult> getMROOfOWL(EnterpriseOwl enterpriseOwl) {
         double[] qos_mro=new double[4];
         qos_mro[0]=1;
         qos_mro[1]=enterpriseOwl.getSpeed();
@@ -63,8 +63,14 @@ public class ServiceMatchService {
             serviceCapability[1]= VectorSimilarity.calcaulteNumInterval(Integer.parseInt(enterpriseOwl.getNum()),enterpriseOwl1.getNum());
             //判断资源名称相似度，调用python
             LOGGER.info("调用python接口");
-            double temp= SimilarityByPython.getSimilarity(enterpriseOwl.getName(),enterpriseOwl1.getName());
-            LOGGER.info("python接口返回结果："+temp);
+            double temp= 0;
+            try {
+                temp = SimilarityByPython.getSimilarity(enterpriseOwl.getName(),enterpriseOwl1.getName());
+                LOGGER.info("python接口返回结果："+temp);
+            }
+            catch (IOException e) {
+                LOGGER.error("python服务调用异常,即将使用字符串编辑距离比较语义相似度");
+            }
             if (temp==0) {
                 temp=CompareStrSimUtil.getSimilarityRatio(enterpriseOwl.getName(),enterpriseOwl1.getName(),true);
                 LOGGER.info("python接口结果不理想，语义编辑距离："+temp);

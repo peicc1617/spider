@@ -126,6 +126,7 @@ function createEvaluateByTaskId() {
                 evaluateName:$("#evaluateName").val(),
                 evaluateDesc:$("#evaluateDesc").val(),
                 evaluateIndexs:JSON.stringify(selectedArray()),
+                userName:$("#userName").html()
             },
             success:function (result) {
                 alert("创建成功")

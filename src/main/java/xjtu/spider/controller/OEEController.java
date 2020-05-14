@@ -9,6 +9,8 @@ import xjtu.spider.dao.OEEDataMapper;
 import xjtu.spider.entity.OEEData;
 import xjtu.spider.util.DES;
 
+import java.util.List;
+
 /**
  * @基本功能:
  * @program:spider
@@ -72,5 +74,10 @@ public class OEEController {
         String str=oeeDataMapper.getIndexsByTaskId(taskId);
         LOGGER.info("保存OEE指标计算结果"+str);
         return str;
+    }
+    @RequestMapping("/oee/getTaskListByUserName")
+    public List<OEEData> getTaskListByUserName(String userName){
+        List<OEEData> oeeDataList=oeeDataMapper.getTaskListByUserName(userName);
+        return oeeDataList;
     }
 }
