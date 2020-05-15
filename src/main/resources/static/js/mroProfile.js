@@ -648,3 +648,21 @@ function getAllOfstatisticsByProvince(){
         myChart.setOption(option, true);
     }
 }
+jQuery(function($) {
+    getAllOfstatistics()
+    LoadSelectionsOfMROOfOWL()
+});
+function LoadSelectionsOfMROOfOWL() {
+    $("#companyId").empty();
+    $.ajax({
+        url:"/api/getAllEnterpriseOwl",
+        type:"GET",
+        async:false,
+        success:function (result) {
+            for (var i = 0; i <result.length ; i++) {
+                var option="<option value="+result[i].companyId+">"+result[i].companyId+"-"+result[i].companyName+"</option>"
+                $("#companyId").append(option);
+            }
+        }
+    })
+}

@@ -32,7 +32,7 @@ public class ServiceMatchService {
         qos_mro[1]=enterpriseOwl.getSpeed();
         qos_mro[2]=enterpriseOwl.getReliability();
         qos_mro[3]=enterpriseOwl.getReputation();
-        List<EnterpriseOwl> enterpriseOwlList=enterpriseOwlMapper.getMROs();
+        List<EnterpriseOwl> enterpriseOwlList=enterpriseOwlMapper.getAllMROsOfOWL();
         List<MatchResult> resultList=new ArrayList<>();
         for (EnterpriseOwl enterpriseOwl1:enterpriseOwlList) {
             MatchResult matchResult=new MatchResult();

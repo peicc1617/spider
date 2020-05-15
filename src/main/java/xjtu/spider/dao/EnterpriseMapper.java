@@ -46,6 +46,12 @@ public interface EnterpriseMapper {
     List<Enterprise> getEnterpriseBySearchWord(@Param("searchWord") String searchWord);
     @Select("SELECT searchKey as 'type', COUNT(searchKey) as 'num' from enterprise GROUP BY searchKey ")
     List<EnterpriseStatistics> getAllOfStatistics();
-    @Select("SELECT area as 'type', COUNT(area) as 'num' from enterprise GROUP BY area ")
+    @Select("SELECT area as 'type', COUNT(area) as 'num' from enterprise GROUP BY area UNION SELECT area as 'type', COUNT(area) as 'num' from enterprise1 WHERE id<500 GROUP BY area ")
     List<EnterpriseStatistics> getAllOfStatisticsByProvince();
+    @Select("SELECT count(1) From enterprise")
+    int getNum();
+    @Select("SELECT count(1) From enterprise WHERE segment=#{segment}")
+    int getDataOfSegment(@Param("segment") int segment);
+    @Select("SELECT * FROM enterprise WHERE id=#{id} ")
+    Enterprise getEnterpriseById(@Param("id") long id);
 }

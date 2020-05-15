@@ -54,4 +54,12 @@ public interface URLMapper {
 
     @Select("select count(1) from ${tableName} where state=1")
     int size(@Param("tableName") String tableName);
+    /***
+     * @函数功能：主要用于获取已爬出链接数量和未爬虫链接数量，用来填充spider.html页面
+     * @param tableName:
+     * @param state:
+     * @return：int
+     */
+    @Select("select count(1) from ${tableName} where state=#{state}")
+    int getDataPOfSpider(@Param("tableName") String tableName,@Param("state") int state);
 }

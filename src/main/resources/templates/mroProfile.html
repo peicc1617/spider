@@ -11,7 +11,7 @@
 		<!-- bootstrap & fontawesome -->
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="assets/font-awesome/4.5.0/css/font-awesome.min.css" />
-
+		<link rel="stylesheet" href="assets/css/chosen.min.css" />
 		<!-- page specific plugin styles -->
 
 		<!-- text fonts -->
@@ -159,10 +159,10 @@
 										</li>
 									</ul>
 									<div id="tabs-1">
-										<button type="submit" class="btn btn-purple btn-sm"  onclick="getAllOfstatistics()">
+										<a  class="btn btn-purple btn-sm"  href="mroList.html" target="_blank">
 											<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
 											查看MRO服务提供商信息
-										</button>
+										</a>
 										<div id="container" style="height: 450px"></div>
 										<div id="container1" style="height: 450px"></div>
 
@@ -182,8 +182,10 @@
 																	<span class="input-group-addon">
 																		<i class="ace-icon fa fa-check"></i>
 																	</span>
-
-																	<input type="text" class="form-control search-query" id="companyId" placeholder="输入MRO服务提供商ID" />
+																		<select class="chosen-select form-control form-control search-query" id="companyId" placeholder="请选择MRO服务提供商">
+																			<option value="1">1</option>
+																		</select>
+																	<!--<input type="text" class="form-control search-query" id="companyId" placeholder="输入MRO服务提供商ID" />-->
 																	<span class="input-group-btn">
 																	<button type="button" class="btn btn-blue btn-sm" onclick="checkMROOfOWL()">
 																	<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>

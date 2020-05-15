@@ -20,3 +20,38 @@ function resetSegment(){
         }
     });
 }
+//初始化
+jQuery(function($) {
+    initSermentPage();
+});
+function initSermentPage() {
+    $.ajax({
+        url:"/api/getDataOfSegment",
+        type:"GET",
+        async:false,
+        success:function (result) {
+            var data=result.split(":");
+            $("#content0").html(data[0]);
+            $("#content1").html(data[1]);
+        }
+    });
+}
+function viewResultOfSegment() {
+    $.ajax({
+        url:"/api/getEnterpriseResult",
+        type:"GET",
+        async:false,
+        success:function (result) {
+            $('#segmentTable').bootstrapTable('removeAll');
+            result.forEach(function (enterprise) {
+                var rowData=[];
+                rowData.push({
+                    companyID:enterprise.companyId,
+                    /*description:enterprise.description,
+                    result:enterprise.result*/
+                })
+                $('#segmentTable').bootstrapTable('append', rowData);
+            })
+        }
+    });
+}

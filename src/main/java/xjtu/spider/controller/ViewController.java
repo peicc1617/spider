@@ -4,9 +4,14 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import xjtu.spider.dao.EnterpriseMapper;
+import xjtu.spider.dao.EnterpriseResultMapper;
+import xjtu.spider.entity.Enterprise;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,6 +23,10 @@ import javax.servlet.http.HttpSession;
  **/
 @Controller
 public class ViewController {
+    @Autowired
+    EnterpriseResultMapper enterpriseResultMapper;
+    @Autowired
+    EnterpriseMapper enterpriseMapper;
     private Logger LOGGER= LoggerFactory.getLogger(getClass());
     /***
      * @函数功能：查看profile.html页面
@@ -170,6 +179,20 @@ public class ViewController {
         }
 
     }
+    @RequestMapping("mroList.html")
+    public String viewMROList(HttpSession session,Model model){
+        JSONObject user=(JSONObject)session.getAttribute("userInfo");
+        model.addAttribute("userName",user.get("userName"));
+        if (Integer.parseInt((String)user.get("permission"))==1) {
+            model.addAttribute("MROList",enterpriseResultMapper.getEnterpriseResult());
+            LOGGER.info("进入mroList.html页面");
+            return "mroList";
+        } else {
+            LOGGER.info("权限不足");
+            return "unauthorized";
+        }
+
+    }
     /***
      * @函数功能：MRO服务提供商预览
      * @param session:
@@ -183,18 +206,13 @@ public class ViewController {
         LOGGER.info("进入mroProfile.html页面");
         return "mroProfile";
     }
-    /***
-     * @函数功能：权限不足页面
-     * @param session:
-     * @param model:
-     * @return：java.lang.String
-     *//*
-    @RequestMapping("/unauthorized.html")
-    public String viewUnauthorized(HttpSession session,Model model){
+    @RequestMapping("mro/{MROID}")
+    public String viewMROData(HttpSession session, Model model, @PathVariable("MROID") long MROID){
         JSONObject user=(JSONObject)session.getAttribute("userInfo");
         model.addAttribute("userName",user.get("userName"));
-        LOGGER.info("进入unauthorized.html页面");
-        return "unauthorized";
-    }*/
+        Enterprise enterprise=enterpriseMapper.getEnterpriseById(MROID);
+        model.addAttribute("mro",enterprise);
+        return "/mroData";
+    }
 
 }

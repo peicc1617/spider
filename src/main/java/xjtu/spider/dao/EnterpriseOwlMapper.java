@@ -14,7 +14,7 @@ public interface EnterpriseOwlMapper {
             "VALUES (#{companyId},#{companyName},#{name},#{description},#{num},#{time},#{addInfo},#{cost},#{speed},#{reliability},#{reputation})")
     public void add(EnterpriseOwl enterpriseOwl);
     @Select("SELECT * FROM enterprise_owl")
-    public List<EnterpriseOwl> getMROs();
+    public List<EnterpriseOwl> getAllMROsOfOWL();
     @Select("SELECT * FROM enterprise_owl WHERE companyId=#{companyId}")
     public EnterpriseOwl getEnterpriseOwlByCompanyId(int companyId);
 }

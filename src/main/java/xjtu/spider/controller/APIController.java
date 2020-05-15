@@ -30,6 +30,10 @@ public class APIController {
     EnterpriseOwlMapper enterpriseOwlMapper;
     @Autowired
     TaskListMapper taskListMapper;
+    @Autowired
+    URLMapper urlMapper;
+    @Autowired
+    EnterpriseResultMapper enterpriseResultMapper;
     /***
      * @函数功能：返回文档主题向量
      * @param :
@@ -82,6 +86,15 @@ public class APIController {
     public EnterpriseOwl getEnterpriseOwlByCompanyId(@RequestParam(name="companyId") int companyId){
         return enterpriseOwlMapper.getEnterpriseOwlByCompanyId(companyId);
     }
+    /***
+     * @函数功能：返回所有的MRO服务提供商本体模型
+     * @param :
+     * @return：java.util.List<xjtu.spider.entity.EnterpriseOwl>
+     */
+    @RequestMapping("/getAllEnterpriseOwl")
+    public List<EnterpriseOwl> getAllEnterpriseOwl(){
+        return enterpriseOwlMapper.getAllMROsOfOWL();
+    }
 
     /***
      * @函数功能：统计MRO服务提供商类型及其数量
@@ -119,6 +132,39 @@ public class APIController {
         }
         List<Task> taskList=taskListMapper.getTaskListByUserName(tableName,userName);
         return taskList;
+    }
+    /***
+     * @函数功能：返回spider.html页面所需数据
+     * @param :
+     * @return：java.lang.String
+     */
+    @RequestMapping("/getDataOfSpider")
+    public String getDataOfSpider(){
+        int num1=urlMapper.getDataPOfSpider("search_url_start",0);
+        int num2=urlMapper.getDataPOfSpider("search_url_start",1);
+        int num3=urlMapper.getDataPOfSpider("search_url",0);
+        int num4=enterpriseMapper.getNum();
+        return new StringBuilder().append(num1).append(":").append(num2).append(":").append(num3).append(":").append(num4).toString();
+    }
+    /***
+     * @函数功能：返回spider.html页面所需数据
+     * @param :
+     * @return：java.lang.String
+     */
+    @RequestMapping("/getDataOfSegment")
+    public String getDataOfSegment(){
+        int num1=enterpriseMapper.getDataOfSegment(0);
+        int num2=enterpriseMapper.getDataOfSegment(1);
+        return new StringBuilder().append(num1).append(":").append(num2).toString();
+    }
+    /***
+     * @函数功能：获取分词结果，用于segment.html页面
+     * @param :
+     * @return：java.util.List<xjtu.spider.entity.EnterpriseResult>
+     */
+    @RequestMapping("/getEnterpriseResult")
+    public List<EnterpriseResult> getEnterpriseResult(){
+        return enterpriseResultMapper.getEnterpriseResult();
     }
 
 }
