@@ -16,6 +16,12 @@ public class VectorSimilarity {
             sum1+=num1[i]*num1[i];
             sum2+=num2[i]*num2[i];
         }
+        if (sum1==0) {
+            sum1=Double.MAX_VALUE;
+        }
+        if (sum2==0) {
+            sum2=Double.MAX_VALUE;
+        }
         double res=(double) (sum/Math.sqrt(sum1*sum2));
         return res;
     }
@@ -48,7 +54,7 @@ public class VectorSimilarity {
      */
     public static double calcaulteNumInterval(int num,String str2){
         double[] num2=parseInterval(str2);
-        if (num<=num2[1]) {
+        if (num<=num2[1]&&num>=num2[0]) {
             return 1;
         } else {
             return 0;

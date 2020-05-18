@@ -66,14 +66,14 @@ public class ServiceMatchService {
             double temp= 0;
             try {
                 temp = SimilarityByPython.getSimilarity(enterpriseOwl.getName(),enterpriseOwl1.getName());
-                LOGGER.info("python接口返回结果："+temp);
+                LOGGER.info(enterpriseOwl.getName()+":"+enterpriseOwl1.getName()+"python接口返回结果："+temp);
             }
             catch (IOException e) {
                 LOGGER.error("python服务调用异常,即将使用字符串编辑距离比较语义相似度");
             }
             if (temp==0) {
                 temp=CompareStrSimUtil.getSimilarityRatio(enterpriseOwl.getName(),enterpriseOwl1.getName(),true);
-                LOGGER.info("python接口结果不理想，语义编辑距离："+temp);
+                LOGGER.info(enterpriseOwl.getName()+":"+enterpriseOwl1.getName()+"python接口结果不理想，语义编辑距离："+temp);
             }
             serviceCapability[0]=temp;
             //计算服务能力匹配度

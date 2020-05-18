@@ -7,7 +7,7 @@
 
 	<meta name="description" content="3 styles with inline editable feature" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-
+	<!--<script src="/assets/js/jquery-2.1.4.min.js"></script>-->
 	<!-- bootstrap & fontawesome -->
 	<link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -46,6 +46,15 @@
 	<script src="/assets/js/html5shiv.min.js"></script>
 	<script src="/assets/js/respond.min.js"></script>
 	<![endif]-->
+	<script src="/assets/js/jquery-2.1.4.min.js"></script>
+	<link rel="stylesheet" href="/assets/css/jquery-ui.min.css" />
+	<script src="/assets/js/jquery-ui.min.js"></script>
+	<!--百度地图-->
+	<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=Gjmp6GaSGks5U2VhYug4OWPZ2UEHG40q"></script>
+	<script src="http://mapv.baidu.com/build/mapv.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+
+	<script src="/js/mroData.js"></script>
 </head>
 
 <body class="no-skin">
@@ -144,7 +153,7 @@
 						<div>
 							<div id="user-profile-1" class="user-profile row center">
 
-								<div class="col-xs-12 col-sm-9 center">
+								<div class="col-xs-12 col-sm-12 center">
 									<div class="space-12 center"></div>
 
 									<div class="profile-user-info profile-user-info-striped center">
@@ -208,8 +217,8 @@
 											</div>
 										</div>
 									</div>
-
-									<div class="space-20"></div>
+									<div id="map" style="height: 700px;width:1650px;margin-left: 13px;margin-top: 5px"></div>
+									<canvas id="canvas"></canvas>
 								</div>
 							</div>
 						</div>
@@ -252,7 +261,7 @@
 											<div class="row">
 												<div class="col-xs-12 col-sm-3 center">
 															<span class="profile-picture">
-																<img class="editable img-responsive" alt="Alex's Avatar" id="avatar2" src="assets/images/avatars/profile-pic.jpg" />
+																<img class="editable img-responsive" alt="Alex's Avatar" id="avatar2" src="/assets/images/avatars/profile-pic.jpg" />
 															</span>
 
 													<div class="space space-4"></div>
@@ -481,7 +490,7 @@
 												<div class="col-sm-6">
 													<div class="profile-activity clearfix">
 														<div>
-															<img class="pull-left" alt="Alex Doe's avatar" src="assets/images/avatars/avatar5.png" />
+															<img class="pull-left" alt="Alex Doe's avatar" src="/assets/images/avatars/avatar5.png" />
 															<a class="user" href="#"> Alex Doe </a>
 															changed his profile photo.
 															<a href="#">Take a look</a>
@@ -505,7 +514,7 @@
 
 													<div class="profile-activity clearfix">
 														<div>
-															<img class="pull-left" alt="Susan Smith's avatar" src="assets/images/avatars/avatar1.png" />
+															<img class="pull-left" alt="Susan Smith's avatar" src="/assets/images/avatars/avatar1.png" />
 															<a class="user" href="#"> Susan Smith </a>
 
 															is now friends with Alex Doe.
@@ -577,7 +586,7 @@
 
 													<div class="profile-activity clearfix">
 														<div>
-															<img class="pull-left" alt="David Palms's avatar" src="assets/images/avatars/avatar4.png" />
+															<img class="pull-left" alt="David Palms's avatar" src="/assets/images/avatars/avatar4.png" />
 															<a class="user" href="#"> David Palms </a>
 
 															left a comment on Alex's wall.
@@ -626,7 +635,7 @@
 
 													<div class="profile-activity clearfix">
 														<div>
-															<img class="pull-left" alt="Alex Doe's avatar" src="assets/images/avatars/avatar5.png" />
+															<img class="pull-left" alt="Alex Doe's avatar" src="/assets/images/avatars/avatar5.png" />
 															<a class="user" href="#"> Alex Doe </a>
 
 															upgraded his skills.
@@ -736,7 +745,7 @@
 													<div class="inline pos-rel">
 														<div class="user">
 															<a href="#">
-																<img src="assets/images/avatars/avatar4.png" alt="Bob Doe's avatar" />
+																<img src="/assets/images/avatars/avatar4.png" alt="Bob Doe's avatar" />
 															</a>
 														</div>
 
@@ -784,7 +793,7 @@
 													<div class="inline pos-rel">
 														<div class="user">
 															<a href="#">
-																<img src="assets/images/avatars/avatar1.png" alt="Rose Doe's avatar" />
+																<img src="/assets/images/avatars/avatar1.png" alt="Rose Doe's avatar" />
 															</a>
 														</div>
 
@@ -832,7 +841,7 @@
 													<div class="inline pos-rel">
 														<div class="user">
 															<a href="#">
-																<img src="assets/images/avatars/avatar.png" alt="Jim Doe's avatar" />
+																<img src="/assets/images/avatars/avatar.png" alt="Jim Doe's avatar" />
 															</a>
 														</div>
 
@@ -880,7 +889,7 @@
 													<div class="inline pos-rel">
 														<div class="user">
 															<a href="#">
-																<img src="assets/images/avatars/avatar5.png" alt="Alex Doe's avatar" />
+																<img src="/assets/images/avatars/avatar5.png" alt="Alex Doe's avatar" />
 															</a>
 														</div>
 
@@ -928,7 +937,7 @@
 													<div class="inline pos-rel">
 														<div class="user">
 															<a href="#">
-																<img src="assets/images/avatars/avatar2.png" alt="Phil Doe's avatar" />
+																<img src="/assets/images/avatars/avatar2.png" alt="Phil Doe's avatar" />
 															</a>
 														</div>
 
@@ -976,7 +985,7 @@
 													<div class="inline pos-rel">
 														<div class="user">
 															<a href="#">
-																<img src="assets/images/avatars/avatar3.png" alt="Susan Doe's avatar" />
+																<img src="/assets/images/avatars/avatar3.png" alt="Susan Doe's avatar" />
 															</a>
 														</div>
 
@@ -1024,7 +1033,7 @@
 													<div class="inline pos-rel">
 														<div class="user">
 															<a href="#">
-																<img src="assets/images/avatars/avatar1.png" alt="Jennifer Doe's avatar" />
+																<img src="/assets/images/avatars/avatar1.png" alt="Jennifer Doe's avatar" />
 															</a>
 														</div>
 
@@ -1072,7 +1081,7 @@
 													<div class="inline pos-rel">
 														<div class="user">
 															<a href="#">
-																<img src="assets/images/avatars/avatar3.png" alt="Alexa Doe's avatar" />
+																<img src="/assets/images/avatars/avatar3.png" alt="Alexa Doe's avatar" />
 															</a>
 														</div>
 
@@ -1134,7 +1143,7 @@
 											<ul class="ace-thumbnails">
 												<li>
 													<a href="#" data-rel="colorbox">
-														<img alt="150x150" src="assets/images/gallery/thumb-1.jpg" />
+														<img alt="150x150" src="/assets/images/gallery/thumb-1.jpg" />
 														<div class="text">
 															<div class="inner">Sample Caption on Hover</div>
 														</div>
@@ -1161,7 +1170,7 @@
 
 												<li>
 													<a href="#" data-rel="colorbox">
-														<img alt="150x150" src="assets/images/gallery/thumb-2.jpg" />
+														<img alt="150x150" src="/assets/images/gallery/thumb-2.jpg" />
 														<div class="text">
 															<div class="inner">Sample Caption on Hover</div>
 														</div>
@@ -1188,7 +1197,7 @@
 
 												<li>
 													<a href="#" data-rel="colorbox">
-														<img alt="150x150" src="assets/images/gallery/thumb-3.jpg" />
+														<img alt="150x150" src="/assets/images/gallery/thumb-3.jpg" />
 														<div class="text">
 															<div class="inner">Sample Caption on Hover</div>
 														</div>
@@ -1215,7 +1224,7 @@
 
 												<li>
 													<a href="#" data-rel="colorbox">
-														<img alt="150x150" src="assets/images/gallery/thumb-4.jpg" />
+														<img alt="150x150" src="/assets/images/gallery/thumb-4.jpg" />
 														<div class="text">
 															<div class="inner">Sample Caption on Hover</div>
 														</div>
@@ -1242,7 +1251,7 @@
 
 												<li>
 													<a href="#" data-rel="colorbox">
-														<img alt="150x150" src="assets/images/gallery/thumb-5.jpg" />
+														<img alt="150x150" src="/assets/images/gallery/thumb-5.jpg" />
 														<div class="text">
 															<div class="inner">Sample Caption on Hover</div>
 														</div>
@@ -1269,7 +1278,7 @@
 
 												<li>
 													<a href="#" data-rel="colorbox">
-														<img alt="150x150" src="assets/images/gallery/thumb-6.jpg" />
+														<img alt="150x150" src="/assets/images/gallery/thumb-6.jpg" />
 														<div class="text">
 															<div class="inner">Sample Caption on Hover</div>
 														</div>
@@ -1296,7 +1305,7 @@
 
 												<li>
 													<a href="#" data-rel="colorbox">
-														<img alt="150x150" src="assets/images/gallery/thumb-1.jpg" />
+														<img alt="150x150" src="/assets/images/gallery/thumb-1.jpg" />
 														<div class="text">
 															<div class="inner">Sample Caption on Hover</div>
 														</div>
@@ -1323,7 +1332,7 @@
 
 												<li>
 													<a href="#" data-rel="colorbox">
-														<img alt="150x150" src="assets/images/gallery/thumb-2.jpg" />
+														<img alt="150x150" src="/assets/images/gallery/thumb-2.jpg" />
 														<div class="text">
 															<div class="inner">Sample Caption on Hover</div>
 														</div>
@@ -1648,15 +1657,13 @@
 <!-- basic scripts -->
 
 <!--[if !IE]> -->
-<script src="/assets/js/jquery-2.1.4.min.js"></script>
 
 <!-- <![endif]-->
 
 <!--[if IE]>
-<script src="/assets/js/jquery-1.11.3.min.js"></script>
 <![endif]-->
 <script type="text/javascript">
-	if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+	if('ontouchstart' in document.documentElement) document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 </script>
 <script src="/assets/js/bootstrap.min.js"></script>
 

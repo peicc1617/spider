@@ -721,6 +721,8 @@ function drawChinaMap() {
         }
     })
     var geoCoordMap = {
+        '日本':[139.69,35.68],
+        '德国':[13.25,52.3],
         '台湾': [121.5135,25.0308],
         '黑龙江': [127.9688, 45.368],
         '内蒙古': [110.3467, 41.4899],
@@ -817,15 +819,6 @@ function drawChinaMap() {
                    color: '#fff'
                }
            },*/
-        legend: {
-            orient: 'vertical',
-            y: 'bottom',
-            x:'right',
-            data:['pm2.5'],
-            textStyle: {
-                color: '#fff'
-            }
-        },
         visualMap: {
             show: false,
             min: 0,
@@ -840,7 +833,7 @@ function drawChinaMap() {
             }
         },
         geo: {
-            map: 'china',
+            map: 'world',
             show: true,
             roam: true,
             label: {
