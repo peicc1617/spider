@@ -3,10 +3,12 @@ package xjtu.spider.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import xjtu.spider.dao.*;
 import xjtu.spider.entity.*;
+import xjtu.spider.service.SendEmailService;
 
 import java.util.List;
 
@@ -34,6 +36,10 @@ public class APIController {
     URLMapper urlMapper;
     @Autowired
     EnterpriseResultMapper enterpriseResultMapper;
+    @Autowired
+    UserMapper userMapper;
+    @Autowired
+    SendEmailService sendEmailService;
     /***
      * @函数功能：返回文档主题向量
      * @param :
@@ -165,6 +171,22 @@ public class APIController {
     @RequestMapping("/getEnterpriseResult")
     public List<EnterpriseResult> getEnterpriseResult(){
         return enterpriseResultMapper.getEnterpriseResult();
+    }
+
+    /***
+     * @函数功能：获取用户列表，用于给用户发送邮件
+     * @param :
+     * @return：java.util.List<xjtu.spider.entity.User>
+     */@RequestMapping("/getAllUsers")
+    public List<User> getAllUsers(){
+        List<User> userList=userMapper.getAllUser();
+        LOGGER.info("获取用户列表："+userList);
+        return userList;
+    }
+    @RequestMapping("/sendEmail")
+    public String sendEmail(String email){
+        sendEmailService.sendEmail(email);
+         return "发送成功";
     }
 
 }

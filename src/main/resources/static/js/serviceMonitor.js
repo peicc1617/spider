@@ -376,3 +376,71 @@ function reSetProgress() {
         $("#step"+(i+1)).removeClass("active")
     }
 }
+var imageForEmail;
+function saveCanvas() {
+    html2canvas(document.body).then(function(canvas) {
+        var imgUri = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        $("#download").attr("href",imgUri);
+        imageForEmail=imgUri;
+        console.log(imgUri);
+        document.getElementById("download").click();
+    });
+}
+jQuery(function($) {
+    //未查询时隐藏表格
+    $("#download").hide();
+});
+function LoadSelectionsOfMROOfOWL() {
+    $("#taskId").empty();
+    $.ajax({
+        url:"api/getTaskListByUserName",
+        type:"get",
+        async:false,
+        data:{
+            tableName:$("#tableNameForTaskList").html(),
+            userName:$("#userName").html()
+        },
+        success:function(result){
+            result.forEach(function (project) {
+                var option="<option value="+project.taskId+">"+project.taskId+"-"+project.description+"</option>"
+                $("#taskId").append(option);
+            })
+        }
+    })
+}
+jQuery(function($) {
+    $("#email").hide();
+    LoadSelectionsOfMROOfOWL()
+});
+//发送邮件
+function sendEmail() {
+    $("#email").show();
+    $("#email").empty();
+    $.ajax({
+        url:"api/getAllUsers",
+        type:"get",
+        async:false,
+        success:function(result){
+            var option="<option>"+"请选择收件人"+"</option>"
+            $("#email").append(option);
+            result.forEach(function (user) {
+                var option="<option value="+user.email+">"+user.userName+"-"+user.domainName+"</option>"
+                $("#email").append(option);
+            })
+        }
+    })
+}
+function sendEmail1() {
+    $.ajax({
+        url:"api/sendEmail",
+        type:"get",
+        async:false,
+        data:{
+            email:$("#email").val(),
+        },
+        success:function(result){
+            alert(result)
+        }
+    })
+    $("#email").hide();
+}

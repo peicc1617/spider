@@ -43,6 +43,8 @@
 		<![endif]-->
 		<!--jquery-->
 		<script src="assets/js/jquery-2.1.4.min.js"></script>
+		<script src="./html2canvas/html2canvas.min.js"></script>
+
         <link rel="stylesheet" href="assets/css/jquery-ui.min.css" />
         <script src="assets/js/jquery-ui.min.js"></script>
         <!--bootstrap-table.js-->
@@ -52,6 +54,7 @@
 		<script src="./echart/echarts.min.js"></script>
 		<!--业务-->
 		<script src="js/serviceMonitor.js"></script>
+
 	</head>
 
 	<body class="no-skin">
@@ -142,6 +145,7 @@
 						<div class="page-header">
 							<h1>运行监控
 							</h1>
+							<div id="tableNameForTaskList" style="display:none">oee_data</div>
 						</div><!-- /.page-header -->
 
 						<div class="row">
@@ -163,19 +167,35 @@
 																		<i class="ace-icon fa fa-check"></i>
 																	</span>
 
-														<input type="text" class="form-control search-query" placeholder="请输入MRO服务ID" id="taskId"/>
+														<select class="chosen-select form-control form-control search-query" id="taskId" >
+														</select>
 														<span class="input-group-btn">
-																		<button type="button" class="btn btn-purple btn-sm" onclick="loadMonitor()">
-																			<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
-																			查看
-																		</button>
-																	</span>
+															<button type="button" class="btn btn-purple btn-sm" onclick="loadMonitor()">
+																<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+																查看
+															</button>
+														</span>
 													</div>
 												</div>
 											</div>
 										</form>
 									</div>
 								</div>
+								<button type="button" class="btn btn-purple btn-sm" onclick="saveCanvas()">
+									<span class="ace-icon fa fa-save icon-on-right bigger-110"></span>
+									保存图片
+								</button>
+								<a  class="btn btn-purple btn-sm" download="MRO运行监控.png" id="download" style="">
+									<span class="ace-icon fa fa-download icon-on-right bigger-110"></span>
+									下载图片
+								</a>
+								<button type="button" class="btn btn-purple btn-sm" onclick="sendEmail()">
+									<span class="ace-icon fa fa-mail-forward icon-on-right bigger-110"></span>
+									发送邮件
+								</button>
+								<select type="button" class="btn btn-info btn-sm" id="email" style="width: 150px;height: 34px" onchange="sendEmail1()">
+									<option >请选择收件人</option>
+								</select>
 								<h3 class="header blue lighter smaller">CPS节点监控</h3>
 								<div>
 									<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
