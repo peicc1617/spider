@@ -3,18 +3,17 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>User Profile Page - Ace Admin</title>
+		<title>用户个人资料</title>
 
 		<meta name="description" content="3 styles with inline editable feature" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 		<!-- bootstrap & fontawesome -->
-        <script src="assets/js/jquery-2.1.4.min.js"></script>
+		<script src="assets/js/jquery-2.1.4.min.js"></script>
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="assets/font-awesome/4.5.0/css/font-awesome.min.css" />
 
 		<!-- page specific plugin styles -->
-
 		<link rel="stylesheet" href="assets/css/jquery-ui.custom.min.css" />
 		<link rel="stylesheet" href="assets/css/jquery.gritter.min.css" />
 		<link rel="stylesheet" href="assets/css/select2.min.css" />
@@ -48,26 +47,27 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
-        <!--bootstrap-table.js-->
-        <link rel="stylesheet" href="./bootstrap-table/bootstrap-table.min.css">
-        <script src="./bootstrap-table/bootstrap-table.min.js"></script>
-        <script src="./js/profile.js"></script>
+		<!--bootstrap-table.js-->
+		<link rel="stylesheet" href="./bootstrap-table/bootstrap-table.min.css">
+		<script src="./bootstrap-table/bootstrap-table.min.js"></script>
+		<script src="./js/profile.js"></script>
 	</head>
 
 	<body class="no-skin">
-        <div th:replace="/common/header::header"></div>
-
+		<!--插入页面头部元素-->
+		<div th:replace="/common/header::header"></div>
 		<div class="main-container ace-save-state" id="main-container">
 			<script type="text/javascript">
 				try{ace.settings.loadState('main-container')}catch(e){}
 			</script>
-            <!--插入侧边栏-->
-            <div th:replace="/common/sidebar::sidebar"></div>
+
+			<!--插入侧边栏-->
+			<div th:replace="/common/sidebar::sidebar"></div>
 
 			<div class="main-content">
 				<div class="main-content-inner">
-                    <!--插入面包屑-->
-                    <div th:replace="/common/breadcrumbs::breadcrumbs"></div>
+					<!--插入面包屑-->
+					<div th:replace="/common/breadcrumbs::breadcrumbs"></div>
 
 					<div class="page-content">
 						<div class="ace-settings-container" id="ace-settings-container">
@@ -138,9 +138,13 @@
 						</div><!-- /.ace-settings-container -->
 
 						<div class="page-header">
-                            <h1>
-                                用户资料
-                            </h1>
+							<h1>
+								用户资料
+								<small>
+									<i class="ace-icon fa fa-angle-double-right"></i>
+									3 styles with inline editable feature
+								</small>
+							</h1>
 						</div><!-- /.page-header -->
 
 						<div class="row">
@@ -292,7 +296,7 @@
 											<div class="hr hr16 dotted"></div>
 										</div>
 
-										<div class="col-xs-12 col-sm-9">
+										<div class="col-xs-12 col-sm-9" >
 											<div class="center" th:if="${permission} ne 1">
 												<span class="btn btn-app btn-sm btn-light no-hover">
 													<span class="line-height-1 bigger-170 blue"> 1,411 </span>
@@ -339,110 +343,105 @@
 
 											<div class="space-12"></div>
 
-                                            <div class="profile-user-info profile-user-info-striped">
-                                                <div class="profile-info-row">
-                                                    <div class="profile-info-name"> 用户名 </div>
+											<div class="profile-user-info profile-user-info-striped">
+												<div class="profile-info-row">
+													<div class="profile-info-name"> 用户名 </div>
 
-                                                    <div class="profile-info-value">
-                                                        <span class="editable" id="userName" th:text="${userName}">alexdoe</span>
-                                                    </div>
-                                                </div>
+													<div class="profile-info-value">
+														<span class="editable" id="userName" th:text="${userName}">alexdoe</span>
+													</div>
+												</div>
 
-                                                <div class="profile-info-row">
-                                                    <div class="profile-info-name"> 昵称 </div>
+												<div class="profile-info-row">
+													<div class="profile-info-name"> 昵称 </div>
 
-                                                    <div class="profile-info-value">
-                                                        <span class="editable" id="nickName" th:text="${nickName}">peicc</span>
-                                                    </div>
-                                                </div>
+													<div class="profile-info-value">
+														<span class="editable" id="nickName" th:text="${nickName}">peicc</span>
+													</div>
+												</div>
 
-                                                <div class="profile-info-row">
-                                                    <div class="profile-info-name"> 邮箱 </div>
+												<div class="profile-info-row">
+													<div class="profile-info-name"> 邮箱 </div>
 
-                                                    <div class="profile-info-value">
-                                                        <span class="editable" id="email" th:text="${email}">929594275@qq.com</span>
-                                                    </div>
-                                                </div>
+													<div class="profile-info-value">
+														<span class="editable" id="email" th:text="${email}">929594275@qq.com</span>
+													</div>
+												</div>
 
-                                                <div class="profile-info-row">
-                                                    <div class="profile-info-name"> 工号 </div>
+												<div class="profile-info-row">
+													<div class="profile-info-name"> 工号 </div>
 
-                                                    <div class="profile-info-value">
-                                                        <span class="editable" id="jobNumber" th:text="${jobNumber}">3117001086</span>
-                                                    </div>
-                                                </div>
+													<div class="profile-info-value">
+														<span class="editable" id="jobNumber" th:text="${jobNumber}">3117001086</span>
+													</div>
+												</div>
 
-                                                <div class="profile-info-row">
-                                                    <div class="profile-info-name"> 手机号 </div>
+												<div class="profile-info-row">
+													<div class="profile-info-name"> 手机号 </div>
 
-                                                    <div class="profile-info-value">
-                                                        <span class="editable" id="phoneNumber" th:text="${phoneNumber}">13669183521</span>
-                                                    </div>
-                                                </div>
-                                                <div class="profile-info-row">
-                                                    <div class="profile-info-name"> 行业 </div>
+													<div class="profile-info-value">
+														<span class="editable" id="phoneNumber" th:text="${phoneNumber}">13669183521</span>
+													</div>
+												</div>
+												<div class="profile-info-row">
+													<div class="profile-info-name"> 行业 </div>
 
-                                                    <div class="profile-info-value">
-                                                        <span class="editable" id="domain" th:text="${domain}">13669183521</span>
-                                                    </div>
-                                                </div>
-                                                <div class="profile-info-row">
-                                                    <div class="profile-info-name"> 组织名称 </div>
+													<div class="profile-info-value">
+														<span class="editable" id="domain" th:text="${domain}">13669183521</span>
+													</div>
+												</div>
+												<div class="profile-info-row">
+													<div class="profile-info-name"> 组织名称 </div>
 
-                                                    <div class="profile-info-value">
-                                                        <span class="editable" id="domainName" th:text="${domainName}">13669183521</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+													<div class="profile-info-value">
+														<span class="editable" id="domainName" th:text="${domainName}">13669183521</span>
+													</div>
+												</div>
+											</div>
 
 											<div class="space-20"></div>
 
-                                            <div class="widget-box transparent" th:if="${permission} eq 1">
-                                                <div class="widget-header widget-header-small">
-                                                    <h3 class="widget-title blue smaller">
-                                                        <i class="ace-icon fa fa-rss orange"></i>
-                                                        用户信息管理
-                                                    </h3>
+											<div class="widget-box transparent" th:if="${permission} eq 1">
+												<div class="widget-header widget-header-small">
+													<h3 class="widget-title blue smaller">
+														<i class="ace-icon fa fa-rss orange"></i>
+														用户信息管理
+													</h3>
 
-                                                    <div class="widget-toolbar action-buttons">
-                                                        <a href="#" data-action="reload">
-                                                            <i class="ace-icon fa fa-refresh blue"></i>
-                                                        </a>
-                                                        &nbsp;
-                                                        <a href="#" class="pink">
-                                                            <i class="ace-icon fa fa-trash-o"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
+													<div class="widget-toolbar action-buttons">
+														<a href="#" data-action="reload">
+															<i class="ace-icon fa fa-refresh blue"></i>
+														</a>
+&nbsp;
+														<a href="#" class="pink">
+															<i class="ace-icon fa fa-trash-o"></i>
+														</a>
+													</div>
+												</div>
 
-                                                <div class="widget-body">
-                                                    <div class="widget-main padding-8">
-                                                        <div>
-                                                            <table id="userInfo" data-toggle="table" data-search="true">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th data-field="state" data-checkbox="true"  data-align="center" ></th>
-                                                                    <th data-field="userId"    data-align="center">用户ID</th>
-                                                                    <th data-field="userName"    data-align="center">用户名称</th>
-                                                                    <th data-field="password"   data-align="center">用户密码</th>
-                                                                    <th data-field="nickName"   data-align="center">用户昵称</th>
-                                                                    <th data-field="domain"  data-align="center">领域</th>
-                                                                    <th data-field="permission"  data-align="center">权限</th>
-                                                                    <th data-field="phoneNumber"  data-align="center">电话</th>
-                                                                    <th data-field="jobNumber"  data-align="center">工号</th>
-                                                                </tr>
-                                                                </thead>
-                                                            </table>
-                                                            <br>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-											<div class="hr hr2 hr-double"></div>
-
-											<div class="space-6"></div>
-
+												<div class="widget-body">
+													<div class="widget-main padding-8">
+														<div>
+															<table id="userInfo" data-toggle="table" data-search="true">
+																<thead>
+																<tr>
+																	<th data-field="state" data-checkbox="true"  data-align="center" ></th>
+																	<th data-field="userId"    data-align="center">用户ID</th>
+																	<th data-field="userName"    data-align="center">用户名称</th>
+																	<th data-field="password"   data-align="center">用户密码</th>
+																	<th data-field="nickName"   data-align="center">用户昵称</th>
+																	<th data-field="domain"  data-align="center">领域</th>
+																	<th data-field="permission"  data-align="center">权限</th>
+																	<th data-field="phoneNumber"  data-align="center">电话</th>
+																	<th data-field="jobNumber"  data-align="center">工号</th>
+																</tr>
+																</thead>
+															</table>
+															<br>
+														</div>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -1874,25 +1873,21 @@
 					</div><!-- /.page-content -->
 				</div>
 			</div><!-- /.main-content -->
-
-            <!--引入页脚元素-->
-            <div th:replace="/common/footer::footer"></div>
+			<!--引入页脚元素-->
+			<div th:replace="/common/footer::footer"></div>
 		</div><!-- /.main-container -->
 
 		<!-- basic scripts -->
 
 		<!--[if !IE]> -->
-		<!--<script src="assets/js/jquery-2.1.4.min.js"></script>-->
 
 		<!-- <![endif]-->
 
 		<!--[if IE]>
-<script src="assets/js/jquery-1.11.3.min.js"></script>
 <![endif]-->
 		<script type="text/javascript">
 			if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
-		<script src="assets/js/bootstrap.min.js"></script>
 
 		<!-- page specific plugin scripts -->
 
@@ -2271,7 +2266,6 @@
 					mouseWheelLock: true,
 					alwaysVisible : true
 				});
-			
 				$('a[ data-original-title]').tooltip();
 			
 				$('.easy-pie-chart.percentage').each(function(){

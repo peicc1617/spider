@@ -1,7 +1,6 @@
 package xjtu.spider.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +45,7 @@ public class ViewController {
         model.addAttribute("phoneNumber",user.get("phoneNumber"));
         model.addAttribute("domain",user.get("domain"));
         model.addAttribute("domainName",user.get("domainName"));
+        model.addAttribute("permission",user.get("permission"));
         return "profile";
     }
     /***

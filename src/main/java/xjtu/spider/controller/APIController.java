@@ -185,8 +185,7 @@ public class APIController {
     }
     @RequestMapping("/sendEmail")
     public String sendEmail(String email){
-        sendEmailService.sendEmail(email);
-         return "发送成功";
+         return sendEmailService.sendEmail(email);
     }
 
 }

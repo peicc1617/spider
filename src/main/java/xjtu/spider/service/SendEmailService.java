@@ -30,7 +30,7 @@ public class SendEmailService {
     private MailProperties mailProperties;
     @Autowired
     private TemplateEngine templateEngine;
-    public void sendEmail(String email){
+    public String sendEmail(String email){
         MimeMessage mimeMessage=null;
         try {
             mimeMessage=javaMailSender.createMimeMessage();
@@ -53,9 +53,11 @@ public class SendEmailService {
             helper.addAttachment(fileName, fileSystemResource);
             helper.addInline("imageId",fileSystemResource);
             this.javaMailSender.send(mimeMessage);
-            LOGGER.info("发送邮件成功");
+            LOGGER.info("发送邮件成功,收件人为："+email);
+            return "发送成功";
         } catch (Exception e) {
             LOGGER.error("发送邮件失败");
+            return "发送失败";
         }
 
     }

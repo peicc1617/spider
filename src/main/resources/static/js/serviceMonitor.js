@@ -107,7 +107,7 @@ function drawTimeCharts(indexs) {
         },
         xAxis: {
             type: 'category',
-            boundaryGap: false,
+            boundaryGap: true,
             data:xData,
             name:xAxisName
         },
@@ -443,4 +443,7 @@ function sendEmail1() {
         }
     })
     $("#email").hide();
+}
+function printPage() {
+    window.print();
 }
