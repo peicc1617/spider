@@ -21,7 +21,7 @@ public interface OEEDataMapper {
      * @param oeeData:
      * @return：void
      */
-    @Select("REPLACE INTO oee_data (task_id,description,data,user_name) VALUES(#{taskId},#{description},#{data},#{userName})")
+    @Select("INSERT INTO oee_data (task_id,description,data,user_name) VALUES(#{taskId},#{description},#{data},#{userName})")
     public void saveOEEDataByTaskId(OEEData oeeData);
     /*** 
      * @函数功能：
@@ -30,6 +30,14 @@ public interface OEEDataMapper {
      */
     @Select("SELECT description,data FROM oee_data WHERE task_id=#{taskId}")
     public OEEData getOEEDataByTaskId(int taskId);
+    /***
+     * @函数功能：根据用户名和任务ID获取数据
+     * @param taskId:
+     * @param userName:
+     * @return：xjtu.spider.entity.OEEData
+     */
+    @Select("SELECT description,data FROM oee_data WHERE task_id=#{taskId} AND user_name=#{userName}")
+    public OEEData getOEEDataByTaskIdAndUserName(int taskId,String userName);
     /***
      * @函数功能：保存OEE计算结果
      * @param taskId:
@@ -52,4 +60,11 @@ public interface OEEDataMapper {
      */
     @Select("SELECT * FROM oee_data WHERE user_name=#{userName}")
     public List<OEEData> getTaskListByUserName(String userName);
+    /***
+     * @函数功能：根据用户名查询任务列表
+     * @param userName:
+     * @return：java.util.List<java.lang.Integer>
+     */
+    @Select("SELECT task_id FROM oee_data WHERE user_name=#{userName}")
+    public List<Integer> getTaskIdByUserName(String userName);
 }

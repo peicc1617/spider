@@ -14,8 +14,8 @@ import xjtu.spider.entity.ScheduleSheet;
 @Repository
 @Mapper
 public interface ScheduleSheetMapper {
-    @Select("REPLACE INTO schedule_sheet (task_id,data) VALUES (#{taskId},#{data})")
+    @Select("REPLACE INTO schedule_sheet (task_id,data,user_name) VALUES (#{taskId},#{data},#{userName})")
     public void addSheet(ScheduleSheet scheduleSheet);
-    @Select("SELECT data FROM schedule_sheet WHERE task_id=#{taskId}")
-    public ScheduleSheet getDataByTaskId(Long taskId);
+    @Select("SELECT data FROM schedule_sheet WHERE task_id=#{taskId} AND user_name=#{userName}")
+    public ScheduleSheet getDataByTaskId(Long taskId,String userName);
 }

@@ -51,18 +51,18 @@
 
 	<body class="no-skin">
 		<!--插入页面头部元素-->
-		<div th:replace="/common/header::header"></div>
+		<div th:replace="common/header::header"></div>
 		<div class="main-container ace-save-state" id="main-container">
 			<script type="text/javascript">
 				try{ace.settings.loadState('main-container')}catch(e){}
 			</script>
 
 			<!--插入侧边栏-->
-			<div th:replace="/common/sidebar::sidebar"></div>
+			<div th:replace="common/sidebar::sidebar"></div>
 			<div class="main-content">
 				<div class="main-content-inner">
 					<!--插入面包屑-->
-					<div th:replace="/common/breadcrumbs::breadcrumbs"></div>
+					<div th:replace="common/breadcrumbs::breadcrumbs"></div>
 					<div class="page-content">
 						<!--设置-->
 						<div class="ace-settings-container" id="ace-settings-container">
@@ -446,7 +446,7 @@
 			</div><!-- /.main-content -->
 			<!--<div  th:include="footer::copy"></div>-->
 			<!--引入页脚元素-->
-			<div th:replace="/common/footer::footer"></div>
+			<div th:replace="common/footer::footer"></div>
 
 			<!--<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">-->
 				<!--<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>-->

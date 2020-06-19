@@ -1,8 +1,11 @@
 package xjtu.spider.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alipay.api.AlipayApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xjtu.spider.entity.User;
+import xjtu.spider.util.AliPayUtil;
 import xjtu.spider.util.HttpUtil;
 import xjtu.spider.util.SSOURLUtil;
 
@@ -80,6 +83,38 @@ public class SSOClientFilter implements Filter {
                     }
 
                 }
+            }
+        }
+        //判断是否是支付宝登录
+        if (req.getParameter("auth_code")!=null && !req.getParameter("auth_code").equals("")) {
+            LOGGER.info("用户使用支付宝登录");
+            // 获取回调页面参数auth_code
+            String auth_code=req.getParameter("auth_code");
+            LOGGER.info("用户已授权，获取auth_code信息为："+auth_code);
+            String access_token=AliPayUtil.getAcessToken(auth_code);
+            if (access_token!=null&&(!access_token.equals(""))) {
+                String userInfo= AliPayUtil.getUserInfo(access_token) ;
+                LOGGER.info("支付宝用户信息为："+userInfo);
+                JSONObject jsonObject=(JSONObject) JSONObject.parse(userInfo);
+                User user=new User();
+                String userName=(String)((JSONObject)jsonObject.get("alipay_user_info_share_response")).get("nick_name");
+                LOGGER.info("支付宝用户昵称为："+userName);
+                LOGGER.info("支付宝用户图像网址为："+((JSONObject)jsonObject.get("alipay_user_info_share_response")).get("avatar"));
+                user.setUserName(userName);
+                user.setNickName("支付宝");
+                user.setPermission("2");
+                user.setDomain(((JSONObject)jsonObject.get("alipay_user_info_share_response")).get("province")+"-"+((JSONObject)jsonObject.get("alipay_user_info_share_response")).get("city"));
+                user.setPhoneNumber("保密");
+                user.setEmail("保密");
+                user.setJobNumber((String)((JSONObject)jsonObject.get("alipay_user_info_share_response")).get("user_id"));
+                user.setDomainName("阿里巴巴");
+                user.setUserPhoto((String)((JSONObject)jsonObject.get("alipay_user_info_share_response")).get("avatar"));//支付宝用户头像
+                String userJson=JSONObject.toJSONString(user);
+                JSONObject userJSONObject= JSONObject.parseObject(userJson);
+                session.setAttribute("userInfo",userJSONObject);
+                session.setAttribute("isLogin",true);
+                filterChain.doFilter(req,resp);
+                return;
             }
         }
 

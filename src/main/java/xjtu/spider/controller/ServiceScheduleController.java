@@ -24,12 +24,12 @@ public class ServiceScheduleController {
      * @return：void
      */
     @RequestMapping("/schedule/addRequest")
-    public void  addRequest(MRORequest mroRequest){
-        scheduleService.addRequest(mroRequest);
+    public String  addRequest(MRORequest mroRequest){
+        return scheduleService.addRequest(mroRequest);
     }
     @RequestMapping("/schedule/getRequest")
-    public MRORequest getRequest(Long taskId){
-        return scheduleService.getRequest(taskId);
+    public MRORequest getRequest(Long taskId,String userName){
+        return scheduleService.getRequest(taskId,userName);
     }
     /***
      * @函数功能：添加MRO服务提供商
@@ -37,12 +37,12 @@ public class ServiceScheduleController {
      * @return：void
      */
     @RequestMapping("/schedule/addSupplier")
-    public void  addSupplier(MROSupplier mroSupplier){
-        scheduleService.addSupplier(mroSupplier);
+    public String addSupplier(MROSupplier mroSupplier){
+        return scheduleService.addSupplier(mroSupplier);
     }
     @RequestMapping("/schedule/getSupplier")
-    public MROSupplier getSupplier(Long taskId){
-        return scheduleService.getSupplier(taskId);
+    public MROSupplier getSupplier(Long taskId,String userName){
+        return scheduleService.getSupplier(taskId, userName);
     }
     /***
      * @函数功能：
@@ -59,8 +59,8 @@ public class ServiceScheduleController {
      * @return：xjtu.spider.entity.ScheduleSheet
      */
     @RequestMapping("/schedule/getSheet")
-    public ScheduleSheet getSheet(Long taskId){
-        return scheduleService.getSheet(taskId);
+    public ScheduleSheet getSheet(Long taskId,String userName){
+        return scheduleService.getSheet(taskId,userName);
     }
     @RequestMapping("/schedule/go")
     public List<ScheduleResult> go(GAPara gaPara){

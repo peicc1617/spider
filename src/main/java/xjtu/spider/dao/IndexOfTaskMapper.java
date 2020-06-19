@@ -17,12 +17,18 @@ import java.util.List;
 @Repository
 @Mapper
 public interface IndexOfTaskMapper {
-    @Select("SELECT COUNT(*) FROM indexs_of_task WHERE task_id=#{taskId}")
-    public boolean isExistByTaskId(Long taskId);
-    @Select("REPLACE INTO indexs_of_task (task_id,evaluate_name,description,evaluate_indexs) VALUES(#{taskId},#{evaluateName},#{description},#{evaluateIndexs},#{userName})")
+    /***
+     * @函数功能：判断用户名下taskId是否存在
+     * @param taskId:
+     * @param userName:
+     * @return：boolean
+     */
+    @Select("SELECT COUNT(*) FROM indexs_of_task WHERE task_id=#{taskId} AND user_name=#{userName}")
+    public boolean isExistByTaskId(Long taskId,String userName);
+    @Select("INSERT INTO indexs_of_task (task_id,evaluate_name,description,evaluate_indexs,user_name) VALUES(#{taskId},#{evaluateName},#{description},#{evaluateIndexs},#{userName})")
     public void addIndexsByTaskId(IndexsOfTask indexsOfTask);
-    @Select("SELECT * FROM indexs_of_task WHERE task_id=#{taskId}")
-    public IndexsOfTask getIndexsByTaskId(long taskId);
-    @Select("UPDATE indexs_of_task SET value=#{indexValues},weight=#{indexWeights} WHERE task_id=#{taskId} ")
-    public void saveValueAndWeight(Long taskId,String indexValues,String indexWeights);
+    @Select("SELECT * FROM indexs_of_task WHERE task_id=#{taskId} AND user_name=#{userName}")
+    public IndexsOfTask getIndexsByTaskId(long taskId,String userName);
+    @Select("UPDATE indexs_of_task SET value=#{indexValues},weight=#{indexWeights} WHERE task_id=#{taskId} AND user_name=#{userName}")
+    public void saveValueAndWeight(Long taskId,String indexValues,String indexWeights,String userName);
 }

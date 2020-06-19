@@ -56,4 +56,5 @@ public class User implements Serializable{
      * 组织
      */
     private String domainName;
+    private String userPhoto;//用户头像
 }

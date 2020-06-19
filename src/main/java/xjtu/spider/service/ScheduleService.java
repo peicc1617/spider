@@ -34,22 +34,35 @@ public class ScheduleService {
      * @param :
      * @return：void
      */
-    public void addRequest(MRORequest mroRequest){
-        requestMapper.add(mroRequest);
+    public String addRequest(MRORequest mroRequest){
+        List<Long> taskIdList=requestMapper.getTaskIdByUserName(mroRequest.getUserName());
+        if (!taskIdList.contains(mroRequest.getTaskId())) {
+            requestMapper.add(mroRequest);
+            return "MRO服务需求保存成功";
+        } else {
+            return "该MRO服务需求对应的MRO服务任务ID已存在，请查正后重试";
+        }
     }
-    public MRORequest getRequest(Long taskId){
-        return requestMapper.getRequest(taskId);
+    public MRORequest getRequest(Long taskId,String userName){
+        return requestMapper.getRequestByTaskIdAndUserName(taskId, userName);
     }
     /***
      * @函数功能：保存MRO服务提供商信息
      * @param mroSupplier:
      * @return：void
      */
-    public void addSupplier(MROSupplier mroSupplier){
-        mroSupplierMapper.add(mroSupplier);
+    public String addSupplier(MROSupplier mroSupplier){
+        List<Long> taskIdList=mroSupplierMapper.getTaskIdByUserName(mroSupplier.getUserName());
+        if (!taskIdList.contains(mroSupplier.getTaskId())) {
+            mroSupplierMapper.add(mroSupplier);
+            return "MRO服务提供商保存成功";
+        } else {
+            return "该MRO服务提供商对应的MRO服务任务ID已存在，请查正后重试";
+        }
+
     }
-    public MROSupplier getSupplier(Long taskId){
-        return mroSupplierMapper.getSupplier(taskId);
+    public MROSupplier getSupplier(Long taskId,String userName){
+        return mroSupplierMapper.getSupplierByTaskIdAndUserName(taskId, userName);
     }
     /***
      * @函数功能：保存排程表
@@ -64,8 +77,8 @@ public class ScheduleService {
      * @param taskId:
      * @return：xjtu.spider.entity.ScheduleSheet
      */
-    public ScheduleSheet getSheet(Long taskId){
-        return scheduleSheetMapper.getDataByTaskId(taskId);
+    public ScheduleSheet getSheet(Long taskId,String userName){
+        return scheduleSheetMapper.getDataByTaskId(taskId,userName);
     }
     public List<ScheduleResult> go(GAPara gaPara){
         JSONArray time=JSON.parseArray(gaPara.getTime());

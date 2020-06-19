@@ -47,7 +47,7 @@
 
 	<body class="no-skin">
 		<!--插入页面头部元素-->
-		<div th:replace="/common/header::header"></div>
+		<div th:replace="common/header::header"></div>
 
 		<div class="main-container ace-save-state" id="main-container">
 			<script type="text/javascript">
@@ -55,12 +55,12 @@
 			</script>
 
 			<!--插入侧边栏-->
-			<div th:replace="/common/sidebar::sidebar"></div>
+			<div th:replace="common/sidebar::sidebar"></div>
 
 			<div class="main-content">
 				<div class="main-content-inner">
 					<!--插入面包屑-->
-					<div th:replace="/common/breadcrumbs::breadcrumbs"></div>
+					<div th:replace="common/breadcrumbs::breadcrumbs"></div>
 
 					<div class="page-content">
 						<div class="ace-settings-container" id="ace-settings-container">
@@ -239,7 +239,7 @@
 										开始聚类
 									</button>
 								</div>
-								<div  id="serviceCluster" style="height: 700px; width: 1200px;"></div>
+								<div  id="serviceCluster" style="height: 700px;"></div>
 								<!--</a>-->
 
 								<div id="my-modal" class="modal fade" tabindex="-1">
@@ -308,7 +308,7 @@
 			</div><!-- /.main-content -->
 
 			<!--引入页脚元素-->
-			<div th:replace="/common/footer::footer"></div>
+			<div th:replace="common/footer::footer"></div>
 
 		</div><!-- /.main-container -->
 

@@ -23,9 +23,20 @@ public class OEEController {
     @Autowired
     private OEEDataMapper oeeDataMapper;
     @RequestMapping("/oee/saveOEEDataByTaskId")
-    public void saveOEEDataByTaskId(OEEData oeeData){
-        oeeDataMapper.saveOEEDataByTaskId(oeeData);
+    public String saveOEEDataByTaskId(OEEData oeeData){
+        //查看同一用户下taskId是否已经存在
+        List<Integer> taskIdList=oeeDataMapper.getTaskIdByUserName(oeeData.getUserName());
+        if (!taskIdList.contains(oeeData.getTaskId())) {
+            oeeDataMapper.saveOEEDataByTaskId(oeeData);
+            LOGGER.info("用户-"+oeeData.getUserName()+"存储成功"+oeeData);
+            return "服务任务ID-"+oeeData.getTaskId()+"-保存成功";
+        } else {
+            LOGGER.error("用户-"+oeeData.getUserName()+"当前存储的taskId为-"+oeeData.getTaskId()+"-已存在");
+            return "服务任务ID"+oeeData.getTaskId()+"已存在，请查正后重试";
+
+        }
     }
+
     /***
      * @函数功能：
      * @param taskId:
@@ -34,6 +45,17 @@ public class OEEController {
     @RequestMapping("/oee/getOEEDataByTaskId")
     public OEEData getOEEDataByTaskId(int taskId){
         OEEData oeeData=oeeDataMapper.getOEEDataByTaskId(taskId);
+        LOGGER.info("加载OEE数据:"+oeeData);
+        return oeeData;
+    }
+    /***
+     * @函数功能：根据用户名和任务ID获取数据
+     * @param taskId:
+     * @return：xjtu.spider.entity.OEEData
+     */
+    @RequestMapping("/oee/getOEEDataByTaskIdAndUserName")
+    public OEEData getOEEDataByTaskIdAndUserName(int taskId,String userName){
+        OEEData oeeData=oeeDataMapper.getOEEDataByTaskIdAndUserName(taskId, userName);
         LOGGER.info("加载OEE数据:"+oeeData);
         return oeeData;
     }

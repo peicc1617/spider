@@ -46,6 +46,7 @@ public class ViewController {
         model.addAttribute("domain",user.get("domain"));
         model.addAttribute("domainName",user.get("domainName"));
         model.addAttribute("permission",user.get("permission"));
+        model.addAttribute("userPhoto",user.get("userPhoto"));
         return "profile";
     }
     /***
@@ -58,6 +59,7 @@ public class ViewController {
         JSONObject user=(JSONObject)session.getAttribute("userInfo");
         LOGGER.info("进入serviceRegister.html页面");
         model.addAttribute("userName",user.get("userName"));
+        model.addAttribute("userPhoto",user.get("userPhoto"));
         return "serviceRegister";
     }
     /***
@@ -69,6 +71,7 @@ public class ViewController {
     public  String viewServiceCluster(HttpSession session,Model model){
         JSONObject user=(JSONObject)session.getAttribute("userInfo");
         model.addAttribute("userName",user.get("userName"));
+        model.addAttribute("userPhoto",user.get("userPhoto"));
         if (Integer.parseInt((String)user.get("permission"))==1) {
             LOGGER.info("进入serviceCluster.html页面");
             return "serviceCluster";
@@ -87,6 +90,7 @@ public class ViewController {
     public String viewServiceRecommend(HttpSession session,Model model){
         JSONObject user=(JSONObject)session.getAttribute("userInfo");
         model.addAttribute("userName",user.get("userName"));
+        model.addAttribute("userPhoto",user.get("userPhoto"));
         LOGGER.info("进入serviceRecommend.html页面");
         return "serviceRecommend";
     }
@@ -100,7 +104,8 @@ public class ViewController {
     public String viewServiceSchedule(HttpSession session,Model model){
         JSONObject user=(JSONObject)session.getAttribute("userInfo");
         model.addAttribute("userName",user.get("userName"));
-        LOGGER.info("进入serviceRecommend.html页面");
+        model.addAttribute("userPhoto",user.get("userPhoto"));
+        LOGGER.info("进入serviceSchedule.html页面");
         return "serviceSchedule";
     }
     /***
@@ -113,6 +118,7 @@ public class ViewController {
     public String viewServiceEvaluate(HttpSession session,Model model){
         JSONObject user=(JSONObject)session.getAttribute("userInfo");
         model.addAttribute("userName",user.get("userName"));
+        model.addAttribute("userPhoto",user.get("userPhoto"));
         LOGGER.info("进入serviceEvaluate.html页面");
         return "serviceEvaluate";
     }
@@ -126,6 +132,7 @@ public class ViewController {
     public String viewServiceMonitor(HttpSession session,Model model){
         JSONObject user=(JSONObject)session.getAttribute("userInfo");
         model.addAttribute("userName",user.get("userName"));
+        model.addAttribute("userPhoto",user.get("userPhoto"));
         LOGGER.info("进入serviceMonitor.html页面");
         return "serviceMonitor";
     }
@@ -139,6 +146,7 @@ public class ViewController {
     public String viewOEE(HttpSession session,Model model){
         JSONObject user=(JSONObject)session.getAttribute("userInfo");
         model.addAttribute("userName",user.get("userName"));
+        model.addAttribute("userPhoto",user.get("userPhoto"));
         LOGGER.info("进入oee.html页面");
         return "oee";
     }
@@ -152,6 +160,7 @@ public class ViewController {
     public String viewSpider(HttpSession session,Model model){
         JSONObject user=(JSONObject)session.getAttribute("userInfo");
         model.addAttribute("userName",user.get("userName"));
+        model.addAttribute("userPhoto",user.get("userPhoto"));
         if (Integer.parseInt((String)user.get("permission"))==1) {
             LOGGER.info("进入spider.html页面");
             return "spider";
@@ -170,6 +179,7 @@ public class ViewController {
     public String viewSegment(HttpSession session,Model model){
         JSONObject user=(JSONObject)session.getAttribute("userInfo");
         model.addAttribute("userName",user.get("userName"));
+        model.addAttribute("userPhoto",user.get("userPhoto"));
         if (Integer.parseInt((String)user.get("permission"))==1) {
             LOGGER.info("进入segment.html页面");
             return "segment";
@@ -183,6 +193,7 @@ public class ViewController {
     public String viewMROList(HttpSession session,Model model){
         JSONObject user=(JSONObject)session.getAttribute("userInfo");
         model.addAttribute("userName",user.get("userName"));
+        model.addAttribute("userPhoto",user.get("userPhoto"));
         if (Integer.parseInt((String)user.get("permission"))==1) {
             model.addAttribute("MROList",enterpriseResultMapper.getEnterpriseResult());
             LOGGER.info("进入mroList.html页面");
@@ -203,6 +214,7 @@ public class ViewController {
     public String viewMROProfile(HttpSession session,Model model){
         JSONObject user=(JSONObject)session.getAttribute("userInfo");
         model.addAttribute("userName",user.get("userName"));
+        model.addAttribute("userPhoto",user.get("userPhoto"));
         LOGGER.info("进入mroProfile.html页面");
         return "mroProfile";
     }
@@ -210,9 +222,10 @@ public class ViewController {
     public String viewMROData(HttpSession session, Model model, @PathVariable("MROID") long MROID){
         JSONObject user=(JSONObject)session.getAttribute("userInfo");
         model.addAttribute("userName",user.get("userName"));
+        model.addAttribute("userPhoto",user.get("userPhoto"));
         Enterprise enterprise=enterpriseMapper.getEnterpriseById(MROID);
         model.addAttribute("mro",enterprise);
-        return "/mroData";
+        return "mroData";
     }
 
 }

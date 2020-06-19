@@ -17,6 +17,7 @@ function refresh() {
             async:false,
             data:{
                 taskId:taskId,
+                userName:$("#userName").html()
             },
             success:function (result) {
                 //将数据填充到服务需求表格
@@ -45,6 +46,7 @@ function refresh() {
             async:false,
             data:{
                 taskId:taskId,
+                userName:$("#userName").html()
             },
             success:function (result) {
                 //将数据填充到服务需求表格
@@ -88,7 +90,7 @@ function deleteRequest() {
     })
     $('#requestTable').bootstrapTable('remove', {field: 'requestID', values: ids});
 }
-//根据服务任务ID保存MRO服务需求
+//根据服务任务ID和用户名保存MRO服务需求
 function saveRequests() {
     taskId=$("#taskID").val();//任务id
     var machine=$("#machine").val();
@@ -141,7 +143,8 @@ function saveSuppliers() {
         async:false,
         data:{
             taskId:taskId,
-            supplierContent:JSON.stringify(tableData)
+            supplierContent:JSON.stringify(tableData),
+            userName:$("#userName").html()
         },
         success:function (result) {
             alert(result)
@@ -229,7 +232,8 @@ function saveSheet() {
         async:false,
         data:{
             taskId:taskId,
-            data:JSON.stringify(sheetData)
+            data:JSON.stringify(sheetData),
+            userName:$("#userName").html()
         },
         success:function (result) {
             alert("添加成功")
@@ -246,6 +250,7 @@ function loadSheet() {
         async:false,
         data:{
             taskId:taskId,
+            userName:$("#userName").html()
         },
         success:function (result) {
             var sheetData=JSON.parse(result.data);

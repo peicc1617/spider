@@ -244,10 +244,11 @@ function loadData() {
     } else {
         //加载数据
         $.ajax({
-            url: "/oee/getOEEDataByTaskId",
+            url: "/oee/getOEEDataByTaskIdAndUserName",
             type: "GET",
             data: {
                 taskId: taskId,
+                userName:$("#userName").html()
             },
             success: function (result) {
                 $('#oeeDataTable').bootstrapTable('removeAll');
@@ -310,7 +311,7 @@ function saveProject()
             },
             success:function(result)
             {
-                alert("保存成功")
+                alert(result)
 
             }
         })
@@ -602,7 +603,7 @@ function drawLossCharts() {
     app.title = '坐标轴刻度与标签对齐';
     option = {
         title: {
-            text: '损失分析'
+            text: '损失时间统计'
         },
         tooltip: {
             trigger: 'axis'
@@ -626,7 +627,6 @@ function drawLossCharts() {
         },
         xAxis: {
             type: 'category',
-            boundaryGap: false,
             data:xData,
             name:xAxisName
         },
@@ -684,4 +684,9 @@ function drawLossCharts() {
     }
 
 
+}
+function clearCookie() {
+    var cookie=$.cookie('ALIPAYJSESSIONID');
+    alert(cookie)
+    console.log(cookie)
 }

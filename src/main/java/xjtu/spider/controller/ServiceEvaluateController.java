@@ -81,16 +81,21 @@ public class ServiceEvaluateController {
      * @return：boolean
      */
     @RequestMapping("evaluate/isExistByTaskId")
-    public boolean isExistByTaskId(Long taskId){
-        return indexOfTaskMapper.isExistByTaskId(taskId);
+    public boolean isExistByTaskId(Long taskId,String userName){
+        return indexOfTaskMapper.isExistByTaskId(taskId,userName);
     }
     @RequestMapping("evaluate/addIndexsByTaskId")
     public void addIndexsByTaskId(IndexsOfTask indexsOfTask){
         indexOfTaskMapper.addIndexsByTaskId(indexsOfTask);
     }
-    @RequestMapping("evaluate/getIndexsByTaskId")
-    public IndexsOfTask getIndexsByTaskId(Long taskId){
-        return indexOfTaskMapper.getIndexsByTaskId(taskId);
+    /***
+     * @函数功能：
+     * @param taskId:
+     * @return：xjtu.spider.entity.IndexsOfTask
+     */
+    @RequestMapping("evaluate/getIndexsByTaskIdAndUserName")
+    public IndexsOfTask getIndexsByTaskId(Long taskId,String userName){
+        return indexOfTaskMapper.getIndexsByTaskId(taskId,userName);
     }
     /***
      * @函数功能：保存输入的指标值及其权重
@@ -99,7 +104,7 @@ public class ServiceEvaluateController {
      * @return：void
      */
     @RequestMapping("evaluate/saveValueAndWeight")
-    public void saveValueAndWeight(Long taskId,String indexValues,String indexWeights){
-        indexOfTaskMapper.saveValueAndWeight(taskId,indexValues,indexWeights);
+    public void saveValueAndWeight(Long taskId,String indexValues,String indexWeights,String userName){
+        indexOfTaskMapper.saveValueAndWeight(taskId,indexValues,indexWeights,userName);
     }
 }

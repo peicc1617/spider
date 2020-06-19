@@ -13,4 +13,5 @@ public class ScheduleSheet {
     private Long id;
     private Long taskId;
     private String data;//数据
+    private String userName;
 }

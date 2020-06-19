@@ -13,4 +13,5 @@ public class MROSupplier {
     private long id;
     private long  taskId;//任务id
     private String supplierContent;//MRO服务提供商
+    private String userName;
 }

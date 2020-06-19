@@ -54,20 +54,20 @@
 
 	<body class="no-skin">
 		<!--插入任务列表-->
-		<div th:replace="/common/taskList::taskList"></div>
+		<div th:replace="common/taskList::taskList"></div>
 		<!--插入页面头部元素-->
-		<div th:replace="/common/header::header"></div>
+		<div th:replace="common/header::header"></div>
 		<div class="main-container ace-save-state" id="main-container">
 			<script type="text/javascript">
 				try{ace.settings.loadState('main-container')}catch(e){}
 			</script>
 
 			<!--插入侧边栏-->
-			<div th:replace="/common/sidebar::sidebar"></div>
+			<div th:replace="common/sidebar::sidebar"></div>
 			<div class="main-content">
 				<div class="main-content-inner">
 					<!--插入面包屑-->
-					<div th:replace="/common/breadcrumbs::breadcrumbs"></div>
+					<div th:replace="common/breadcrumbs::breadcrumbs"></div>
 					<div class="page-content">
 						<!--设置-->
 						<div class="ace-settings-container" id="ace-settings-container">
@@ -240,7 +240,7 @@
 										</table>
 										<div id="radarContainer" style="height: 450px;margin-top: 20px"></div>
 										<div id="scoreDiv" class="center">
-											<h3 class="header blue lighter smaller">MRO服务评价得分为<span id="score"></span></h3>
+											<h4 class="header blue lighter smaller">MRO服务评价得分为<span id="score"></span></h4>
 										</div>
                                     </div>
                                 </div>
@@ -301,7 +301,7 @@
 			</div><!-- /.main-content -->
 			<!--<div  th:include="footer::copy"></div>-->
 			<!--引入页脚元素-->
-			<div th:replace="/common/footer::footer"></div>
+			<div th:replace="common/footer::footer"></div>
 		</div><!-- /.main-container -->
 		<!--模态框-->
 		<!--添加指标-->

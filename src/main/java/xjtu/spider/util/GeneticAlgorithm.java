@@ -123,8 +123,18 @@ public class GeneticAlgorithm {
     public Gene mutationGene(Gene gene, int n) {
         List<Integer> indexList = makeList(chromosomeSize);
         for (int i = 0; i < n; i++) {
-            int a = indexList.remove(random.nextInt(indexList.size()));
-            int b = indexList.remove(random.nextInt(indexList.size()));
+            int a=0,b=0;
+            if (indexList.size()>0) {
+                a = indexList.remove(random.nextInt(indexList.size()));
+            } else {
+                a=0;
+            }
+            if (indexList.size()>0) {
+                b = indexList.remove(random.nextInt(indexList.size()));
+            } else {
+                b=0;
+            }
+
             int t = gene.chromosome[a];
             gene.chromosome[a] = gene.chromosome[b];
             gene.chromosome[b] = t;

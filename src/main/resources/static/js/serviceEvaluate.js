@@ -108,6 +108,7 @@ function createEvaluateByTaskId() {
         async:false,
         data:{
             taskId:$("#taskId").val(),
+            userName:$("#userName").html()
         },
         success:function (result) {
             isExist=result;
@@ -124,7 +125,7 @@ function createEvaluateByTaskId() {
             data:{
                 taskId:$("#taskId").val(),
                 evaluateName:$("#evaluateName").val(),
-                evaluateDesc:$("#evaluateDesc").val(),
+                description:$("#evaluateDesc").val(),
                 evaluateIndexs:JSON.stringify(selectedArray()),
                 userName:$("#userName").html()
             },
@@ -135,8 +136,9 @@ function createEvaluateByTaskId() {
     }
     $("#createEvaluate").modal("hide");
 }
-//根据taskId加载指标及其取值和权重
+//根据taskId和userName加载指标及其取值和权重
 function loadIndexs() {
+    $("#radarContainer").empty();//清空绘图区域
     var taskId1=$("#taskID1").val();//获取服务任务ID
     var indexs=0;//保存服务任务id对应的指标索引集合
     var values=[];//指标取值
@@ -145,19 +147,25 @@ function loadIndexs() {
         alert("请选择服务任务Id")
     } else{
         $.ajax({
-            url:"/evaluate/getIndexsByTaskId",
+            url:"/evaluate/getIndexsByTaskIdAndUserName",
             type:"POST",
             async:false,
             data:{
-                taskId:taskId1
+                taskId:taskId1,
+                userName:$("#userName").html()
             },
             success:function (result) {
                 //服务任务id对应的指标索引集合
-                indexs=result.evaluateIndexs;
-                $("#evaluateName1").val(result.evaluateName);
-                $("#evaluateDesc1").val(result.evaluateDesc);
-                values=JSON.parse(result.value);
-                weights=JSON.parse(result.weight);
+                if (result!="") {
+                    indexs=result.evaluateIndexs;
+                    $("#evaluateName1").val(result.evaluateName);
+                    $("#evaluateDesc1").val(result.description);
+                    values=JSON.parse(result.value);
+                    weights=JSON.parse(result.weight);
+                } else {
+                    alert("未查询到相关数据，请输入正确的MRO服务任务ID")
+                    return;
+                }
             }
         });
         //根据指标索引加载指标表格
@@ -199,6 +207,7 @@ function initIndexValueTable(para) {
         $('#indexValueTable').bootstrapTable("append",rowData);
     }
 }
+//根据任务id和用户名存储（更新）指标值及其权重
 function saveIndexsValue() {
     var taskId1=$("#taskID1").val();//获取服务任务ID
     var tableData=$('#indexValueTable').bootstrapTable("getData");
@@ -216,7 +225,8 @@ function saveIndexsValue() {
         data:{
             taskId:taskId1,
             indexValues:JSON.stringify(values),
-            indexWeights: JSON.stringify(weights)
+            indexWeights: JSON.stringify(weights),
+            userName:$("#userName").html()//根据用户名
         },
         success:function (result) {
             alert("保存成功")
@@ -291,9 +301,10 @@ function drawRadar(indicator,data,maxData,minData){
         tooltip: {},
         radar: {
             name: {
+                formatter: '【{value}】',
                 textStyle: {
-                    color: '#fff',
-                    backgroundColor: '#999',
+                    color: '#45a5ff',
+
                     borderRadius: 3,
                     padding: [3, 5]
                 }
