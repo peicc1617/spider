@@ -29,8 +29,8 @@ public class ViewController {
     private Logger LOGGER= LoggerFactory.getLogger(getClass());
     /***
      * @函数功能：查看profile.html页面
-     * @param session:
-     * @param model:
+     * @param session: 会话
+     * @param model: 模型
      * @return：java.lang.String
      */
     @RequestMapping("/profile.html")
