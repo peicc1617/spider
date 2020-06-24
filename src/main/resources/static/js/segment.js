@@ -55,3 +55,17 @@ function viewResultOfSegment() {
         }
     });
 }
+//在线分词
+function cutWordsOnLine() {
+    $.ajax({
+        url:"/segment/cutWordsOnLine",
+        type:"POST",
+        async:false,
+        data:{
+            originStr:$("#originStr").val()
+        },
+        success:function (result) {
+            $('#resultStr').val(result);
+        }
+    });
+}

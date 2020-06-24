@@ -16,7 +16,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface EnterpriseResultMapper {
-    @Select("INSERT INTO enterpriseResult (companyId,companyName,description,result) VALUES (#{companyId},#{companyName},#{description},#{result})")
+    @Select("INSERT INTO enterpriseresult (companyId,companyName,description,result) VALUES (#{companyId},#{companyName},#{description},#{result})")
     public void add(EnterpriseResult enterpriseResult);
     @Select("SELECT * FROM enterpriseresult")
     public List<EnterpriseResult> getEnterpriseResult();

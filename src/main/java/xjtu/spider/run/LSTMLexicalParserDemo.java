@@ -1,7 +1,7 @@
+/*
 package xjtu.spider.run;
 
 import me.midday.FoolNLTK;
-import me.midday.dictionary.Dictionary;
 import me.midday.lexical.AnalysisResult;
 import me.midday.lexical.Entity;
 import me.midday.lexical.LexicalAnalyzer;
@@ -14,12 +14,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * @基本功能:
  * @program:spider
  * @author:peicc
  * @create:2020-01-10 12:05:38
- **/
+ **//*
+
 public class LSTMLexicalParserDemo {
     private static Logger LOGGER = LoggerFactory.getLogger(LSTMLexicalParserDemo.class);
     public static void main(String[] args) throws IOException {
@@ -37,14 +39,16 @@ public class LSTMLexicalParserDemo {
         String text3="各类通用机床、专用机床、机床辅具、刀具零配件的制造、销售、维修、来料加工；房屋、场地租赁(依法须经批准的项目，经相关部门批准后方可开展经营活动)。";
         String str3=text3.replaceAll("、"," ");
         LexicalAnalyzer lexicalAnalyzer= FoolNLTK.getLSTMLexicalAnalyzer();
-        lexicalAnalyzer.addUserDict("C:\\Users\\peicc\\OneDrive\\毕业论文\\大论文\\APP\\spider\\src\\main\\resources\\segment\\dictionary.txt");
+//        lexicalAnalyzer.addUserDict("C:\\Users\\peicc\\OneDrive\\毕业论文\\大论文\\APP\\spider\\src\\main\\resources\\segment\\dictionary.txt");
         //分词
         LOGGER.info("分词");
         List<List<Word>> words= lexicalAnalyzer.cut(str3);
         for (List<Word> ws:words) {
             ws.forEach(System.out::println);
         }
-        /*// 词性标注
+        */
+/*//*
+/ 词性标注
         LOGGER.info("词性标注");
         List<List<Word>> posWords = lexicalAnalyzer.pos(text);
         for(List<Word> ws: posWords){
@@ -72,6 +76,8 @@ public class LSTMLexicalParserDemo {
         List<List<Word>> dPosWords = lexicalAnalyzer.pos(docs);
         for(List<Word> ws: dPosWords){
             ws.forEach(System.out::println);
-        }*/
+        }*//*
+
     }
 }
+*/

@@ -1,12 +1,15 @@
 package xjtu.spider.service;
 
-import me.midday.FoolNLTK;
+import com.hankcs.hanlp.HanLP;
+import com.hankcs.hanlp.seg.common.Term;
+/*import me.midday.FoolNLTK;
 import me.midday.lexical.LexicalAnalyzer;
-import me.midday.lexical.Word;
+import me.midday.lexical.Word;*/
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 import xjtu.spider.dao.EnterpriseMapper;
 import xjtu.spider.dao.EnterpriseResultMapper;
 import xjtu.spider.entity.Enterprise;
@@ -39,10 +42,11 @@ public class SegmentService {
         LOGGER.info("------------------开始分词------------------");
         //加载停用词
         if (!isLoading) {
-            String path="F:\\Java\\spider\\src\\main\\resources\\segment\\chineseStopWords.txt";
+            String path="/segment/chineseStopWords.txt";
             try {
                 LOGGER.info("正在加载停用词");
                 stopWords = Utils.getStopWords(path);
+                LOGGER.info("停用词加载完成："+stopWords);
                 isLoading=true;
             }
             catch (IOException e1) {
@@ -79,15 +83,17 @@ public class SegmentService {
                     .replaceAll("【\\S*","");// 过滤'【'
             LOGGER.info("当前分词----->原始字符串："+oldStr+"预处理后字符串："+newStr);
             // 调用分词工具
-            LexicalAnalyzer lexicalAnalyzer= FoolNLTK.getLSTMLexicalAnalyzer();
-            try {
-                lexicalAnalyzer.addUserDict("F:\\Java\\spider\\src\\main\\resources\\segment\\dictionary.txt");
+//            LexicalAnalyzer lexicalAnalyzer= FoolNLTK.getLSTMLexicalAnalyzer();
+            //部署时自定义词典路径无法找到，因此注释掉。
+           /* try {
+                lexicalAnalyzer.addUserDict(".\\src\\main\\resources\\segment\\dictionary.txt");
             }
             catch (IOException e) {
                 LOGGER.error("自定义分析词典使用异常");
                 e.printStackTrace();
-            }
-            List<List<Word>> words= lexicalAnalyzer.cut(newStr);// 分词
+            }*/
+           //docker镜像中无法使用，换成下面一种分词工具
+           /* List<List<Word>> words= lexicalAnalyzer.cut(newStr);// 分词
             StringBuilder sb=new StringBuilder();
             for (List<Word> ws:words) {
                 ws.forEach(word -> {
@@ -96,6 +102,14 @@ public class SegmentService {
                        sb.append(word).append(" ");
                    }
                 });
+            }*/
+            List<Term> termList= HanLP.segment(newStr);
+            StringBuilder sb=new StringBuilder();
+            for (Term term:termList) {
+                String str_term=term.word;
+                if (!stopWords.contains(str_term)) {// 当前字符串不在停用词集合中
+                    sb.append(str_term).append(" ");
+                }
             }
             enterpriseResult.setResult(sb.toString().trim());
             LOGGER.info("分词结果："+sb.toString().trim());
@@ -111,5 +125,32 @@ public class SegmentService {
     public void reset(){
         enterpriseMapper.reset();
         LOGGER.info("待分词数据已重置");
+    }
+    //最好将分词功能写成一个函数，然后调用
+    public String cutWordsOnLine(String originStr){
+        //加载停用词
+        if (!isLoading) {
+            String path="/segment/chineseStopWords.txt";
+            try {
+                LOGGER.info("正在加载停用词");
+                stopWords = Utils.getStopWords(path);
+                LOGGER.info("停用词加载完成："+stopWords);
+                isLoading=true;
+            }
+            catch (IOException e1) {
+                LOGGER.error("加载停用词错误");
+                e1.printStackTrace();
+            }
+        }
+        List<Term> resultList= HanLP.segment(originStr);
+        StringBuilder sb1=new StringBuilder();
+        for (Term term1:resultList) {
+            String str_term1=term1.word;
+            if (!stopWords.contains(str_term1)) {// 当前字符串不在停用词集合中
+                sb1.append(str_term1).append(" ");
+            }
+        }
+        LOGGER.info("在线分词结果："+sb1.toString());
+        return sb1.toString();
     }
 }

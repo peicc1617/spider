@@ -3,6 +3,7 @@ package xjtu.spider.webmagic;
 import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * @基本功能:工具类
@@ -28,9 +29,11 @@ public class Utils {
     //加载停用词
     public static Set getStopWords(String path) throws IOException {
         HashSet<String> set=new HashSet<>();
-        BufferedReader br = null;
-        br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "utf-8"));
+        InputStream is=Utils.class.getResourceAsStream(path);//修改
 
+        BufferedReader br = null;
+//        br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "utf-8"));
+        br=new BufferedReader(new InputStreamReader(is,"utf-8"));
         String line;
         while((line = br.readLine()) != null) {
             set.add(line);

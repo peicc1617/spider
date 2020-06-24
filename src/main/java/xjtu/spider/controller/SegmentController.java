@@ -38,4 +38,8 @@ public class SegmentController {
     public void reset(){
         segmentService.reset();
     }
+    @RequestMapping(method = RequestMethod.POST,value = "/cutWordsOnLine")
+    public String cutWordsOnLine(String originStr){
+        return segmentService.cutWordsOnLine(originStr);
+    }
 }
