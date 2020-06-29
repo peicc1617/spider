@@ -22,11 +22,12 @@ function checkTaskId() {
 //CPS节点监控
 function monitorCPS() {
     $.ajax({
-        url:"/oee/getIndexsByTaskId",
+        url:"/oee/getIndexsByTaskIdAndUserName",
         type:"GET",
         async:false,
         data:{
             taskId:$("#taskId").val(),
+            userName:$("#userName").html()
         },
         success:function(result)
         {
@@ -289,6 +290,7 @@ function monitorRequest() {
         async:false,
         data:{
             taskId:$("#taskId").val(),
+            userName:$("#userName").html()
         },
         success:function (result) {
             if (result!="") {
@@ -314,7 +316,8 @@ function monitorSupplier() {
         type:"POST",
         async:false,
         data:{
-            taskId:$("#taskId").val()
+            taskId:$("#taskId").val(),
+            userName:$("#userName").html()
         },
         success:function (result) {
             if (result!="") {
@@ -337,6 +340,7 @@ function monitorSchedule() {
         async:false,
         data:{
             taskId:$("#taskId").val(),
+            userName:$("#userName").html()
         },
         success:function (result) {
             if (result!="") {
@@ -351,11 +355,12 @@ function monitorSchedule() {
 //MRO服务评价监控
 function monitorEvaluate() {
     $.ajax({
-        url:"/evaluate/getIndexsByTaskId",
+        url:"/evaluate/getIndexsByTaskIdAndUserName",
         type:"POST",
         async:false,
         data:{
-            taskId:$("#taskId").val()
+            taskId:$("#taskId").val(),
+            userName:$("#userName").html()
         },
         success:function (result) {
             if (result!="") {
@@ -379,12 +384,30 @@ function reSetProgress() {
 var imageForEmail;
 function saveCanvas() {
     html2canvas(document.body).then(function(canvas) {
-        var imgUri = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        var imgUri = canvas.toDataURL("image/png")/*.replace("image/png", "image/octet-stream")*/;
         $("#download").attr("href",imgUri);
         imageForEmail=imgUri;
         console.log(imgUri);
         document.getElementById("download").click();
     });
+}
+function saveImage(){
+    html2canvas(document.body).then(function(canvas) {
+        var imgUri = canvas.toDataURL("image/png")/*.replace("image/png", "image/octet-stream")*/;
+        $.ajax({
+            url:"api/saveImageForMail",
+            type:"post",
+            async:false,
+            data:{
+                image:imgUri,
+                taskId:$("#taskId").val(),
+            },
+            success:function(result){
+                alert("保存成功")
+            }
+        })
+    });
+
 }
 jQuery(function($) {
     //未查询时隐藏表格
@@ -437,6 +460,7 @@ function sendEmail1() {
         async:false,
         data:{
             email:$("#email").val(),
+            taskId:$("#taskId").val()
         },
         success:function(result){
             alert(result)

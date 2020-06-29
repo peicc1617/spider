@@ -538,12 +538,13 @@ function predictOEE() {
 function saveResult() {
     checkTaskId();
     $.ajax({
-        url:"/oee/saveIndexsByTaskId",
+        url:"/oee/saveIndexsByTaskIdAndUserName",
         type:"PUT",
         async:false,
         data:{
             taskId:$("#taskId").val(),
-            indexs:JSON.stringify(indexsSet)
+            indexs:JSON.stringify(indexsSet),
+            userName:$("#userName").html()
         },
         success:function(result)
         {

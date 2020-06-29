@@ -81,19 +81,19 @@ public class OEEController {
      * @param indexs:
      * @return：void
      */
-    @RequestMapping("/oee/saveIndexsByTaskId")
-    public void saveIndexsByTaskId(int taskId,String indexs){
+    @RequestMapping("/oee/saveIndexsByTaskIdAndUserName")
+    public void saveIndexsByTaskId(int taskId,String indexs,String userName){
         LOGGER.info("保存OEE指标计算结果"+indexs);
-        oeeDataMapper.saveIndexsByTaskId(taskId,indexs);
+        oeeDataMapper.saveIndexsByTaskId(taskId,indexs,userName);
     }
     /***
      * @函数功能：获取监控指标
      * @param taskId:
      * @return：java.lang.String
      */
-    @RequestMapping("/oee/getIndexsByTaskId")
-    public String getIndexsByTaskId(int taskId){
-        String str=oeeDataMapper.getIndexsByTaskId(taskId);
+    @RequestMapping("/oee/getIndexsByTaskIdAndUserName")
+    public String getIndexsByTaskId(int taskId,String userName){
+        String str=oeeDataMapper.getIndexsByTaskId(taskId,userName);
         LOGGER.info("保存OEE指标计算结果"+str);
         return str;
     }

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import xjtu.spider.dao.*;
 import xjtu.spider.entity.*;
@@ -40,6 +41,8 @@ public class APIController {
     UserMapper userMapper;
     @Autowired
     SendEmailService sendEmailService;
+    @Autowired
+    ImageForMailMapper imageForMailMapper;
     /***
      * @函数功能：返回文档主题向量
      * @param :
@@ -184,8 +187,11 @@ public class APIController {
         return userList;
     }
     @RequestMapping("/sendEmail")
-    public String sendEmail(String email){
-         return sendEmailService.sendEmail(email);
+    public String sendEmail(String email,long taskId){
+         return sendEmailService.sendEmail(email,taskId);
     }
-
+    @RequestMapping("/saveImageForMail")
+    public void saveImageForImage(String image,long taskId){
+         imageForMailMapper.saveImageForMail(image,taskId);
+    }
 }

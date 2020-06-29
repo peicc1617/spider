@@ -44,15 +44,15 @@ public interface OEEDataMapper {
      * @param indexs:
      * @return：void
      */
-    @Select("UPDATE oee_data SET indexs=#{indexs} WHERE task_id=#{taskId}")
-    public void saveIndexsByTaskId(int taskId,String indexs);
+    @Select("UPDATE oee_data SET indexs=#{indexs} WHERE task_id=#{taskId} AND user_name=#{userName}")
+    public void saveIndexsByTaskId(int taskId,String indexs,String userName);
     /***
      * @函数功能：根据服务任务id获取OEE指标，用于监控
      * @param taskId:
      * @return：java.lang.String
      */
-    @Select("SELECT indexs FROM oee_data WHERE task_id=#{taskId}")
-    public String getIndexsByTaskId(int taskId);
+    @Select("SELECT indexs FROM oee_data WHERE task_id=#{taskId} AND user_name=#{userName}")
+    public String getIndexsByTaskId(int taskId,String userName);
     /***
      * @函数功能：根据用户名获取任务列表
      * @param :
